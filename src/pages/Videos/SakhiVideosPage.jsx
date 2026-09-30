@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { 
   Play, Video, Sparkles, Filter, Globe, Heart, ShieldCheck, 
-  Clock, X, CheckCircle2, Tv, ExternalLink, HelpCircle
+  Clock, X, CheckCircle2, Tv, ExternalLink, Maximize2
 } from 'lucide-react';
 
 export default function SakhiVideosPage() {
@@ -10,6 +10,7 @@ export default function SakhiVideosPage() {
   const [selectedLang, setSelectedLang] = useState('all'); // 'all', 'en', 'hi'
   const [selectedCategory, setSelectedCategory] = useState('all'); // 'all', 'products', 'pain', 'hygiene'
   const [activeVideoModal, setActiveVideoModal] = useState(null);
+  const [inlinePlayingId, setInlinePlayingId] = useState(null);
 
   const videoTutorials = [
     {
@@ -24,7 +25,7 @@ export default function SakhiVideosPage() {
       categoryLabel: 'Product Tutorial',
       duration: '5:24 min',
       expert: 'AllMatters Health Team',
-      thumbnail: 'https://img.youtube.com/vi/sM1jqxzv1WI/hqdefault.jpg',
+      cover: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=800&auto=format&fit=crop&q=80',
       tag: 'Beginners Guide'
     },
     {
@@ -39,7 +40,7 @@ export default function SakhiVideosPage() {
       categoryLabel: 'Product Tutorial',
       duration: '8:15 min',
       expert: 'Dr. Sneha (Gynecologist)',
-      thumbnail: 'https://img.youtube.com/vi/0kF5_c5Zz_M/hqdefault.jpg',
+      cover: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&auto=format&fit=crop&q=80',
       tag: 'Hindi Tutorial'
     },
     {
@@ -54,7 +55,7 @@ export default function SakhiVideosPage() {
       categoryLabel: 'Cramp & Pain Relief',
       duration: '15:20 min',
       expert: 'Yoga With Adriene',
-      thumbnail: 'https://img.youtube.com/vi/aLkszgdFGro/hqdefault.jpg',
+      cover: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&auto=format&fit=crop&q=80',
       tag: 'Instant Cramp Relief'
     },
     {
@@ -69,7 +70,7 @@ export default function SakhiVideosPage() {
       categoryLabel: 'Hygiene & Sterilization',
       duration: '6:40 min',
       expert: 'Sakhi Hygiene Experts',
-      thumbnail: 'https://img.youtube.com/vi/r0fN-O-uXhE/hqdefault.jpg',
+      cover: 'https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=800&auto=format&fit=crop&q=80',
       tag: 'Sterilization Ritual'
     },
     {
@@ -84,7 +85,7 @@ export default function SakhiVideosPage() {
       categoryLabel: 'Product Tutorial',
       duration: '4:15 min',
       expert: 'Carmesi Women Care',
-      thumbnail: 'https://img.youtube.com/vi/kYJzXv-K_Z8/hqdefault.jpg',
+      cover: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&auto=format&fit=crop&q=80',
       tag: 'Pad Usage & Disposal'
     },
     {
@@ -99,7 +100,7 @@ export default function SakhiVideosPage() {
       categoryLabel: 'Hygiene & Safety',
       duration: '5:45 min',
       expert: 'Clovia Gal Pal Health',
-      thumbnail: 'https://img.youtube.com/vi/5rY7H7t1Z-o/hqdefault.jpg',
+      cover: 'https://images.unsplash.com/photo-1512290900673-3e15777a8d56?w=800&auto=format&fit=crop&q=80',
       tag: 'Hygiene Essential'
     },
     {
@@ -114,8 +115,23 @@ export default function SakhiVideosPage() {
       categoryLabel: 'Product Tutorial',
       duration: '7:50 min',
       expert: 'Dr. Rhythm Agarwal (Gynac Care)',
-      thumbnail: 'https://img.youtube.com/vi/N6Yl_kXf12c/hqdefault.jpg',
+      cover: 'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=800&auto=format&fit=crop&q=80',
       tag: 'Full Hindi Guide'
+    },
+    {
+      id: 'v8',
+      title: 'Period Pain & Cramps Relief: Home Remedies & Tips',
+      titleHindi: 'पीरियड में दर्द दूर करने के उपाय और खान-पान',
+      desc: 'Gynecologist approved natural home remedies, hot water bottle techniques, and dietary relief routines.',
+      youtubeId: 'JpU_U6uK2q4',
+      language: 'en',
+      langLabel: 'English 🇬🇧',
+      category: 'pain',
+      categoryLabel: 'Cramp & Pain Relief',
+      duration: '6:30 min',
+      expert: 'Women Health Care',
+      cover: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=800&auto=format&fit=crop&q=80',
+      tag: 'Home Remedies'
     }
   ];
 
@@ -194,7 +210,7 @@ export default function SakhiVideosPage() {
 
         .video-modal-content {
           width: 100%;
-          max-width: 860px;
+          max-width: 880px;
           background-color: #FFFFFF;
           border-radius: 28px;
           overflow: hidden;
@@ -326,136 +342,204 @@ export default function SakhiVideosPage() {
 
         {/* Video Grid */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '24px' }}>
-          {filteredVideos.map((video) => (
-            <div key={video.id} className="video-card">
-              
-              {/* Thumbnail Container with Play Overlay */}
-              <div 
-                style={{ position: 'relative', height: '200px', cursor: 'pointer', overflow: 'hidden' }}
-                onClick={() => setActiveVideoModal(video)}
-              >
-                <img 
-                  src={video.thumbnail} 
-                  alt={video.title} 
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-                <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(62, 36, 43, 0.35)', transition: 'background-color 0.2s ease' }} />
+          {filteredVideos.map((video) => {
+            const isPlayingInline = inlinePlayingId === video.id;
+
+            return (
+              <div key={video.id} className="video-card">
                 
-                {/* Play Button Icon */}
-                <div 
-                  style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: '56px',
-                    height: '56px',
-                    borderRadius: '50%',
-                    backgroundColor: '#B9345D',
-                    color: '#FFFFFF',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    boxShadow: '0 6px 20px rgba(185, 52, 93, 0.5)',
-                    paddingLeft: '4px'
-                  }}
-                >
-                  <Play size={24} fill="#FFFFFF" color="#FFFFFF" />
-                </div>
-
-                {/* Duration Badge */}
-                <div style={{ position: 'absolute', bottom: '12px', right: '12px', backgroundColor: 'rgba(0,0,0,0.75)', color: '#FFFFFF', fontSize: '0.75rem', fontWeight: '700', padding: '4px 10px', borderRadius: '50px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <Clock size={12} />
-                  <span>{video.duration}</span>
-                </div>
-
-                {/* Language Tag */}
-                <div style={{ position: 'absolute', top: '12px', left: '12px', backgroundColor: video.language === 'hi' ? '#B9345D' : '#1E40AF', color: '#FFFFFF', fontSize: '0.75rem', fontWeight: '700', padding: '4px 12px', borderRadius: '50px' }}>
-                  {video.langLabel}
-                </div>
-              </div>
-
-              {/* Card Body */}
-              <div style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                    <span style={{ fontSize: '0.75rem', fontWeight: '700', color: '#B9345D', backgroundColor: '#FFEBF0', padding: '3px 10px', borderRadius: '50px' }}>
-                      {video.categoryLabel}
-                    </span>
-                    <span style={{ fontSize: '0.75rem', color: '#7D626C', fontWeight: '600' }}>
-                      • {video.tag}
-                    </span>
-                  </div>
-
-                  <h3 style={{ fontSize: '1.05rem', fontWeight: '700', color: '#3E242B', lineHeight: 1.4, marginBottom: '8px' }}>
-                    {video.title}
-                  </h3>
-
-                  <p style={{ fontSize: '0.85rem', color: '#7D626C', lineHeight: 1.5, marginBottom: '16px' }}>
-                    {video.desc}
-                  </p>
-                </div>
-
-                <div style={{ borderTop: '1px solid #FAD4DE', paddingTop: '14px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', color: '#2E7D32', fontWeight: '600' }}>
-                    <ShieldCheck size={16} />
-                    <span>{video.expert}</span>
-                  </div>
-
-                  <div style={{ display: 'flex', gap: '8px' }}>
-                    <button
-                      type="button"
-                      onClick={() => setActiveVideoModal(video)}
-                      style={{
-                        flex: 1,
-                        backgroundColor: '#B9345D',
-                        color: '#FFFFFF',
-                        border: 'none',
-                        borderRadius: '50px',
-                        padding: '10px 14px',
-                        fontSize: '0.8rem',
-                        fontWeight: '700',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: '6px',
-                        boxShadow: '0 4px 12px rgba(185, 52, 93, 0.25)'
-                      }}
+                {/* Header Container: Either Image Cover OR Live YouTube Iframe Inline */}
+                <div style={{ position: 'relative', height: '220px', backgroundColor: '#000000', overflow: 'hidden' }}>
+                  
+                  {isPlayingInline ? (
+                    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                      <iframe
+                        src={`https://www.youtube.com/embed/${video.youtubeId}?autoplay=1&rel=0`}
+                        title={video.title}
+                        style={{ width: '100%', height: '100%', border: 0 }}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setInlinePlayingId(null)}
+                        style={{
+                          position: 'absolute',
+                          top: '10px',
+                          right: '10px',
+                          backgroundColor: 'rgba(0,0,0,0.8)',
+                          color: '#FFFFFF',
+                          border: '1px solid rgba(255,255,255,0.4)',
+                          borderRadius: '50px',
+                          padding: '4px 10px',
+                          fontSize: '0.75rem',
+                          fontWeight: '700',
+                          cursor: 'pointer',
+                          zIndex: 10,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '4px'
+                        }}
+                      >
+                        <X size={12} />
+                        <span>Close Video</span>
+                      </button>
+                    </div>
+                  ) : (
+                    <div 
+                      style={{ width: '100%', height: '100%', cursor: 'pointer', position: 'relative' }}
+                      onClick={() => setInlinePlayingId(video.id)}
                     >
-                      <Play size={14} fill="#FFFFFF" />
-                      <span>Watch Embedded</span>
-                    </button>
+                      {/* High Resolution Cover Image */}
+                      <img 
+                        src={video.cover} 
+                        alt={video.title} 
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                      <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(62, 36, 43, 0.35)', transition: 'background-color 0.2s ease' }} />
+                      
+                      {/* Big Play Pulse Button */}
+                      <div 
+                        style={{
+                          position: 'absolute',
+                          top: '50%',
+                          left: '50%',
+                          transform: 'translate(-50%, -50%)',
+                          width: '60px',
+                          height: '60px',
+                          borderRadius: '50%',
+                          backgroundColor: '#B9345D',
+                          color: '#FFFFFF',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          boxShadow: '0 8px 24px rgba(185, 52, 93, 0.5)',
+                          paddingLeft: '4px',
+                          transition: 'transform 0.2s ease'
+                        }}
+                      >
+                        <Play size={26} fill="#FFFFFF" color="#FFFFFF" />
+                      </div>
 
-                    <a
-                      href={`https://www.youtube.com/watch?v=${video.youtubeId}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      style={{
-                        backgroundColor: '#FFF0F4',
-                        color: '#B9345D',
-                        border: '1px solid #FAD4DE',
-                        borderRadius: '50px',
-                        padding: '10px 14px',
-                        fontSize: '0.8rem',
-                        fontWeight: '700',
-                        textDecoration: 'none',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: '4px'
-                      }}
-                    >
-                      <span>YouTube</span>
-                      <ExternalLink size={13} />
-                    </a>
+                      {/* Duration Badge */}
+                      <div style={{ position: 'absolute', bottom: '12px', right: '12px', backgroundColor: 'rgba(0,0,0,0.8)', color: '#FFFFFF', fontSize: '0.75rem', fontWeight: '700', padding: '4px 10px', borderRadius: '50px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <Clock size={12} />
+                        <span>{video.duration}</span>
+                      </div>
+
+                      {/* Language Tag */}
+                      <div style={{ position: 'absolute', top: '12px', left: '12px', backgroundColor: video.language === 'hi' ? '#B9345D' : '#1E40AF', color: '#FFFFFF', fontSize: '0.75rem', fontWeight: '700', padding: '4px 12px', borderRadius: '50px' }}>
+                        {video.langLabel}
+                      </div>
+                    </div>
+                  )}
+
+                </div>
+
+                {/* Card Body */}
+                <div style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                      <span style={{ fontSize: '0.75rem', fontWeight: '700', color: '#B9345D', backgroundColor: '#FFEBF0', padding: '3px 10px', borderRadius: '50px' }}>
+                        {video.categoryLabel}
+                      </span>
+                      <span style={{ fontSize: '0.75rem', color: '#7D626C', fontWeight: '600' }}>
+                        • {video.tag}
+                      </span>
+                    </div>
+
+                    <h3 style={{ fontSize: '1.05rem', fontWeight: '700', color: '#3E242B', lineHeight: 1.4, marginBottom: '8px' }}>
+                      {video.title}
+                    </h3>
+
+                    <p style={{ fontSize: '0.85rem', color: '#7D626C', lineHeight: 1.5, marginBottom: '16px' }}>
+                      {video.desc}
+                    </p>
                   </div>
+
+                  <div style={{ borderTop: '1px solid #FAD4DE', paddingTop: '14px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', color: '#2E7D32', fontWeight: '600' }}>
+                      <ShieldCheck size={16} />
+                      <span>{video.expert}</span>
+                    </div>
+
+                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                      <button
+                        type="button"
+                        onClick={() => setInlinePlayingId(isPlayingInline ? null : video.id)}
+                        style={{
+                          flex: 1,
+                          backgroundColor: isPlayingInline ? '#7D626C' : '#B9345D',
+                          color: '#FFFFFF',
+                          border: 'none',
+                          borderRadius: '50px',
+                          padding: '9px 12px',
+                          fontSize: '0.8rem',
+                          fontWeight: '700',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '6px',
+                          boxShadow: '0 4px 12px rgba(185, 52, 93, 0.2)'
+                        }}
+                      >
+                        <Play size={13} fill="#FFFFFF" />
+                        <span>{isPlayingInline ? 'Stop Inline' : 'Play Inline ▶'}</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setActiveVideoModal(video)}
+                        style={{
+                          backgroundColor: '#FFF0F4',
+                          color: '#B9345D',
+                          border: '1px solid #FAD4DE',
+                          borderRadius: '50px',
+                          padding: '9px 12px',
+                          fontSize: '0.8rem',
+                          fontWeight: '700',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '4px'
+                        }}
+                        title="Open in Fullscreen Theater Modal"
+                      >
+                        <Maximize2 size={13} />
+                        <span>Theater</span>
+                      </button>
+
+                      <a
+                        href={`https://www.youtube.com/watch?v=${video.youtubeId}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{
+                          backgroundColor: '#FFF0F4',
+                          color: '#B9345D',
+                          border: '1px solid #FAD4DE',
+                          borderRadius: '50px',
+                          padding: '9px 12px',
+                          fontSize: '0.8rem',
+                          fontWeight: '700',
+                          textDecoration: 'none',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '4px'
+                        }}
+                      >
+                        <span>YouTube ↗</span>
+                      </a>
+                    </div>
+                  </div>
+
                 </div>
 
               </div>
-
-            </div>
-          ))}
+            );
+          })}
         </div>
 
       </div>
@@ -501,7 +585,7 @@ export default function SakhiVideosPage() {
               </div>
 
               <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                <span style={{ fontSize: '0.8rem', color: '#7D626C' }}>If video doesn't play:</span>
+                <span style={{ fontSize: '0.8rem', color: '#7D626C' }}>Direct link:</span>
                 <a
                   href={`https://www.youtube.com/watch?v=${activeVideoModal.youtubeId}`}
                   target="_blank"
