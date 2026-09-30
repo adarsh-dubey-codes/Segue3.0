@@ -262,6 +262,38 @@
     "startBreathing": "Start Breathing Exercise",
     "pauseBreathing": "Pause Breathing"
   },
+  "cycleHero": {
+    "title": "Set Up Your Cycle",
+    "sub": "Configure your period dates and cycle duration for accurate AI predictions.",
+    "nextPeriodPredicted": "Next Period Predicted",
+    "expectedArrival": "Recommended Arrival: {{start}} - {{end}}",
+    "daysCountdown": "In {{days}} days",
+    "overdue": "{{days}} days overdue",
+    "editSetup": "Configure / Edit Cycle",
+    "quickAdjust": "Quick Adjust",
+    "lastPeriod": "Last Period Start",
+    "cycleLength": "Cycle Length",
+    "periodDuration": "Period Duration"
+  },
+  "calendar": {
+    "recommendedArrival": "Recommended Next Period Arrival",
+    "fertileWindow": "Fertile Window",
+    "ovulationDay": "Predicted Ovulation",
+    "loggedFlow": "Logged Flow Day",
+    "selectDayAction": "Tap any date to log symptoms or view prediction"
+  },
+  "aiInsights": {
+    "title": "AI Cycle Observation & Health Insights",
+    "sub": "Smart analysis derived from observing your past cycle history & daily logs.",
+    "regularity": "Cycle Regularity Score",
+    "regularityVal": "96% Healthy & Consistent",
+    "observedCycles": "Based on observing 3 recent cycles",
+    "patternCardTitle": "Observed Phase & Symptom Patterns",
+    "symptomPattern": "Mild cramps and fatigue logged during Day 1–2 of your last 2 cycles. Magnesium-rich diet & hydration recommended.",
+    "arrivalRec": "Your next period is predicted to arrive on {{date}} (in {{days}} days). Prepare heating pad and rest routine.",
+    "fertilityRec": "Fertile window opens in {{days}} days. Peak strength & energy expected during ovulation.",
+    "askSakhiBtn": "Ask Sakhi AI About My Cycle →"
+  },
   "errors": {
     "generic": "Something went wrong. Please try again.",
     "required": "This field is required.",

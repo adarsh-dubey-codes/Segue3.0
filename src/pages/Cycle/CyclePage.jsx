@@ -5,6 +5,8 @@ import Calendar from '../../components/Calendar/Calendar';
 import CycleRing from '../../components/CycleRing/CycleRing';
 import CycleGarden from '../../components/cycle/CycleGarden';
 import CycleAnalytics from '../../components/cycle/CycleAnalytics';
+import CycleHeroSetupBanner from '../../components/cycle/CycleHeroSetupBanner';
+import CycleAIInsights from '../../components/cycle/CycleAIInsights';
 import DailyLogModal from '../../components/cycle/DailyLogModal';
 import CycleSetupModal from '../../components/cycle/CycleSetupModal';
 import Button from '../../components/Button/Button';
@@ -21,10 +23,10 @@ export default function CyclePage() {
       {/* HEADER BAR */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px', flexWrap: 'wrap', gap: '16px' }}>
         <div>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.5rem', color: 'var(--rose-dark)' }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.5rem', color: 'var(--rose-dark)', margin: 0 }}>
             {t('cyclePage.title')}
           </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '1rem' }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', marginTop: '4px' }}>
             {t('cyclePage.sub')}
           </p>
         </div>
@@ -39,7 +41,13 @@ export default function CyclePage() {
         </div>
       </div>
 
-      {/* DASHBOARD TOP ROW: RING + CALENDAR + GARDEN */}
+      {/* FEATURE 2: PRIMARY "SET UP YOUR CYCLE" HERO CONFIGURATION BANNER */}
+      <CycleHeroSetupBanner 
+        onOpenSetup={() => setIsSetupOpen(true)} 
+        onOpenLog={() => setIsLogOpen(true)} 
+      />
+
+      {/* DASHBOARD TOP ROW: RING + FEATURE 1: CALENDAR + GARDEN */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '24px', marginBottom: '40px' }}>
         <style>{`
           @media (max-width: 960px) {
@@ -51,7 +59,7 @@ export default function CyclePage() {
         <div 
           style={{
             backgroundColor: '#FFFFFF',
-            borderRadius: 'var(--radius-lg)',
+            borderRadius: '24px',
             padding: '28px',
             border: '1px solid var(--border)',
             boxShadow: 'var(--shadow-sm)',
@@ -69,11 +77,12 @@ export default function CyclePage() {
           />
         </div>
 
-        {/* CALENDAR */}
+        {/* FEATURE 1: INTERACTIVE NEXT PERIOD PREDICTION CALENDAR */}
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <Calendar
             selectedDate={cycleSetup.periodStartDate}
             onSelectDate={(d) => updateCycleSetup({ periodStartDate: d.toISOString() })}
+            onOpenLog={() => setIsLogOpen(true)}
           />
         </div>
 
@@ -83,7 +92,10 @@ export default function CyclePage() {
         </div>
       </div>
 
-      {/* ANALYTICS SECTION */}
+      {/* FEATURE 3: AI CYCLE RECOMMENDATION & OBSERVATION ENGINE */}
+      <CycleAIInsights />
+
+      {/* ANALYTICS & 90-DAY OVERVIEW */}
       <div style={{ marginTop: '32px' }}>
         <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.75rem', color: 'var(--rose-dark)', marginBottom: '20px' }}>
           {t('feature.cycle.title')} & {t('common.view')}

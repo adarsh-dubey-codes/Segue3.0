@@ -1,24 +1,40 @@
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Check } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
+import { useCycle } from '../../context/CycleContext';
+import { ChevronLeft, ChevronRight, Check, Sparkles, Sun } from 'lucide-react';
+import { formatDate } from '../../utils/dateFormatter';
 
-export default function Calendar({ selectedDate, onSelectDate }) {
+export default function Calendar({ selectedDate, onSelectDate, onOpenLog }) {
+  const { t, language } = useLanguage();
+  const { cycleSetup } = useCycle();
   const today = new Date();
-  // State for currently displayed month in calendar view
+  
   const [currentViewDate, setCurrentViewDate] = useState(selectedDate ? new Date(selectedDate) : today);
 
   const year = currentViewDate.getFullYear();
   const month = currentViewDate.getMonth();
 
-  const monthNames = [
+  const monthNamesEn = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
+  
+  const monthNamesHi = [
+    'जनवरी', 'फरवरी', 'मार्च', 'अप्रैल', 'मई', 'जून',
+    'जुलाई', 'अगस्त', 'सितंबर', 'अक्टूबर', 'नवंबर', 'दिसंबर'
+  ];
 
-  const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const monthNames = language === 'hi' ? monthNamesHi : monthNamesEn;
+  const daysOfWeek = language === 'hi' 
+    ? ['रवि', 'सोम', 'मंगल', 'बुध', 'गुरु', 'शुक्र', 'शनि']
+    : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-  // Days in month calculation
   const firstDayOfMonth = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  const cycleLen = Number(cycleSetup?.cycleLength) || 28;
+  const periodLen = Number(cycleSetup?.periodLength) || 5;
+  const startDate = cycleSetup?.periodStartDate ? new Date(cycleSetup.periodStartDate) : today;
 
   const prevMonth = () => {
     setCurrentViewDate(new Date(year, month - 1, 1));
@@ -26,6 +42,14 @@ export default function Calendar({ selectedDate, onSelectDate }) {
 
   const nextMonth = () => {
     setCurrentViewDate(new Date(year, month + 1, 1));
+  };
+
+  const isToday = (day) => {
+    return (
+      today.getDate() === day &&
+      today.getMonth() === month &&
+      today.getFullYear() === year
+    );
   };
 
   const isSelected = (day) => {
@@ -38,27 +62,37 @@ export default function Calendar({ selectedDate, onSelectDate }) {
     );
   };
 
-  const isToday = (day) => {
-    return (
-      today.getDate() === day &&
-      today.getMonth() === month &&
-      today.getFullYear() === year
-    );
-  };
+  // Helper to determine day classification (logged period, predicted next period, fertile window, ovulation)
+  const getDayStatus = (day) => {
+    const checkDate = new Date(year, month, day);
+    checkDate.setHours(0, 0, 0, 0);
 
-  // Helper to check if a day falls within typical 5-day flow period from selected date
-  const isPeriodDay = (day) => {
-    if (!selectedDate) return false;
-    const sel = new Date(selectedDate);
-    const thisDayDate = new Date(year, month, day);
-    const diffTime = thisDayDate - sel;
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays >= 0 && diffDays < 5;
+    const baseStart = new Date(startDate);
+    baseStart.setHours(0, 0, 0, 0);
+
+    const diffDays = Math.round((checkDate - baseStart) / (1000 * 60 * 60 * 24));
+    
+    // Position in cycle loop
+    let mod = diffDays % cycleLen;
+    if (mod < 0) mod += cycleLen;
+
+    // Past / Current logged flow range (0 to periodLen-1)
+    const isFlow = mod < periodLen && diffDays >= 0 && diffDays < cycleLen;
+    // Predicted next period flow range
+    const isPredictedNext = mod < periodLen && diffDays >= cycleLen;
+    // Ovulation day (typically day cycleLen - 14)
+    const ovulationCycleDay = Math.max(1, cycleLen - 14);
+    const isOvulation = mod === (ovulationCycleDay - 1);
+    // Fertile window (ovulation ± 3 days)
+    const isFertile = mod >= (ovulationCycleDay - 4) && mod <= (ovulationCycleDay);
+
+    return { isFlow, isPredictedNext, isOvulation, isFertile };
   };
 
   const handleDayClick = (day) => {
     const clickedDate = new Date(year, month, day);
-    onSelectDate(clickedDate);
+    if (onSelectDate) onSelectDate(clickedDate);
+    if (onOpenLog) onOpenLog();
   };
 
   // Build grid days
@@ -70,32 +104,50 @@ export default function Calendar({ selectedDate, onSelectDate }) {
   for (let day = 1; day <= daysInMonth; day++) {
     const selected = isSelected(day);
     const todayDay = isToday(day);
-    const periodDay = isPeriodDay(day);
+    const { isFlow, isPredictedNext, isOvulation, isFertile } = getDayStatus(day);
+
+    let bgColor = 'transparent';
+    let textColor = 'var(--text-primary)';
+    let borderStyle = 'none';
+
+    if (selected) {
+      bgColor = 'var(--rose-dark)';
+      textColor = '#FFFFFF';
+    } else if (isFlow) {
+      bgColor = 'var(--rose-primary)';
+      textColor = 'var(--rose-dark)';
+    } else if (isPredictedNext) {
+      bgColor = '#FFEBF0';
+      borderStyle = '1px dashed var(--rose)';
+      textColor = 'var(--rose-dark)';
+    } else if (isOvulation) {
+      bgColor = '#FFF9E6';
+      textColor = '#D63031';
+      borderStyle = '1px solid #FFEAA7';
+    } else if (isFertile) {
+      bgColor = '#F0F9F1';
+      textColor = '#27AE60';
+    }
 
     calendarCells.push(
       <button
         key={`day-${day}`}
         type="button"
         onClick={() => handleDayClick(day)}
-        className={`calendar-cell day-button ${selected ? 'selected' : ''} ${periodDay ? 'period-active' : ''}`}
-        aria-label={`${monthNames[month]} ${day}, ${year}${selected ? ' - Selected period start date' : ''}`}
+        aria-label={`${monthNames[month]} ${day}, ${year}`}
         style={{
           aspectRatio: '1',
-          border: 'none',
+          border: borderStyle,
           borderRadius: '50%',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
           position: 'relative',
-          fontSize: '0.925rem',
-          fontWeight: selected ? '700' : todayDay ? '600' : '400',
-          color: selected ? '#FFFFFF' : periodDay ? 'var(--deep-plum)' : 'var(--text-primary)',
-          backgroundColor: selected 
-            ? 'var(--rose-accent)' 
-            : periodDay 
-              ? 'var(--soft-pink)' 
-              : 'transparent',
+          fontSize: '0.9rem',
+          fontWeight: selected || isFlow || isPredictedNext ? '700' : todayDay ? '600' : '400',
+          color: textColor,
+          backgroundColor: bgColor,
           cursor: 'pointer',
           transition: 'all 0.15s ease',
           outline: 'none',
@@ -103,15 +155,18 @@ export default function Calendar({ selectedDate, onSelectDate }) {
         }}
       >
         <span>{day}</span>
-        {todayDay && !selected && (
+        {isOvulation && !selected && (
+          <Sun size={9} color="#F39C12" style={{ position: 'absolute', bottom: '2px' }} />
+        )}
+        {todayDay && !selected && !isOvulation && (
           <span 
             style={{
               position: 'absolute',
-              bottom: '4px',
+              bottom: '3px',
               width: '4px',
               height: '4px',
               borderRadius: '50%',
-              backgroundColor: 'var(--rose-accent)'
+              backgroundColor: 'var(--rose)'
             }}
           />
         )}
@@ -129,12 +184,12 @@ export default function Calendar({ selectedDate, onSelectDate }) {
       className="sakhi-calendar"
       style={{
         backgroundColor: '#FFFFFF',
-        borderRadius: 'var(--radius-lg)',
+        borderRadius: '24px',
         padding: '24px',
-        border: '1px solid var(--border-color)',
+        border: '1px solid var(--border)',
         boxShadow: 'var(--shadow-sm)',
         width: '100%',
-        maxWidth: '380px',
+        maxWidth: '420px',
         margin: '0 auto'
       }}
     >
@@ -147,16 +202,22 @@ export default function Calendar({ selectedDate, onSelectDate }) {
           marginBottom: '20px'
         }}
       >
-        <h3 
-          style={{ 
-            fontFamily: 'var(--font-serif)', 
-            fontSize: '1.25rem', 
-            fontWeight: '600',
-            color: 'var(--deep-plum)' 
-          }}
-        >
-          {monthNames[month]} {year}
-        </h3>
+        <div>
+          <h3 
+            style={{ 
+              fontFamily: 'var(--font-display)', 
+              fontSize: '1.3rem', 
+              fontWeight: '600',
+              color: 'var(--rose-dark)',
+              margin: 0 
+            }}
+          >
+            {monthNames[month]} {year}
+          </h3>
+          <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+            {t('calendar.selectDayAction')}
+          </span>
+        </div>
 
         <div style={{ display: 'flex', gap: '4px' }}>
           <button
@@ -165,15 +226,14 @@ export default function Calendar({ selectedDate, onSelectDate }) {
             aria-label="Previous month"
             style={{
               background: 'none',
-              border: '1px solid var(--border-color)',
+              border: '1px solid var(--border)',
               borderRadius: 'var(--radius-sm)',
               padding: '6px',
               cursor: 'pointer',
-              color: 'var(--text-muted)',
+              color: 'var(--text-secondary)',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
-              transition: 'all 0.15s ease'
+              justifyContent: 'center'
             }}
           >
             <ChevronLeft size={18} />
@@ -184,15 +244,14 @@ export default function Calendar({ selectedDate, onSelectDate }) {
             aria-label="Next month"
             style={{
               background: 'none',
-              border: '1px solid var(--border-color)',
+              border: '1px solid var(--border)',
               borderRadius: 'var(--radius-sm)',
               padding: '6px',
               cursor: 'pointer',
-              color: 'var(--text-muted)',
+              color: 'var(--text-secondary)',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
-              transition: 'all 0.15s ease'
+              justifyContent: 'center'
             }}
           >
             <ChevronRight size={18} />
@@ -215,7 +274,7 @@ export default function Calendar({ selectedDate, onSelectDate }) {
             style={{ 
               fontSize: '0.775rem', 
               fontWeight: '600', 
-              color: 'var(--text-muted)',
+              color: 'var(--text-secondary)',
               padding: '4px 0' 
             }}
           >
@@ -240,21 +299,26 @@ export default function Calendar({ selectedDate, onSelectDate }) {
         style={{
           marginTop: '20px',
           paddingTop: '14px',
-          borderTop: '1px solid var(--border-color)',
+          borderTop: '1px solid var(--border)',
           display: 'flex',
+          flexWrap: 'wrap',
           justifyContent: 'center',
-          gap: '20px',
+          gap: '12px',
           fontSize: '0.75rem',
-          color: 'var(--text-muted)'
+          color: 'var(--text-secondary)'
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--rose-accent)' }} />
-          <span>Period start date</span>
+          <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: 'var(--rose-primary)' }} />
+          <span>{t('calendar.loggedFlow')}</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--soft-pink)' }} />
-          <span>Period days</span>
+          <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#FFEBF0', border: '1px dashed var(--rose)' }} />
+          <span>{t('calendar.recommendedArrival')}</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#F0F9F1' }} />
+          <span>{t('calendar.fertileWindow')}</span>
         </div>
       </div>
     </div>
