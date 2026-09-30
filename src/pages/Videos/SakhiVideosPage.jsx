@@ -14,17 +14,17 @@ export default function SakhiVideosPage() {
   const videoTutorials = [
     {
       id: 'v1',
-      title: 'How to Use a Menstrual Cup: Step-by-Step Beginners Guide',
+      title: 'How to Use a Menstrual Cup: In-Depth Step-by-Step Beginners Guide',
       titleHindi: 'मेंस्ट्रुअल कप का इस्तेमाल कैसे करें? संपूर्ण गाइड',
-      desc: 'Learn how to fold, insert, remove, and sanitize a menstrual cup safely without pain or leakage.',
-      youtubeId: '3nWW_g3-Jp4',
+      desc: 'Comprehensive visual guide on folding, inserting, removing, and sanitizing a menstrual cup safely without leakage.',
+      youtubeId: 'sM1jqxzv1WI',
       language: 'en',
       langLabel: 'English 🇬🇧',
       category: 'products',
       categoryLabel: 'Product Tutorial',
-      duration: '6:15 min',
-      expert: 'Dr. Anjali Kumar (Gynecologist)',
-      thumbnail: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&auto=format&fit=crop&q=80',
+      duration: '5:24 min',
+      expert: 'AllMatters Health Team',
+      thumbnail: 'https://img.youtube.com/vi/sM1jqxzv1WI/hqdefault.jpg',
       tag: 'Beginners Guide'
     },
     {
@@ -32,105 +32,90 @@ export default function SakhiVideosPage() {
       title: 'पीरियड कप कैसे यूज़ करें? (Step-by-Step Tutorial in Hindi)',
       titleHindi: 'मेंस्ट्रुअल कप का सही तरीका और साफ़ सफाई',
       desc: 'हिंदी में समझें मेंस्ट्रुअल कप को फोल्ड करने, डालने और साफ़ रखने का सही और सुरक्षित तरीका।',
-      youtubeId: 'Y-22zGjWk6w',
+      youtubeId: '0kF5_c5Zz_M',
       language: 'hi',
       langLabel: 'Hindi (हिंदी) 🇮🇳',
       category: 'products',
       categoryLabel: 'Product Tutorial',
-      duration: '8:30 min',
-      expert: 'Dr. Tanaya Narendra (Dr. Cuterus)',
-      thumbnail: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&auto=format&fit=crop&q=80',
+      duration: '8:15 min',
+      expert: 'Dr. Sneha (Gynecologist)',
+      thumbnail: 'https://img.youtube.com/vi/0kF5_c5Zz_M/hqdefault.jpg',
       tag: 'Hindi Tutorial'
     },
     {
       id: 'v3',
-      title: '10-Minute Gentle Yoga for Period Cramp & Back Pain Relief',
-      titleHindi: 'पीरियड के दर्द से तुरंत राहत के लिए 10 मिनट योग',
-      desc: 'Easy, gentle stretches to relax pelvic muscles, reduce uterine cramping, and ease lower back stiffness.',
-      youtubeId: 'JpU_U6uK2q4',
+      title: 'Yoga For Women: Period Cramp & Lower Back Pain Relief',
+      titleHindi: 'पीरियड के दर्द से तुरंत राहत के लिए योग',
+      desc: 'Gentle, restorative yoga postures to relax pelvic tension, ease uterine cramping, and soothe lower back stiffness.',
+      youtubeId: 'aLkszgdFGro',
       language: 'en',
       langLabel: 'English 🇬🇧',
       category: 'pain',
       categoryLabel: 'Cramp & Pain Relief',
-      duration: '10:00 min',
-      expert: 'Certified Yoga & Wellness Master',
-      thumbnail: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&auto=format&fit=crop&q=80',
+      duration: '15:20 min',
+      expert: 'Yoga With Adriene',
+      thumbnail: 'https://img.youtube.com/vi/aLkszgdFGro/hqdefault.jpg',
       tag: 'Instant Cramp Relief'
     },
     {
       id: 'v4',
-      title: 'पीरियड क्रैम्प्स और पेट दर्द दूर करने के 5 घरेलू उपाय (Hindi)',
-      titleHindi: 'पीरियड दर्द को तुरंत कम करने के असरदार नुस्खे',
-      desc: 'डॉक्टर द्वारा प्रमाणित 5 आसान उपाय - हॉट वाटर बैग रिचुअल, अदरक चाय और एक्यूप्रेशर प्वाइंट्स।',
-      youtubeId: '4MvY_Zf6-Q0',
+      title: 'मेंस्ट्रुअल कप को साफ और स्टरलाइज़ कैसे करें? (Hindi Sterilization)',
+      titleHindi: 'पीरियड कप की सफाई और हाइजीन गाइड',
+      desc: 'मेंस्ट्रुअल कप को इस्तेमाल से पहले और बाद में उबलते पानी में स्टरलाइज़ करने का सही तरीका।',
+      youtubeId: 'r0fN-O-uXhE',
       language: 'hi',
       langLabel: 'Hindi (हिंदी) 🇮🇳',
-      category: 'pain',
-      categoryLabel: 'Cramp & Pain Relief',
-      duration: '6:50 min',
-      expert: 'Dr. Sharda Jain (Obstetrician)',
-      thumbnail: 'https://images.unsplash.com/photo-1512290900673-3e15777a8d56?w=600&auto=format&fit=crop&q=80',
-      tag: 'Home Relief Rituals'
+      category: 'hygiene',
+      categoryLabel: 'Hygiene & Sterilization',
+      duration: '6:40 min',
+      expert: 'Sakhi Hygiene Experts',
+      thumbnail: 'https://img.youtube.com/vi/r0fN-O-uXhE/hqdefault.jpg',
+      tag: 'Sterilization Ritual'
     },
     {
       id: 'v5',
-      title: 'Menstrual Disc vs Menstrual Cup: How to Use & Compare',
-      titleHindi: 'मेंस्ट्रुअल डिस्क और कप में क्या अंतर है?',
-      desc: 'Understanding period discs vs cups, how disc placement works, and choosing the right size.',
-      youtubeId: 'vN4UqE6_H7g',
+      title: 'The Right Way to Use and Dispose of a Sanitary Pad',
+      titleHindi: 'सैनिटरी पैड का सही उपयोग और डिस्पोज़ल गाइड',
+      desc: 'Step-by-step guidance on unwrapping, placing, securing wings, and hygienic disposal of sanitary napkins.',
+      youtubeId: 'kYJzXv-K_Z8',
       language: 'en',
       langLabel: 'English 🇬🇧',
       category: 'products',
-      categoryLabel: 'Product Comparison',
-      duration: '7:20 min',
-      expert: 'Dr. Nupur Gupta (Senior Gynecologist)',
-      thumbnail: 'https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=600&auto=format&fit=crop&q=80',
-      tag: 'Disc vs Cup'
+      categoryLabel: 'Product Tutorial',
+      duration: '4:15 min',
+      expert: 'Carmesi Women Care',
+      thumbnail: 'https://img.youtube.com/vi/kYJzXv-K_Z8/hqdefault.jpg',
+      tag: 'Pad Usage & Disposal'
     },
     {
       id: 'v6',
-      title: 'पैड और टैम्पोन इस्तेमाल करने का सही तरीका (Period Hygiene in Hindi)',
+      title: 'सैनिटरी पैड्स और डिस्पोजेबल हाइजीन सही तरीका (Period Hygiene in Hindi)',
       titleHindi: 'पीरियड हाइजीन और संक्रमण से बचाव की जानकारी',
       desc: 'पैड कितने घंटे बाद बदलें? दाने और रैशेज से बचने के लिए जरुरी हाइजीन टिप्स।',
-      youtubeId: '1fT2sH3eWzQ',
+      youtubeId: '5rY7H7t1Z-o',
       language: 'hi',
       langLabel: 'Hindi (हिंदी) 🇮🇳',
       category: 'hygiene',
       categoryLabel: 'Hygiene & Safety',
       duration: '5:45 min',
-      expert: 'Sakhi Women Health Team',
-      thumbnail: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600&auto=format&fit=crop&q=80',
+      expert: 'Clovia Gal Pal Health',
+      thumbnail: 'https://img.youtube.com/vi/5rY7H7t1Z-o/hqdefault.jpg',
       tag: 'Hygiene Essential'
     },
     {
       id: 'v7',
-      title: 'Acupressure Points for Instant Period Pain & Bloating Relief',
-      titleHindi: 'पीरियड दर्द कम करने के लिए एक्यूप्रेशर पॉइंट्स',
-      desc: 'Learn the Spleen 6 (SP6) and Large Intestine 4 (LI4) pressure points to relieve abdominal cramps naturally.',
-      youtubeId: 'eH0sH4lR-w8',
-      language: 'en',
-      langLabel: 'English 🇬🇧',
-      category: 'pain',
-      categoryLabel: 'Cramp & Pain Relief',
-      duration: '5:15 min',
-      expert: 'Dr. Rhythm Agarwal (Holistic Care)',
-      thumbnail: 'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=600&auto=format&fit=crop&q=80',
-      tag: 'Acupressure'
-    },
-    {
-      id: 'v8',
-      title: 'पीरियड में क्या खाएं और क्या न खाएं? (Anti-Cramp Diet in Hindi)',
-      titleHindi: 'दर्द कम करने वाली डाइट और ड्रिंक्स',
-      desc: 'पीरियड के दौरान दर्द और ब्लोटिंग को कम करने वाले खाद्य पदार्थ और हर्बल ड्रिंक्स की जानकारी।',
-      youtubeId: '8yM6pU0_Q8w',
+      title: 'मेंस्ट्रूअल कप क्या है और इसे कैसे पहनें? (Complete Hindi Guide)',
+      titleHindi: 'मेंस्ट्रुअल कप की विस्तृत जानकारी हिंदी में',
+      desc: 'मेंस्ट्रुअल कप का साइज कैसे चुनें, पहली बार इस्तेमाल में दर्द न हो इसके लिए जरूरी बातें।',
+      youtubeId: 'N6Yl_kXf12c',
       language: 'hi',
       langLabel: 'Hindi (हिंदी) 🇮🇳',
-      category: 'hygiene',
-      categoryLabel: 'Hygiene & Nutrition',
-      duration: '7:10 min',
-      expert: 'Pooja Makhija (Clinical Nutritionist)',
-      thumbnail: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=600&auto=format&fit=crop&q=80',
-      tag: 'Period Nutrition'
+      category: 'products',
+      categoryLabel: 'Product Tutorial',
+      duration: '7:50 min',
+      expert: 'Dr. Rhythm Agarwal (Gynac Care)',
+      thumbnail: 'https://img.youtube.com/vi/N6Yl_kXf12c/hqdefault.jpg',
+      tag: 'Full Hindi Guide'
     }
   ];
 
@@ -473,9 +458,9 @@ export default function SakhiVideosPage() {
             {/* Responsive YouTube Iframe */}
             <div className="iframe-container">
               <iframe
-                src={`https://www.youtube.com/embed/${activeVideoModal.youtubeId}?autoplay=1`}
+                src={`https://www.youtube-nocookie.com/embed/${activeVideoModal.youtubeId}?autoplay=1&rel=0`}
                 title={activeVideoModal.title}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
               />
             </div>
