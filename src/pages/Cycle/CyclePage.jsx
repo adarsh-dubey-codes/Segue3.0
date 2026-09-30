@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { useCycle } from '../../context/CycleContext';
 import { useLanguage } from '../../context/LanguageContext';
 import Calendar from '../../components/Calendar/Calendar';
-import CycleRing from '../../components/CycleRing/CycleRing';
 import CycleGarden from '../../components/cycle/CycleGarden';
-import CycleAnalytics from '../../components/cycle/CycleAnalytics';
 import CycleHeroSetupBanner from '../../components/cycle/CycleHeroSetupBanner';
 import CycleAIInsights from '../../components/cycle/CycleAIInsights';
 import DailyLogModal from '../../components/cycle/DailyLogModal';
@@ -13,7 +11,7 @@ import Button from '../../components/Button/Button';
 import { Settings, Plus } from 'lucide-react';
 
 export default function CyclePage() {
-  const { cycleSetup, currentCycleDay, currentPhase, updateCycleSetup } = useCycle();
+  const { cycleSetup, updateCycleSetup } = useCycle();
   const { t } = useLanguage();
   const [isLogOpen, setIsLogOpen] = useState(false);
   const [isSetupOpen, setIsSetupOpen] = useState(false);
@@ -41,44 +39,30 @@ export default function CyclePage() {
         </div>
       </div>
 
-      {/* FEATURE 2: PRIMARY "SET UP YOUR CYCLE" HERO CONFIGURATION BANNER */}
+      {/* PRIMARY FEATURE: SET UP YOUR CYCLE HERO CONFIGURATION BANNER */}
       <CycleHeroSetupBanner 
         onOpenSetup={() => setIsSetupOpen(true)} 
         onOpenLog={() => setIsLogOpen(true)} 
       />
 
-      {/* DASHBOARD TOP ROW: RING + FEATURE 1: CALENDAR + GARDEN */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '24px', marginBottom: '40px' }}>
+      {/* MAIN FEATURE ROW: CALENDAR + ENHANCED CYCLE GARDEN */}
+      <div 
+        style={{ 
+          display: 'grid', 
+          gridTemplateColumns: '1.2fr 1fr', 
+          gap: '24px', 
+          marginBottom: '40px',
+          alignItems: 'stretch'
+        }}
+      >
         <style>{`
-          @media (max-width: 960px) {
-            .cycle-top-grid { grid-template-columns: 1fr !important; }
+          @media (max-width: 900px) {
+            .cycle-main-grid { grid-template-columns: 1fr !important; }
           }
         `}</style>
         
-        {/* RING VISUAL */}
-        <div 
-          style={{
-            backgroundColor: '#FFFFFF',
-            borderRadius: '24px',
-            padding: '28px',
-            border: '1px solid var(--border)',
-            boxShadow: 'var(--shadow-sm)',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          <CycleRing 
-            dayNumber={currentCycleDay} 
-            totalDays={cycleSetup.cycleLength || 28} 
-            size={210} 
-            label={`${t(`phase.${currentPhase}`)}`} 
-          />
-        </div>
-
-        {/* FEATURE 1: INTERACTIVE NEXT PERIOD PREDICTION CALENDAR */}
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+        {/* CALENDAR WITH NEXT PERIOD RECOMMENDATIONS */}
+        <div>
           <Calendar
             selectedDate={cycleSetup.periodStartDate}
             onSelectDate={(d) => updateCycleSetup({ periodStartDate: d.toISOString() })}
@@ -86,22 +70,14 @@ export default function CyclePage() {
           />
         </div>
 
-        {/* GARDEN GAMIFICATION */}
+        {/* ENHANCED CYCLE GARDEN SANCTUARY */}
         <div>
           <CycleGarden />
         </div>
       </div>
 
-      {/* FEATURE 3: AI CYCLE RECOMMENDATION & OBSERVATION ENGINE */}
+      {/* AI CYCLE RECOMMENDATION & OBSERVATION ENGINE */}
       <CycleAIInsights />
-
-      {/* ANALYTICS & 90-DAY OVERVIEW */}
-      <div style={{ marginTop: '32px' }}>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.75rem', color: 'var(--rose-dark)', marginBottom: '20px' }}>
-          {t('feature.cycle.title')} & {t('common.view')}
-        </h2>
-        <CycleAnalytics />
-      </div>
 
       <DailyLogModal isOpen={isLogOpen} onClose={() => setIsLogOpen(false)} />
       <CycleSetupModal isOpen={isSetupOpen} onClose={() => setIsSetupOpen(false)} />
