@@ -148,3 +148,32 @@ html, body {
   outline: 2px solid var(--rose);
   outline-offset: 2px;
 }
+
+/* Comprehensive Responsive Media Queries */
+@media (max-width: 960px) {
+  body {
+    padding-bottom: 70px; /* Space for fixed mobile bottom navigation bar */
+  }
+}
+
+@media (max-width: 768px) {
+  .display-title {
+    font-size: 2.25rem !important;
+  }
+  .heading-lg {
+    font-size: 1.75rem !important;
+  }
+  .heading-md {
+    font-size: 1.35rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .display-title {
+    font-size: 1.85rem !important;
+  }
+  .heading-lg {
+    font-size: 1.5rem !important;
+  }
+}
+

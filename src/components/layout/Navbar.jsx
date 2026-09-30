@@ -84,7 +84,13 @@ export default function Navbar() {
           fill: rgba(255, 255, 255, 0.2);
         }
 
-        @media (max-width: 1180px) {
+        @media (max-width: 1280px) {
+          .nav-item-link {
+            padding: 6px 10px;
+            font-size: 0.8rem;
+          }
+        }
+        @media (max-width: 960px) {
           .navbar-links {
             display: none;
           }

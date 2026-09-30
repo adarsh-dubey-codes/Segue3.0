@@ -65,7 +65,7 @@ export default function BuddyPage() {
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '320px 1fr', gap: '24px' }}>
+      <div className="buddy-grid" style={{ display: 'grid', gridTemplateColumns: '320px 1fr', gap: '24px' }}>
         <style>{`
           @media (max-width: 820px) {
             .buddy-grid { grid-template-columns: 1fr !important; }

@@ -71,6 +71,7 @@ export default function CyclePage() {
 
       {/* TOP 3-COLUMN CARD GRID */}
       <div 
+        className="cycle-top-3grid"
         style={{ 
           display: 'grid', 
           gridTemplateColumns: '1fr 1fr 1fr', 

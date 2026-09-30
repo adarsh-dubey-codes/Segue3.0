@@ -87,6 +87,14 @@ export const BoloSakhiMicCircle: React.FC = () => {
       }}
       className="bolo-sakhi-mic-container"
     >
+      <style>{`
+        @media (max-width: 960px) {
+          .bolo-sakhi-mic-container {
+            bottom: 76px !important;
+            right: 16px !important;
+          }
+        }
+      `}</style>
       <AnimatePresence>
         {/* Transcript Overlay Drawer */}
         {isOpen && (
