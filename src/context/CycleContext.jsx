@@ -113,16 +113,21 @@ export const CycleProvider = ({ children }) => {
     }
   };
 
-  // Calculate current cycle day
+  // Calculate current cycle day safely
   const getCurrentCycleDay = () => {
-    if (!cycleSetup.periodStartDate) return 1;
-    const start = new Date(cycleSetup.periodStartDate);
+    const getValidDate = (val) => {
+      if (!val) return new Date();
+      const d = val instanceof Date ? val : new Date(val);
+      return isNaN(d.getTime()) ? new Date() : d;
+    };
+
+    const start = getValidDate(cycleSetup?.periodStartDate);
     start.setHours(0, 0, 0, 0);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const diffDays = Math.floor((today - start) / (1000 * 60 * 60 * 24));
-    const len = cycleSetup.cycleLength || 28;
-    if (diffDays < 0) return 1;
+    const len = Number(cycleSetup?.cycleLength) || 28;
+    if (isNaN(diffDays) || diffDays < 0) return 1;
     return (diffDays % len) + 1;
   };
 

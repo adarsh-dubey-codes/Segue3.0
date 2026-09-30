@@ -9,14 +9,22 @@ export default function CycleHeroSetupBanner({ onOpenSetup, onOpenLog }) {
   const { cycleSetup, updateCycleSetup, currentCycleDay, currentPhase } = useCycle();
   const { t, language } = useLanguage();
 
-  const cycleLen = Number(cycleSetup.cycleLength) || 28;
-  const periodLen = Number(cycleSetup.periodLength) || 5;
-  const startDate = cycleSetup.periodStartDate ? new Date(cycleSetup.periodStartDate) : new Date();
+  const cycleLen = Number(cycleSetup?.cycleLength) || 28;
+  const periodLen = Number(cycleSetup?.periodLength) || 5;
+
+  const getValidDate = (val) => {
+    if (!val) return new Date();
+    const d = val instanceof Date ? val : new Date(val);
+    return isNaN(d.getTime()) ? new Date() : d;
+  };
+
+  const startDate = getValidDate(cycleSetup?.periodStartDate);
 
   // Next Period Arrival Recommendation
   const nextPeriodStart = new Date(startDate.getTime() + cycleLen * 24 * 60 * 60 * 1000);
   const nextPeriodEnd = new Date(nextPeriodStart.getTime() + (periodLen - 1) * 24 * 60 * 60 * 1000);
-  const daysUntilNext = Math.ceil((nextPeriodStart - new Date()) / (1000 * 60 * 60 * 24));
+  const rawDays = Math.ceil((nextPeriodStart - new Date()) / (1000 * 60 * 60 * 24));
+  const daysUntilNext = isNaN(rawDays) ? 28 : rawDays;
 
   return (
     <div 

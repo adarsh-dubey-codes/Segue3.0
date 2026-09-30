@@ -23,21 +23,37 @@ export default function Calendar({ selectedDate, onSelectDate, onOpenLog }) {
   const { cycleSetup } = useCycle();
   const today = new Date();
   
-  const [currentViewDate, setCurrentViewDate] = useState(selectedDate ? new Date(selectedDate) : today);
+  const getValidDate = (val) => {
+    if (!val) return today;
+    const d = val instanceof Date ? val : new Date(val);
+    return isNaN(d.getTime()) ? today : d;
+  };
 
-  const year = currentViewDate.getFullYear();
-  const month = currentViewDate.getMonth();
+  const [currentViewDate, setCurrentViewDate] = useState(() => getValidDate(selectedDate));
+  const safeViewDate = getValidDate(currentViewDate);
+
+  const year = safeViewDate.getFullYear();
+  const month = safeViewDate.getMonth();
 
   const locale = LOCALE_MAP[language] || 'en-IN';
 
-  // Format month name using Intl
-  const monthName = new Intl.DateTimeFormat(locale, { month: 'long' }).format(currentViewDate);
+  // Format month name safely using Intl
+  const monthName = (() => {
+    try {
+      return new Intl.DateTimeFormat(locale, { month: 'long' }).format(safeViewDate);
+    } catch (e) {
+      return safeViewDate.toLocaleString('default', { month: 'long' });
+    }
+  })();
 
   // Build localized short weekday names (Sun-Sat)
   const daysOfWeek = Array.from({ length: 7 }, (_, i) => {
-    // 2026-03-01 is a Sunday
-    const d = new Date(2026, 2, 1 + i);
-    return new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(d);
+    try {
+      const d = new Date(2026, 2, 1 + i);
+      return new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(d);
+    } catch (e) {
+      return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][i];
+    }
   });
 
   const firstDayOfMonth = new Date(year, month, 1).getDay();
@@ -45,7 +61,7 @@ export default function Calendar({ selectedDate, onSelectDate, onOpenLog }) {
 
   const cycleLen = Number(cycleSetup?.cycleLength) || 28;
   const periodLen = Number(cycleSetup?.periodLength) || 5;
-  const startDate = cycleSetup?.periodStartDate ? new Date(cycleSetup.periodStartDate) : today;
+  const startDate = getValidDate(cycleSetup?.periodStartDate);
 
   const prevMonth = () => {
     setCurrentViewDate(new Date(year, month - 1, 1));
@@ -65,7 +81,7 @@ export default function Calendar({ selectedDate, onSelectDate, onOpenLog }) {
 
   const isSelected = (day) => {
     if (!selectedDate) return false;
-    const sel = new Date(selectedDate);
+    const sel = getValidDate(selectedDate);
     return (
       sel.getDate() === day &&
       sel.getMonth() === month &&
@@ -77,12 +93,13 @@ export default function Calendar({ selectedDate, onSelectDate, onOpenLog }) {
     const checkDate = new Date(year, month, day);
     checkDate.setHours(0, 0, 0, 0);
 
-    const baseStart = new Date(startDate);
+    const baseStart = getValidDate(startDate);
     baseStart.setHours(0, 0, 0, 0);
 
     const diffDays = Math.round((checkDate - baseStart) / (1000 * 60 * 60 * 24));
     
     let mod = diffDays % cycleLen;
+    if (isNaN(mod)) mod = 0;
     if (mod < 0) mod += cycleLen;
 
     const isFlow = mod < periodLen && diffDays >= 0 && diffDays < cycleLen;

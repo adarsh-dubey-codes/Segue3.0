@@ -133,7 +133,7 @@ export default function CyclePhaseVisual({
                   textAlign: 'center'
                 }}
               >
-                {p.label.split(' ')[0]}
+                {(typeof p.label === 'string' ? p.label : String(p.label || '')).split(' ')[0]}
               </span>
             </button>
           );

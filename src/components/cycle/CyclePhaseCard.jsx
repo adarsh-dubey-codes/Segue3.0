@@ -9,10 +9,17 @@ export default function CyclePhaseCard({ onOpenDetails }) {
 
   const totalDays = Number(cycleSetup?.cycleLength) || 28;
   const cycleLen = Number(cycleSetup?.cycleLength) || 28;
-  const lastStart = cycleSetup?.periodStartDate ? new Date(cycleSetup.periodStartDate) : new Date();
 
+  const getValidDate = (val) => {
+    if (!val) return new Date();
+    const d = val instanceof Date ? val : new Date(val);
+    return isNaN(d.getTime()) ? new Date() : d;
+  };
+
+  const lastStart = getValidDate(cycleSetup?.periodStartDate);
   const nextPeriodStart = new Date(lastStart.getTime() + cycleLen * 24 * 60 * 60 * 1000);
-  const daysUntilNext = Math.ceil((nextPeriodStart - new Date()) / (1000 * 60 * 60 * 24));
+  const rawDays = Math.ceil((nextPeriodStart - new Date()) / (1000 * 60 * 60 * 24));
+  const daysUntilNext = isNaN(rawDays) ? 28 : rawDays;
 
   const phaseKeyMap = {
     menstrual: 'phase.period',
