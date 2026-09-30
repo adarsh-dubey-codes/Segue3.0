@@ -1,21 +1,21 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+const defaultUrl = 'https://bsgdedmxjjlcicyrutav.supabase.co';
+const defaultKey = 'sb_publishable_QMdolqzPDweHXYLKtKAWGg_2eOJQ3y8';
 
-if (!supabaseUrl || !supabaseKey) {
-  console.warn(
-    '[Sakhi Cycle] Supabase environment variables missing. ' +
-    'Please set VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY in your local .env file.'
-  );
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || defaultUrl;
+const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || import.meta.env.VITE_SUPABASE_ANON_KEY || defaultKey;
+
+if (!import.meta.env.VITE_SUPABASE_URL) {
+  console.info('[Sakhi Cycle] Using configured default Supabase URL & Key.');
 }
 
 /**
  * Single Centralized Supabase Client for Sakhi Cycle Application
  */
 export const supabase = createClient(
-  supabaseUrl || 'https://placeholder.supabase.co',
-  supabaseKey || 'placeholder-key',
+  supabaseUrl,
+  supabaseKey,
   {
     auth: {
       persistSession: true,
@@ -25,3 +25,4 @@ export const supabase = createClient(
     }
   }
 );
+
