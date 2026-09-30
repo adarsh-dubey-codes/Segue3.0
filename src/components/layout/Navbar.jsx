@@ -75,15 +75,6 @@ export default function Navbar() {
       path: '/products'
     },
     {
-      id: 'compare',
-      title: 'Product Compare',
-      subtitle: 'Pads vs cups vs disks',
-      icon: Scale,
-      iconBg: '#FEF3C7',
-      iconColor: '#D97706',
-      path: '/products'
-    },
-    {
       id: 'gynac',
       title: 'Find Gynac',
       subtitle: 'Verified specialists',
