@@ -15,33 +15,33 @@ export default function SakhiVideosPage() {
   const videoTutorials = [
     {
       id: 'v1',
-      title: 'How to Use a Menstrual Cup: In-Depth Step-by-Step Beginners Guide',
-      titleHindi: 'मेंस्ट्रुअल कप का इस्तेमाल कैसे करें? संपूर्ण गाइड',
-      desc: 'Comprehensive visual guide on folding, inserting, removing, and sanitizing a menstrual cup safely without leakage.',
-      youtubeId: 'sM1jqxzv1WI',
+      title: 'How to Insert a Menstrual Cup: 3 Easy Folds for Beginners',
+      titleHindi: 'मेंस्ट्रुअल कप का इस्तेमाल कैसे करें? 3 आसान तरीके',
+      desc: 'Official step-by-step beginners tutorial on folding, inserting, and opening a menstrual cup safely.',
+      youtubeId: 'FqX3eYn6p5U',
       language: 'en',
       langLabel: 'English 🇬🇧',
       category: 'products',
       categoryLabel: 'Product Tutorial',
-      duration: '5:24 min',
-      expert: 'AllMatters Health Team',
+      duration: '4:45 min',
+      expert: 'Saalt Menstrual Health Team',
       cover: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=800&auto=format&fit=crop&q=80',
-      tag: 'Beginners Guide'
+      tag: 'Beginners Fold Guide'
     },
     {
       id: 'v2',
-      title: 'पीरियड कप कैसे यूज़ करें? (Step-by-Step Tutorial in Hindi)',
+      title: 'मेंस्ट्रुअल कप कैसे यूज़ करें? (Hindi Step-by-Step Tutorial)',
       titleHindi: 'मेंस्ट्रुअल कप का सही तरीका और साफ़ सफाई',
-      desc: 'हिंदी में समझें मेंस्ट्रुअल कप को फोल्ड करने, डालने और साफ़ रखने का सही और सुरक्षित तरीका।',
-      youtubeId: '0kF5_c5Zz_M',
+      desc: 'हिंदी में समझें मेंस्ट्रुअल कप को फोल्ड करने, डालने और साफ़ रखने का सही और आसान तरीका।',
+      youtubeId: 'B8g6vDYcHgk',
       language: 'hi',
       langLabel: 'Hindi (हिंदी) 🇮🇳',
       category: 'products',
       categoryLabel: 'Product Tutorial',
-      duration: '8:15 min',
-      expert: 'Dr. Sneha (Gynecologist)',
+      duration: '6:15 min',
+      expert: 'Sirona Hygiene Experts',
       cover: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&auto=format&fit=crop&q=80',
-      tag: 'Hindi Tutorial'
+      tag: 'Hindi Guide'
     },
     {
       id: 'v3',
@@ -60,18 +60,18 @@ export default function SakhiVideosPage() {
     },
     {
       id: 'v4',
-      title: 'मेंस्ट्रुअल कप को साफ और स्टरलाइज़ कैसे करें? (Hindi Sterilization)',
-      titleHindi: 'पीरियड कप की सफाई और हाइजीन गाइड',
-      desc: 'मेंस्ट्रुअल कप को इस्तेमाल से पहले और बाद में उबलते पानी में स्टरलाइज़ करने का सही तरीका।',
-      youtubeId: 'r0fN-O-uXhE',
-      language: 'hi',
-      langLabel: 'Hindi (हिंदी) 🇮🇳',
+      title: 'Period Hygiene: Tampons, Pads and Menstrual Cups Explained',
+      titleHindi: 'पीरियड हाइजीन: पैड, टैम्पोन और मेंस्ट्रुअल कप',
+      desc: 'Complete overview of period hygiene products, sanitary safety, and choosing the right option for your flow.',
+      youtubeId: 'Q74V3yLd4dE',
+      language: 'en',
+      langLabel: 'English 🇬🇧',
       category: 'hygiene',
-      categoryLabel: 'Hygiene & Sterilization',
-      duration: '6:40 min',
-      expert: 'Sakhi Hygiene Experts',
+      categoryLabel: 'Hygiene & Safety',
+      duration: '5:10 min',
+      expert: 'AMAZE Educational Health',
       cover: 'https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=800&auto=format&fit=crop&q=80',
-      tag: 'Sterilization Ritual'
+      tag: 'Hygiene Overview'
     },
     {
       id: 'v5',
@@ -90,7 +90,7 @@ export default function SakhiVideosPage() {
     },
     {
       id: 'v6',
-      title: 'सैनिटरी पैड्स और डिस्पोजेबल हाइजीन सही तरीका (Period Hygiene in Hindi)',
+      title: 'सैनिटरी पैड्स और डिस्पोजेबल हाइजीन सही तरीका (Hindi Safety)',
       titleHindi: 'पीरियड हाइजीन और संक्रमण से बचाव की जानकारी',
       desc: 'पैड कितने घंटे बाद बदलें? दाने और रैशेज से बचने के लिए जरुरी हाइजीन टिप्स।',
       youtubeId: '5rY7H7t1Z-o',
@@ -105,33 +105,33 @@ export default function SakhiVideosPage() {
     },
     {
       id: 'v7',
-      title: 'मेंस्ट्रूअल कप क्या है और इसे कैसे पहनें? (Complete Hindi Guide)',
-      titleHindi: 'मेंस्ट्रुअल कप की विस्तृत जानकारी हिंदी में',
-      desc: 'मेंस्ट्रुअल कप का साइज कैसे चुनें, पहली बार इस्तेमाल में दर्द न हो इसके लिए जरूरी बातें।',
-      youtubeId: 'N6Yl_kXf12c',
-      language: 'hi',
-      langLabel: 'Hindi (हिंदी) 🇮🇳',
+      title: 'How to Use a Menstrual Cup: In-Depth Step-by-Step Guide',
+      titleHindi: 'मेंस्ट्रुअल कप की विस्तृत जानकारी',
+      desc: 'Comprehensive visual guide on folding, inserting, removing, and sanitizing a menstrual cup safely.',
+      youtubeId: 'sM1jqxzv1WI',
+      language: 'en',
+      langLabel: 'English 🇬🇧',
       category: 'products',
       categoryLabel: 'Product Tutorial',
-      duration: '7:50 min',
-      expert: 'Dr. Rhythm Agarwal (Gynac Care)',
+      duration: '5:24 min',
+      expert: 'AllMatters Health Team',
       cover: 'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=800&auto=format&fit=crop&q=80',
-      tag: 'Full Hindi Guide'
+      tag: 'Full Masterclass'
     },
     {
       id: 'v8',
-      title: 'Period Pain & Cramps Relief: Home Remedies & Tips',
-      titleHindi: 'पीरियड में दर्द दूर करने के उपाय और खान-पान',
-      desc: 'Gynecologist approved natural home remedies, hot water bottle techniques, and dietary relief routines.',
-      youtubeId: 'JpU_U6uK2q4',
-      language: 'en',
-      langLabel: 'English 🇬🇧',
-      category: 'pain',
-      categoryLabel: 'Cramp & Pain Relief',
-      duration: '6:30 min',
-      expert: 'Women Health Care',
+      title: 'मेंस्ट्रुअल कप को साफ और स्टरलाइज़ कैसे करें? (Hindi Sterilization)',
+      titleHindi: 'पीरियड कप की सफाई और हाइजीन गाइड',
+      desc: 'मेंस्ट्रुअल कप को इस्तेमाल से पहले और बाद में उबलते पानी में स्टरलाइज़ करने का सही तरीका।',
+      youtubeId: 'r0fN-O-uXhE',
+      language: 'hi',
+      langLabel: 'Hindi (हिंदी) 🇮🇳',
+      category: 'hygiene',
+      categoryLabel: 'Hygiene & Sterilization',
+      duration: '6:40 min',
+      expert: 'Sakhi Hygiene Team',
       cover: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=800&auto=format&fit=crop&q=80',
-      tag: 'Home Remedies'
+      tag: 'Sterilization Ritual'
     }
   ];
 
@@ -354,10 +354,10 @@ export default function SakhiVideosPage() {
                   {isPlayingInline ? (
                     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
                       <iframe
-                        src={`https://www.youtube.com/embed/${video.youtubeId}?autoplay=1&rel=0`}
+                        src={`https://www.youtube.com/embed/${video.youtubeId}?autoplay=1&enablejsapi=1&rel=0`}
                         title={video.title}
                         style={{ width: '100%', height: '100%', border: 0 }}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
                         allowFullScreen
                       />
                       <button
@@ -367,11 +367,11 @@ export default function SakhiVideosPage() {
                           position: 'absolute',
                           top: '10px',
                           right: '10px',
-                          backgroundColor: 'rgba(0,0,0,0.8)',
+                          backgroundColor: 'rgba(0,0,0,0.85)',
                           color: '#FFFFFF',
                           border: '1px solid rgba(255,255,255,0.4)',
                           borderRadius: '50px',
-                          padding: '4px 10px',
+                          padding: '4px 12px',
                           fontSize: '0.75rem',
                           fontWeight: '700',
                           cursor: 'pointer',
@@ -485,7 +485,7 @@ export default function SakhiVideosPage() {
                         }}
                       >
                         <Play size={13} fill="#FFFFFF" />
-                        <span>{isPlayingInline ? 'Stop Inline' : 'Play Inline ▶'}</span>
+                        <span>{isPlayingInline ? 'Stop Video' : 'Play Inline ▶'}</span>
                       </button>
 
                       <button
@@ -570,9 +570,9 @@ export default function SakhiVideosPage() {
             {/* Responsive YouTube Iframe */}
             <div className="iframe-container">
               <iframe
-                src={`https://www.youtube.com/embed/${activeVideoModal.youtubeId}?autoplay=1&rel=0`}
+                src={`https://www.youtube.com/embed/${activeVideoModal.youtubeId}?autoplay=1&enablejsapi=1&rel=0`}
                 title={activeVideoModal.title}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
                 allowFullScreen
               />
             </div>
