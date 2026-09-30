@@ -19,7 +19,8 @@ export default function LoginPage() {
 
   // If already authenticated or guest, redirect to target page or /cycle
   if (isAuthenticated || isGuest) {
-    const from = location.state?.from?.pathname || '/cycle';
+    let from = location.state?.from?.pathname || '/cycle';
+    if (from === '/login' || from === '/signup') from = '/cycle';
     return <Navigate to={from} replace />;
   }
 
@@ -29,12 +30,14 @@ export default function LoginPage() {
     const res = await login(credentials);
     setSubmitting(false);
     if (res.success) {
-      const destination = location.state?.from?.pathname || '/cycle';
+      let destination = location.state?.from?.pathname || '/cycle';
+      if (destination === '/login' || destination === '/signup') destination = '/cycle';
       navigate(destination, { replace: true });
     } else {
       setLocalError(res.error || 'Log in failed. Please check your credentials.');
     }
   };
+
 
   const handleGuestConfirm = async () => {
     setSubmitting(true);
