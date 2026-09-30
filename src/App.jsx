@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { CycleProvider } from './context/CycleContext';
+import ProtectedRoute from './components/auth/ProtectedRoute';
 
 import Navbar from './components/layout/Navbar';
 import MobileNav from './components/layout/MobileNav';
@@ -36,25 +37,29 @@ export default function App() {
       <CycleProvider>
         <BrowserRouter>
           <Routes>
-            {/* Auth Routes */}
+            {/* Auth Experience Routes */}
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
 
-            {/* Main Application Shell Routes */}
+            {/* Protected Main Application Shell Routes */}
             <Route
               path="/"
               element={
-                <AppLayout>
-                  <HomePage />
-                </AppLayout>
+                <ProtectedRoute allowGuest={true}>
+                  <AppLayout>
+                    <HomePage />
+                  </AppLayout>
+                </ProtectedRoute>
               }
             />
             <Route
               path="/cycle"
               element={
-                <AppLayout>
-                  <CyclePage />
-                </AppLayout>
+                <ProtectedRoute allowGuest={true}>
+                  <AppLayout>
+                    <CyclePage />
+                  </AppLayout>
+                </ProtectedRoute>
               }
             />
             <Route
@@ -64,57 +69,71 @@ export default function App() {
             <Route
               path="/chat"
               element={
-                <AppLayout>
-                  <AIPage />
-                </AppLayout>
+                <ProtectedRoute allowGuest={true}>
+                  <AppLayout>
+                    <AIPage />
+                  </AppLayout>
+                </ProtectedRoute>
               }
             />
             <Route
               path="/lifestyle"
               element={
-                <AppLayout>
-                  <LifestylePage />
-                </AppLayout>
+                <ProtectedRoute allowGuest={true}>
+                  <AppLayout>
+                    <LifestylePage />
+                  </AppLayout>
+                </ProtectedRoute>
               }
             />
             <Route
               path="/products"
               element={
-                <AppLayout>
-                  <ProductsPage />
-                </AppLayout>
+                <ProtectedRoute allowGuest={true}>
+                  <AppLayout>
+                    <ProductsPage />
+                  </AppLayout>
+                </ProtectedRoute>
               }
             />
             <Route
               path="/doctors"
               element={
-                <AppLayout>
-                  <DoctorsPage />
-                </AppLayout>
+                <ProtectedRoute allowGuest={true}>
+                  <AppLayout>
+                    <DoctorsPage />
+                  </AppLayout>
+                </ProtectedRoute>
               }
             />
             <Route
               path="/forum"
               element={
-                <AppLayout>
-                  <ForumPage />
-                </AppLayout>
+                <ProtectedRoute allowGuest={true}>
+                  <AppLayout>
+                    <ForumPage />
+                  </AppLayout>
+                </ProtectedRoute>
               }
             />
             <Route
               path="/buddy"
               element={
-                <AppLayout>
-                  <BuddyPage />
-                </AppLayout>
+                <ProtectedRoute allowGuest={true}>
+                  <AppLayout>
+                    <BuddyPage />
+                  </AppLayout>
+                </ProtectedRoute>
               }
             />
             <Route
               path="/vibes"
               element={
-                <AppLayout>
-                  <VibesPage />
-                </AppLayout>
+                <ProtectedRoute allowGuest={true}>
+                  <AppLayout>
+                    <VibesPage />
+                  </AppLayout>
+                </ProtectedRoute>
               }
             />
             {/* Fallback route */}

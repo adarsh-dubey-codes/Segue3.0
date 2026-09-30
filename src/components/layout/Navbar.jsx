@@ -114,29 +114,53 @@ export default function Navbar() {
         </nav>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          {isAuthenticated ? (
-            <button
-              type="button"
-              onClick={() => {
-                logout();
-                navigate('/login');
-              }}
-              style={{
-                background: 'none',
-                border: '1px solid var(--border)',
-                borderRadius: 'var(--radius-full)',
-                padding: '8px 16px',
-                fontSize: '0.825rem',
-                color: 'var(--text-secondary)',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px'
-              }}
-            >
-              <LogOut size={14} />
-              Sign out
-            </button>
+          {user ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              {user.isGuest ? (
+                <span 
+                  style={{ 
+                    fontSize: '0.75rem', 
+                    fontWeight: '600', 
+                    padding: '4px 10px', 
+                    borderRadius: 'var(--radius-full)', 
+                    backgroundColor: 'var(--pink-primary)', 
+                    color: 'var(--pink-vivid)',
+                    border: '1px solid var(--border)',
+                    letterSpacing: '0.02em'
+                  }}
+                  title="Guest mode data is saved locally on this browser."
+                >
+                  Guest (Local)
+                </span>
+              ) : (
+                <span style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-primary)' }}>
+                  {user.name}
+                </span>
+              )}
+
+              <button
+                type="button"
+                onClick={() => {
+                  logout();
+                  navigate('/login');
+                }}
+                style={{
+                  background: 'none',
+                  border: '1px solid var(--border)',
+                  borderRadius: 'var(--radius-full)',
+                  padding: '7px 14px',
+                  fontSize: '0.825rem',
+                  color: 'var(--text-secondary)',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px'
+                }}
+              >
+                <LogOut size={14} />
+                Sign out
+              </button>
+            </div>
           ) : (
             <button
               type="button"

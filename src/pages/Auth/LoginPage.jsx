@@ -1,95 +1,79 @@
-import React from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import SakhiLogo from '../../components/Brand/SakhiLogo';
-import CycleRing from '../../components/CycleRing/CycleRing';
-import LoginForm from '../../components/AuthForm/LoginForm';
+import React, { useState } from 'react';
+import { useNavigate, useLocation, Navigate } from 'react-router-dom';
+import AuthLayout from '../../components/auth/AuthLayout';
+import LoginForm from '../../components/auth/LoginForm';
+import GuestAccessModal from '../../components/auth/GuestAccessModal';
+import ForgotPasswordModal from '../../components/auth/ForgotPasswordModal';
 import { useAuth } from '../../context/AuthContext';
 
 export default function LoginPage() {
-  const { login } = useAuth();
+  const { login, continueAsGuest, authMode, isAuthenticated, isGuest } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleSuccess = (userObj) => {
-    login(userObj.email, 'password123');
-    navigate('/cycle');
+  const [isGuestModalOpen, setIsGuestModalOpen] = useState(false);
+  const [isForgotModalOpen, setIsForgotModalOpen] = useState(false);
+  const [resetInitialEmail, setResetInitialEmail] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [localError, setLocalError] = useState('');
+
+  // If already authenticated or guest, redirect to target page or /cycle
+  if (isAuthenticated || isGuest) {
+    const from = location.state?.from?.pathname || '/cycle';
+    return <Navigate to={from} replace />;
+  }
+
+  const handleLogin = async (credentials) => {
+    setSubmitting(true);
+    setLocalError('');
+    const res = await login(credentials);
+    setSubmitting(false);
+    if (res.success) {
+      const destination = location.state?.from?.pathname || '/cycle';
+      navigate(destination, { replace: true });
+    } else {
+      setLocalError(res.error || 'Log in failed. Please check your credentials.');
+    }
+  };
+
+  const handleGuestConfirm = async () => {
+    setSubmitting(true);
+    const res = await continueAsGuest();
+    setSubmitting(false);
+    setIsGuestModalOpen(false);
+    if (res.success) {
+      navigate('/cycle', { replace: true });
+    }
+  };
+
+  const handleOpenForgot = (emailInput) => {
+    setResetInitialEmail(emailInput || '');
+    setIsForgotModalOpen(true);
   };
 
   return (
-    <div className="login-page" style={{ minHeight: '100vh', display: 'flex', width: '100%' }}>
-      <style>{`
-        .login-page {
-          background-color: var(--background);
-        }
-        .login-split {
-          display: flex;
-          width: 100%;
-          min-height: 100vh;
-        }
-        .login-left {
-          flex: 1.1;
-          background-color: var(--surface-soft);
-          border-right: 1px solid var(--border);
-          padding: 48px 64px;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-        }
-        .login-right {
-          flex: 1;
-          padding: 48px 64px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background-color: var(--background);
-        }
-        .login-hero-content {
-          margin: auto 0;
-          max-width: 440px;
-        }
+    <AuthLayout>
+      <LoginForm
+        onSubmit={handleLogin}
+        onSwitchToSignup={() => navigate('/signup')}
+        onOpenGuestModal={() => setIsGuestModalOpen(true)}
+        onOpenForgotPassword={handleOpenForgot}
+        isLoading={submitting}
+        authError={localError}
+      />
 
-        @media (max-width: 900px) {
-          .login-split {
-            flex-direction: column;
-          }
-          .login-left {
-            border-right: none;
-            border-bottom: 1px solid var(--border);
-            padding: 40px 24px;
-            align-items: center;
-            text-align: center;
-            flex: initial;
-          }
-          .login-right {
-            padding: 40px 24px 60px 24px;
-            flex: initial;
-          }
-        }
-      `}</style>
+      <GuestAccessModal
+        isOpen={isGuestModalOpen}
+        onClose={() => setIsGuestModalOpen(false)}
+        onConfirm={handleGuestConfirm}
+        isLoading={submitting}
+      />
 
-      <div className="login-split">
-        <div className="login-left">
-          <SakhiLogo size="large" />
-
-          <div className="login-hero-content">
-            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.5rem', color: 'var(--rose-dark)', marginBottom: '16px' }}>
-              A private space to understand your cycle.
-            </h1>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', lineHeight: '1.6', marginBottom: '32px' }}>
-              Track your period quietly and effortlessly with total privacy and calm clarity.
-            </p>
-
-            <CycleRing isLoginVisual={true} size={210} />
-          </div>
-
-          <footer style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-            © {new Date().getFullYear()} Sakhi Cycle — Privacy First
-          </footer>
-        </div>
-
-        <div className="login-right">
-          <LoginForm onLoginSuccess={handleSuccess} />
-        </div>
-      </div>
-    </div>
+      <ForgotPasswordModal
+        isOpen={isForgotModalOpen}
+        onClose={() => setIsForgotModalOpen(false)}
+        initialEmail={resetInitialEmail}
+      />
+    </AuthLayout>
   );
 }
