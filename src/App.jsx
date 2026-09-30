@@ -8,6 +8,7 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import Navbar from './components/layout/Navbar';
 import MobileNav from './components/layout/MobileNav';
 import Footer from './components/layout/Footer';
+import BoloSakhiMicCircle from './components/BoloSakhiMicCircle';
 
 import HomePage from './pages/Home/HomePage';
 import CyclePage from './pages/Cycle/CyclePage';
@@ -28,6 +29,7 @@ function AppLayout({ children }) {
       <main style={{ flex: 1 }}>{children}</main>
       <Footer />
       <MobileNav />
+      <BoloSakhiMicCircle />
     </div>
   );
 }

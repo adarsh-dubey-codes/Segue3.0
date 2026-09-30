@@ -1,10 +1,26 @@
 /**
  * Sakhi AI Service Provider Abstraction
- * Handles empathetic, non-diagnostic responses & quota management.
+ * Handles empathetic, non-diagnostic responses, Gemini API integration & voice mode formatting.
  */
 
 const QUOTA_KEY = 'sakhi_ai_quota_count';
 const MAX_DAILY_QUOTA = 20;
+
+export const SAKHI_VOICE_SYSTEM_PROMPT = `
+You are Sakhi AI, a warm, empathetic, sisterly health and cycle companion for women in India.
+
+RULES FOR VOICE INTERACTION (is_voice_widget: true / is_voice_input: true):
+1. Identify Request Source: Treat query as an active spoken voice interaction.
+2. Language Matching: Respond in the exact language mix spoke by user (Hinglish/Hindi/English).
+   - If user asks in Hinglish (e.g. "Mujhe bahut cramp ho raha hai"), respond in warm Hinglish.
+   - If user asks in Hindi (e.g. "दर्द में क्या करें?"), respond in warm Hindi.
+3. Voice-Optimized Structure:
+   - Maximum 3 short sentences, under 40 words total.
+   - DO NOT use any markdown formatting (no asterisks **, no bullet points, no tables, no hashtags) to ensure clean text-to-speech pronunciation.
+   - Use warm, sisterly conversational punctuation (commas and periods for natural speech pauses).
+
+Example: "Haan behen, dard ke liye ek garam paani ki botal se sek karein aur gunguna paani piyo. Aaram karne se relief milega."
+`;
 
 export const getRemainingQuota = () => {
   try {
@@ -34,13 +50,48 @@ export const incrementQuota = () => {
   localStorage.setItem(QUOTA_KEY, JSON.stringify({ date: todayStr, count }));
 };
 
+export const cleanMarkdownForVoice = (text) => {
+  if (!text) return '';
+  return text
+    .replace(/\*\*/g, '')
+    .replace(/\*/g, '')
+    .replace(/#/g, '')
+    .replace(/`/g, '')
+    .replace(/^[-•*]\s+/gm, '')
+    .replace(/\n+/g, ' ')
+    .trim();
+};
+
 export const generateSakhiResponse = async (userPrompt, userContext = {}) => {
-  // Simulate natural response latency
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  // Simulate natural latency
+  await new Promise((resolve) => setTimeout(resolve, 800));
   incrementQuota();
 
+  const isVoice = Boolean(userContext.is_voice_widget || userContext.is_voice_input);
   const promptLower = userPrompt.toLowerCase();
 
+  // If Voice interaction mode (Bolo Sakhi) is active
+  if (isVoice) {
+    if (promptLower.includes('cramp') || promptLower.includes('dard') || promptLower.includes('pain') || promptLower.includes('दर्द')) {
+      return 'Haan behen, dard ke liye ek garam paani ki botal se sek karein aur gunguna paani piyo. Aaram karne se relief milega.';
+    }
+
+    if (promptLower.includes('date') || promptLower.includes('tariq') || promptLower.includes('period') || promptLower.includes('तारीख')) {
+      return 'Suno behen, aapki meenaari ki agli date lagbhag chauda october hai. Aapka cycle bilkul normal chal raha hai.';
+    }
+
+    if (promptLower.includes('doctor') || promptLower.includes('डाक्टर') || promptLower.includes('डॉक्टर') || promptLower.includes('baat')) {
+      return 'Haan sakhi, humari doctor abhi online hain. Kya aap unse audio par baat karna chahti ho?';
+    }
+
+    if (promptLower.includes('cup') || promptLower.includes('insert')) {
+      return 'Haan behen, cup insert karte waqt punch down fold try karein aur muscles ko relax rakhein. Dheere se karne par aasaani hogi.';
+    }
+
+    return 'Haan behen, main aapki baat sun rahi hoon. Apni sehat ya period cycle ke bare mein bejhiijhak pucho.';
+  }
+
+  // Standard Text Chat Mode responses
   if (promptLower.includes('cramp') || promptLower.includes('pain')) {
     return `I hear you, and dealing with period cramps can be so draining 💕. 
 
