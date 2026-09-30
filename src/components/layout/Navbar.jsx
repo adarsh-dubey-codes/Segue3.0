@@ -6,7 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { 
   Home, Calendar, MessageCircle, Utensils, ShoppingBag, 
-  Stethoscope, Users, User, LogOut, ChevronDown, ChevronUp,
+  Stethoscope, Users, User, Sun, LogOut, ChevronDown, ChevronUp,
   Sparkles, Gamepad2, Video, Scale, CreditCard, Award, ArrowRight, MessageSquare
 } from 'lucide-react';
 
