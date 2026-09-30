@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
 import { 
   Home, Calendar, Bot, Menu, X, Sparkles, ShoppingBag, 
-  Stethoscope, Users, CreditCard, MessageSquare 
+  Stethoscope, Users, CreditCard, MessageSquare, Tv 
 } from 'lucide-react';
 
 export default function MobileNav() {
