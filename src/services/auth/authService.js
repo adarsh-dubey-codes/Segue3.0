@@ -5,10 +5,10 @@
  * To switch providers in the future, simply update activeProvider below or inject a new provider driver.
  */
 
-import { mockAuthProvider } from './mockAuthProvider';
+import { supabaseAuthProvider } from './supabaseAuthProvider';
 
 // Active driver provider (easily replaced with Supabase / Firebase / Custom REST Auth)
-const activeProvider = mockAuthProvider;
+const activeProvider = supabaseAuthProvider;
 
 export const authService = {
   /**
@@ -46,5 +46,20 @@ export const authService = {
    */
   async logout() {
     return activeProvider.logout();
+  },
+
+  /**
+   * Send password reset email
+   */
+  async resetPassword(email) {
+    return activeProvider.resetPassword(email);
+  },
+
+  /**
+   * Update password for authenticated user
+   */
+  async updatePassword(newPassword) {
+    return activeProvider.updatePassword(newPassword);
   }
 };
+

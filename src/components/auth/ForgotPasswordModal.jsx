@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
+import { useAuth } from '../../context/AuthContext';
 import { Mail, CheckCircle2, X } from 'lucide-react';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 
 export default function ForgotPasswordModal({ isOpen, onClose, initialEmail = '' }) {
   const { t } = useLanguage();
+  const { resetPassword } = useAuth();
   const [email, setEmail] = useState(initialEmail);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -13,7 +15,7 @@ export default function ForgotPasswordModal({ isOpen, onClose, initialEmail = ''
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
       setError(t('errors.invalidEmail'));
@@ -22,11 +24,20 @@ export default function ForgotPasswordModal({ isOpen, onClose, initialEmail = ''
 
     setError('');
     setLoading(true);
-    setTimeout(() => {
+    try {
+      const res = await resetPassword(email);
       setLoading(false);
-      setSubmitted(true);
-    }, 800);
+      if (res.success) {
+        setSubmitted(true);
+      } else {
+        setError(res.error || 'Failed to send reset email.');
+      }
+    } catch (err) {
+      setLoading(false);
+      setError('An error occurred. Please try again.');
+    }
   };
+
 
   const handleReset = () => {
     setSubmitted(false);

@@ -23,7 +23,9 @@ coverage
 
 # Scratch & Temporary Debug Files
 scratch/
+supabase/.temp/
 .DS_Store
+
 
 # Editor directories and files
 .vscode/*
