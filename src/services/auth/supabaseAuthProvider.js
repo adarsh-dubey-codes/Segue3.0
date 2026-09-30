@@ -211,6 +211,9 @@ function mapAuthError(error) {
   if (!error) return 'An unexpected error occurred.';
   const msg = error.message ? error.message.toLowerCase() : '';
 
+  if (msg.includes('email not confirmed')) {
+    return 'Please check your email inbox and confirm your account before signing in.';
+  }
   if (msg.includes('invalid login credentials') || msg.includes('invalid_grant')) {
     return 'Invalid email or password. Please try again.';
   }
@@ -224,7 +227,8 @@ function mapAuthError(error) {
     return 'Too many attempts. Please wait a moment and try again.';
   }
   if (msg.includes('failed to fetch') || msg.includes('networkerror')) {
-    return 'Unable to reach servers. Please check your internet connection or environment variables.';
+    return 'Unable to reach server. Please restart your Vite dev server (npm run dev) so the newly updated .env environment variables are loaded by Vite.';
   }
   return error.message || 'Authentication error. Please try again.';
 }
+
