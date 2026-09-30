@@ -118,7 +118,7 @@ export default function ForumPage() {
                 marginBottom: '6px'
               }}
             >
-              SAFE SPACE • REAL PEOPLE • NO JUDGEMENT
+              {t('forumPage.safeSpaceTag', 'SAFE SPACE • REAL PEOPLE • NO JUDGEMENT')}
             </span>
 
             {/* Main Title */}
@@ -132,7 +132,7 @@ export default function ForumPage() {
                 margin: '0 0 8px 0'
               }}
             >
-              Anonymous Community Forum
+              {t('forumPage.title', 'Anonymous Community Forum')}
             </h1>
 
             {/* Subtitle with Cursive Script */}
@@ -148,7 +148,7 @@ export default function ForumPage() {
                 gap: '6px'
               }}
             >
-              Share. Support. Heal. Grow. ♡
+              {t('forumPage.subtitleCursive', 'Share. Support. Heal. Grow. ♡')}
             </p>
           </div>
 
@@ -174,8 +174,7 @@ export default function ForumPage() {
                 transform: 'rotate(-4deg)'
               }}
             >
-              Your voice <br />
-              <span style={{ fontSize: '1.6rem', color: '#EC738F' }}>matters ♡</span>
+              {t('forumPage.voiceMatters', 'Your voice matters ♡')}
             </div>
           </div>
         </div>
@@ -232,7 +231,7 @@ export default function ForumPage() {
                   }}
                 >
                   <Icon size={15} color={isSelected ? '#FFE5EC' : '#EC738F'} />
-                  <span>{cat.label}</span>
+                  <span>{cat.id === 'All' ? t('common.all', 'All') : t(`forumPage.categories.${cat.id.toLowerCase().replace(/[^a-z]/g, '')}`, cat.label)}</span>
                 </button>
               );
             })}
@@ -260,7 +259,7 @@ export default function ForumPage() {
             }}
           >
             <Plus size={18} strokeWidth={3} />
-            <span>Create Anonymous Post</span>
+            <span>{t('forumPage.createPost', 'Create Anonymous Post')}</span>
           </button>
         </div>
 
@@ -357,7 +356,7 @@ export default function ForumPage() {
                         }}
                       >
                         <Droplet size={12} color="#EC738F" fill="#EC738F" />
-                        <span>{post.category}</span>
+                        <span>{t(`forumPage.categories.${post.category.toLowerCase().replace(/[^a-z]/g, '')}`, post.category)}</span>
                       </span>
 
                       <span
@@ -407,7 +406,7 @@ export default function ForumPage() {
                       margin: '0 0 10px 0'
                     }}
                   >
-                    {post.title}
+                    {t(`forumData.${post.id}.title`, post.title)}
                   </h3>
 
                   {/* Post Body */}
@@ -419,7 +418,7 @@ export default function ForumPage() {
                       margin: '0 0 18px 0'
                     }}
                   >
-                    {post.content}
+                    {t(`forumData.${post.id}.content`, post.content)}
                   </p>
 
                   {/* Footer Row: Support, Comments, Reply */}
@@ -452,7 +451,7 @@ export default function ForumPage() {
                         }}
                       >
                         <Heart size={18} fill="#EC738F" color="#EC738F" />
-                        <span>{post.likesCount} Support</span>
+                        <span>{post.likesCount} {t('forumPage.support', 'Support')}</span>
                       </button>
 
                       {/* Comments Count Toggle */}
@@ -472,7 +471,7 @@ export default function ForumPage() {
                         }}
                       >
                         <MessageSquare size={16} />
-                        <span>{post.comments.length} Comments</span>
+                        <span>{t('forumPage.commentsCount', { count: post.comments.length })}</span>
                       </button>
                     </div>
 

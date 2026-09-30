@@ -395,7 +395,17 @@
     "enterBuddyCode": "தோழியின் குறியீட்டை உள்ளிடவும்",
     "connect": "இணையவும்",
     "buddyStatus": "{{name}} உடன் இணைந்துள்ளீர்கள்",
-    "noBuddyYet": "தோழி யாரும் இணையவில்லை."
+    "noBuddyYet": "தோழி யாரும் இணையவில்லை.",
+    "headerCaption": "Your Cycle Partner Always ♡",
+    "artCaption": "Real Conversations Real Support ♡",
+    "privacyPriority": "Your privacy is our priority",
+    "supportTag": "Support • Share • Grow",
+    "betterConv": "Better Conversations",
+    "strongerTogether": "Stronger Together",
+    "happierCycles": "Happier Cycles",
+    "initialMsg1": "Hey there! How is your cycle feeling today? 💕",
+    "initialMsg2": "Having a bit of pre-period tiredness, but doing okay! How are you?",
+    "autoReply": "Sending you so much warmth! I'm right here if you want to chat more 💕"
   },
   "vibesPage": {
     "title": "அமைதி & சுய பராமரிப்பு",
@@ -412,7 +422,43 @@
     "hold": "நிறுத்தவும்...",
     "exhale": "மூச்சை வெளி விடவும்...",
     "startBreathing": "பயிற்சியைத் தொடங்கவும்",
-    "pauseBreathing": "நிறுத்தவும்"
+    "pauseBreathing": "நிறுத்தவும்",
+    "artCaption": "Small Steps Big Changes ♡",
+    "dailyAffirmationCard": "DAILY AFFIRMATION CARD",
+    "moodMatchTitle": "Mood Match Playlists",
+    "moodMatchSub": "Select how you feel to get custom curated soundscapes.",
+    "exploreAllPlaylists": "Explore All Playlists",
+    "breathworkTitle": "Guided 4-4-4 Breathwork",
+    "breathworkSub": "Breathe in. Hold. Breathe out. A simple 4-4-4 technique to calm your mind and reduce stress.",
+    "affirmations": {
+      "0": "My body is wise, resilient, and deserves gentle rest.",
+      "1": "I honour the rhythm of my cycle without judgment.",
+      "2": "Every phase of my cycle brings unique strengths and clarity.",
+      "3": "I listen to what my body needs today with kindness.",
+      "4": "My feelings are valid, and my boundaries are respected.",
+      "5": "I allow myself to slow down when rest is calling.",
+      "6": "I am worthy of care, comfort, and peace in every season."
+    },
+    "moods": {
+      "restful": "Restful",
+      "calm": "Calm",
+      "energetic": "Energetic",
+      "happy": "Happy"
+    },
+    "phaseCards": {
+      "menstrual": {
+        "title": "Menstrual Phase",
+        "sub": "Soothing sounds for your inner peace"
+      },
+      "luteal": {
+        "title": "Luteal Phase",
+        "sub": "Balance your mood & energy"
+      },
+      "follicular": {
+        "title": "Follicular Phase",
+        "sub": "Feel light, fresh & motivated"
+      }
+    }
   },
   "footer": {
     "aboutText": "மாதவிடாய் ஆரோக்கியத்தை எளிய முறையில் புரிந்துகொள்ள உங்கள் தோழி.",
@@ -439,5 +485,69 @@
     "pauseAudio": "ஒலியை நிறுத்த",
     "showPassword": "கடவுச்சொல்லைக் காட்டு",
     "hidePassword": "கடவுச்சொல்லை மறை"
+  },
+  "cities": {
+    "all": "All Cities",
+    "mumbai": "Mumbai",
+    "bengaluru": "Bengaluru",
+    "delhincr": "Delhi NCR",
+    "pune": "Pune"
+  },
+  "languages": {
+    "english": "English",
+    "hindi": "Hindi",
+    "marathi": "Marathi",
+    "kannada": "Kannada",
+    "tamil": "Tamil"
+  },
+  "doctorsData": {
+    "doc-1": {
+      "specialty": "Obstetrician & Gynaecologist",
+      "qualifications": "MBBS, MD (Obs & Gynae), FRCOG",
+      "experience": "14+ years experience",
+      "hospital": "Fortis La Femme & Sakhi Care Clinic",
+      "bio": "Specialist in adolescent gynaecology, PCOS/PCOD management, endo-care, and non-judgmental youth reproductive wellness."
+    },
+    "doc-2": {
+      "specialty": "Reproductive Endocrinologist",
+      "qualifications": "MBBS, MS (Gynae), Fellowship in Reproductive Medicine",
+      "experience": "11+ years experience",
+      "hospital": "Apollo Women’s Health Center",
+      "bio": "Focuses on hormonal balance, irregular cycle evaluation, thyroid-period interplay, and holistic fertility guidance."
+    },
+    "doc-3": {
+      "specialty": "Laparoscopic Gynaecologist",
+      "qualifications": "MBBS, DGO, DNB (Gynae)",
+      "experience": "16+ years experience",
+      "hospital": "Max Super Speciality Hospital",
+      "bio": "Specialized in pelvic pain, endometriosis, fibroid management, and compassionate surgical consultation."
+    },
+    "doc-4": {
+      "specialty": "Youth & Adolescent Gynaecologist",
+      "qualifications": "MBBS, MD",
+      "experience": "8+ years experience",
+      "hospital": "Cloudnine Hospital",
+      "bio": "Dedicated to friendly, non-judgmental consultation for young adults experiencing first periods, severe cramps, or cycle anxiety."
+    }
+  },
+  "forumData": {
+    "post-1": {
+      "title": "Warm chamomile tea + hot water bottle saved my Day 1 cramps today",
+      "content": "Just wanted to share a gentle reminder to anyone having a tough Day 1. Chamomile tea with a pinch of ginger and resting flat on my back with a hot water bag reduced my pain level from an 8 to a 3. Please take it easy today!"
+    },
+    "post-2": {
+      "title": "First time using a menstrual cup — here is what helped me seal it correctly!",
+      "content": "I was so nervous for months! What finally worked for me was the punch-down fold instead of C-fold, and relaxing my shoulders completely. If you are struggling on your first try, don’t panic! Take a deep breath and try in the shower."
+    },
+    "post-3": {
+      "title": "Day 24 luteal phase anxiety — does anyone else feel super sensitive right now?",
+      "content": "Every small thing feels a bit heavier today. I know it’s just progesterone dropping, but knowing doesn’t always stop the feeling. Holding space for anyone else feeling emotional in their pre-period phase."
+    },
+    "comments": {
+      "c-1": "Chamomile tea is so soothing! Adding a tiny drop of honey makes it even better.",
+      "c-2": "Sending virtual warmth! Rest up today 💕",
+      "c-3": "Punch-down fold is definitely the game-changer! So proud of you for trying!",
+      "c-4": "You are so not alone. Luteal phase sensitivity is so real. Be extra gentle with yourself today 💕"
+    }
   }
 }

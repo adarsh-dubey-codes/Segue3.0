@@ -97,7 +97,7 @@ export default function VibesPage() {
                 margin: '0 0 10px 0'
               }}
             >
-              Good Vibes & Mindful Care
+              {t('vibesPage.title', 'Good Vibes & Mindful Care')}
             </h1>
 
             {/* Subtitle */}
@@ -110,7 +110,7 @@ export default function VibesPage() {
                 margin: 0
               }}
             >
-              Phase-oriented playlists, daily affirmations, and guided breathing.
+              {t('vibesPage.sub', 'Phase-oriented playlists, daily affirmations, and guided breathing.')}
             </p>
           </div>
 
@@ -136,9 +136,7 @@ export default function VibesPage() {
                 transform: 'rotate(-4deg)'
               }}
             >
-              Small <br />
-              Steps <br />
-              <span style={{ fontSize: '1.6rem', color: '#EC738F' }}>Big Changes ♡</span>
+              {t('vibesPage.artCaption', 'Small Steps Big Changes ♡')}
             </div>
           </div>
         </div>
@@ -192,7 +190,7 @@ export default function VibesPage() {
                     letterSpacing: '0.08em'
                   }}
                 >
-                  DAILY AFFIRMATION CARD
+                  {t('vibesPage.dailyAffirmationCard', 'DAILY AFFIRMATION CARD')}
                 </span>
               </div>
 
@@ -207,7 +205,7 @@ export default function VibesPage() {
                   margin: '12px 0 24px 0'
                 }}
               >
-                "{dailyAffirmations[affirmationIdx]}"
+                "{t(`vibesPage.affirmations.${affirmationIdx}`, dailyAffirmations[affirmationIdx])}"
               </p>
             </div>
 
@@ -241,7 +239,7 @@ export default function VibesPage() {
                 }}
               >
                 <RefreshCw size={14} color="#EC738F" />
-                <span>New Affirmation</span>
+                <span>{t('vibesPage.newAffirmation', 'New Affirmation')}</span>
               </button>
             </div>
 
@@ -299,10 +297,10 @@ export default function VibesPage() {
                     margin: 0
                   }}
                 >
-                  Mood Match Playlists
+                  {t('vibesPage.moodMatchTitle', 'Mood Match Playlists')}
                 </h3>
                 <p style={{ fontSize: '0.875rem', color: '#7D626C', margin: '2px 0 0 0' }}>
-                  Select how you feel to get custom curated soundscapes.
+                  {t('vibesPage.moodMatchSub', 'Select how you feel to get custom curated soundscapes.')}
                 </p>
               </div>
             </div>
@@ -467,7 +465,7 @@ export default function VibesPage() {
                 >
                   <Music size={18} color="#EC738F" />
                 </div>
-                <span>Explore All Playlists</span>
+                <span>{t('vibesPage.exploreAllPlaylists', 'Explore All Playlists')}</span>
               </div>
 
               <ChevronRight size={18} color="#D9486D" />

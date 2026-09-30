@@ -129,7 +129,7 @@ export default function DoctorsPage() {
                     {doc.name}
                   </h3>
                   <span style={{ fontSize: '0.875rem', fontWeight: '600', color: 'var(--rose)' }}>
-                    {doc.specialty} • {doc.experience}
+                    {t(`doctorsData.${doc.id}.specialty`, doc.specialty)} • {t(`doctorsData.${doc.id}.experience`, doc.experience)}
                   </span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '4px', backgroundColor: '#FFF9E6', padding: '4px 10px', borderRadius: 'var(--radius-full)', border: '1px solid #FFEAA7' }}>
@@ -140,15 +140,15 @@ export default function DoctorsPage() {
               </div>
 
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', margin: '8px 0', lineHeight: '1.5' }}>
-                {doc.qualifications} — {doc.hospital}, {doc.city}
+                {t(`doctorsData.${doc.id}.qualifications`, doc.qualifications)} — {t(`doctorsData.${doc.id}.hospital`, doc.hospital)}, {t(`cities.${doc.city.toLowerCase().replace(' ', '')}`, doc.city)}
               </p>
 
               <p style={{ color: 'var(--text-primary)', fontSize: '0.9rem', marginBottom: '12px' }}>
-                {doc.bio}
+                {t(`doctorsData.${doc.id}.bio`, doc.bio)}
               </p>
 
               <div style={{ display: 'flex', gap: '16px', fontSize: '0.8rem', color: 'var(--text-secondary)', flexWrap: 'wrap' }}>
-                <span>{t('doctorsPage.languagesLabel')} <strong>{doc.languages.join(', ')}</strong></span>
+                <span>{t('doctorsPage.languagesLabel')} <strong>{doc.languages.map((l) => t(`languages.${l.toLowerCase()}`, l)).join(', ')}</strong></span>
                 <span>{t('doctorsPage.feeLabel')} <strong>{doc.price}</strong></span>
                 {doc.onlineConsultation && (
                   <span style={{ color: 'var(--success)', fontWeight: '600' }}>{t('doctorsPage.onlineReady')}</span>

@@ -122,7 +122,7 @@ export default function BuddyPage() {
                 gap: '6px'
               }}
             >
-              Your Cycle Partner Always ♡
+              {t('buddyPage.headerCaption', 'Your Cycle Partner Always ♡')}
             </p>
 
             {/* Main Title */}
@@ -136,7 +136,7 @@ export default function BuddyPage() {
                 margin: '0 0 10px 0'
               }}
             >
-              Cycle Buddy System <span style={{ color: '#EC738F' }}>♡</span>
+              {t('buddyPage.title', 'Cycle Buddy System')} <span style={{ color: '#EC738F' }}>♡</span>
             </h1>
 
             {/* Subtitle */}
@@ -149,7 +149,7 @@ export default function BuddyPage() {
                 margin: 0
               }}
             >
-              Connect with a supportive cycle partner to check in, share wins, and vent without exposing your real identity.
+              {t('buddyPage.sub', 'Connect with a supportive cycle partner to check in, share wins, and vent without exposing your real identity.')}
             </p>
           </div>
 
@@ -175,9 +175,7 @@ export default function BuddyPage() {
                 transform: 'rotate(-4deg)'
               }}
             >
-              Real <br />
-              Conversations <br />
-              <span style={{ fontSize: '1.6rem', color: '#EC738F' }}>Real Support ♡</span>
+              {t('buddyPage.artCaption', 'Real Conversations Real Support ♡')}
             </div>
           </div>
         </div>
@@ -299,7 +297,7 @@ export default function BuddyPage() {
                     }}
                   >
                     <Sparkles size={12} color="#EC738F" />
-                    <span>INTERESTS</span>
+                    <span>{t('buddyPage.interests', 'INTERESTS')}</span>
                     <Sparkles size={12} color="#EC738F" />
                   </div>
 
@@ -350,7 +348,7 @@ export default function BuddyPage() {
                   }}
                 >
                   <MessageCircle size={18} />
-                  <span>Optional WhatsApp Chat</span>
+                  <span>{t('buddyPage.optionalWhatsapp', 'Optional WhatsApp Chat')}</span>
                   <ChevronRight size={16} />
                 </a>
 
@@ -366,7 +364,7 @@ export default function BuddyPage() {
                   }}
                 >
                   <Lock size={12} />
-                  <span>Your privacy is our priority</span>
+                  <span>{t('buddyPage.privacyPriority', 'Your privacy is our priority')}</span>
                 </div>
 
               </div>
@@ -422,7 +420,7 @@ export default function BuddyPage() {
                       }}
                     />
                     <span style={{ fontSize: '0.8rem', color: '#22C55E', fontWeight: '600' }}>
-                      Active Buddy
+                      {t('buddyPage.activeBuddy', 'Active Buddy')}
                     </span>
                   </div>
                 </div>
@@ -441,7 +439,7 @@ export default function BuddyPage() {
                     fontWeight: '600'
                   }}
                 >
-                  👥 Support • Share • Grow
+                  👥 {t('buddyPage.supportTag', 'Support • Share • Grow')}
                 </span>
 
                 <button
@@ -677,7 +675,7 @@ export default function BuddyPage() {
                 {/* Text input */}
                 <input
                   type="text"
-                  placeholder="Type a message to your buddy..."
+                  placeholder={t('buddyPage.typeMessage', 'Type a message to your buddy...')}
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
                   style={{
@@ -754,17 +752,17 @@ export default function BuddyPage() {
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#3E242B', fontWeight: '600', fontSize: '0.875rem' }}>
             <span style={{ fontSize: '1.1rem' }}>🌸</span>
-            <span>Better Conversations</span>
+            <span>{t('buddyPage.betterConv', 'Better Conversations')}</span>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#3E242B', fontWeight: '600', fontSize: '0.875rem' }}>
             <Heart size={18} color="#EC738F" fill="#EC738F" />
-            <span>Stronger Together</span>
+            <span>{t('buddyPage.strongerTogether', 'Stronger Together')}</span>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#3E242B', fontWeight: '600', fontSize: '0.875rem' }}>
             <Sparkles size={18} color="#EC738F" />
-            <span>Happier Cycles</span>
+            <span>{t('buddyPage.happierCycles', 'Happier Cycles')}</span>
           </div>
         </div>
 

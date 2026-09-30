@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useCycle } from '../../context/CycleContext';
-import { useLanguage } from '../../context/LanguageContext';
+import { useTranslation } from 'react-i18next';
 import { dailyAffirmations } from '../../data/affirmationsData';
 import Button from '../../components/Button/Button';
 import CycleSetupModal from '../../components/cycle/CycleSetupModal';
@@ -16,7 +16,7 @@ import {
 export default function HomePage() {
   const navigate = useNavigate();
   const { currentCycleDay, currentPhase, cycleLength } = useCycle();
-  const { t } = useLanguage();
+  const { t } = useTranslation();
 
   const [isSetupOpen, setIsSetupOpen] = useState(false);
   const [isLogOpen, setIsLogOpen] = useState(false);

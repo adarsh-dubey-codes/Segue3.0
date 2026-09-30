@@ -65,7 +65,7 @@ export default function BreathingWidget() {
               letterSpacing: '0.08em'
             }}
           >
-            MINDFUL RELAXATION
+            {t('vibesPage.mindfulRelaxation', 'MINDFUL RELAXATION')}
           </span>
         </div>
 
@@ -99,7 +99,7 @@ export default function BreathingWidget() {
                 margin: '0 0 10px 0'
               }}
             >
-              Guided 4-4-4 Breathwork
+              {t('vibesPage.breathworkTitle', 'Guided 4-4-4 Breathwork')}
             </h3>
             <p
               style={{
@@ -109,7 +109,7 @@ export default function BreathingWidget() {
                 margin: 0
               }}
             >
-              Breathe in. Hold. Breathe out. A simple 4-4-4 technique to calm your mind and reduce stress.
+              {t('vibesPage.breathworkSub', 'Breathe in. Hold. Breathe out. A simple 4-4-4 technique to calm your mind and reduce stress.')}
             </p>
           </div>
 
@@ -186,7 +186,7 @@ export default function BreathingWidget() {
           }}
         >
           {isActive ? <Pause size={16} /> : <Play size={16} fill="#FFFFFF" />}
-          <span>{isActive ? 'Pause Exercise' : 'Start Breathing Exercise'}</span>
+          <span>{isActive ? t('vibesPage.pauseBreathing', 'Pause Exercise') : t('vibesPage.startBreathing', 'Start Breathing Exercise')}</span>
         </button>
       </div>
     </div>
