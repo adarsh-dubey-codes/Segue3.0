@@ -1,7 +1,9 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import SakhiLogo from '../Brand/SakhiLogo';
+import LanguageSelector from './LanguageSelector';
 import { useAuth } from '../../context/AuthContext';
+import { useLanguage } from '../../context/LanguageContext';
 import { 
   Heart, Activity, MessageCircle, Sparkles, Play, 
   Stethoscope, Users, User, Music, LogOut 
@@ -9,18 +11,19 @@ import {
 
 export default function Navbar() {
   const { user, logout, isAuthenticated } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const navLinks = [
-    { to: '/', label: 'Home', icon: Heart },
-    { to: '/cycle', label: 'Cycle', icon: Activity },
-    { to: '/chat', label: 'Sakhi AI', icon: MessageCircle },
-    { to: '/lifestyle', label: 'Lifestyle', icon: Sparkles },
-    { to: '/products', label: 'Products', icon: Play },
-    { to: '/doctors', label: 'Doctors', icon: Stethoscope },
-    { to: '/forum', label: 'Forum', icon: Users },
-    { to: '/buddy', label: 'Buddy', icon: User },
-    { to: '/vibes', label: 'Vibes', icon: Music }
+    { to: '/', label: t('nav.home'), icon: Heart },
+    { to: '/cycle', label: t('nav.cycle'), icon: Activity },
+    { to: '/chat', label: t('nav.chat'), icon: MessageCircle },
+    { to: '/lifestyle', label: t('nav.lifestyle'), icon: Sparkles },
+    { to: '/products', label: t('nav.products'), icon: Play },
+    { to: '/doctors', label: t('nav.doctors'), icon: Stethoscope },
+    { to: '/forum', label: t('nav.forum'), icon: Users },
+    { to: '/buddy', label: t('nav.buddy'), icon: User },
+    { to: '/vibes', label: t('nav.vibes'), icon: Music }
   ];
 
   return (
@@ -45,9 +48,9 @@ export default function Navbar() {
         .navbar-links {
           display: flex;
           align-items: center;
-          gap: 6px;
+          gap: 4px;
           list-style: none;
-          background-color: rgba(255, 255, 255, 0.6);
+          background-color: rgba(255, 255, 255, 0.7);
           padding: 4px;
           border-radius: var(--radius-full);
           border: 1px solid rgba(250, 212, 222, 0.5);
@@ -56,9 +59,9 @@ export default function Navbar() {
         .nav-item-link {
           text-decoration: none;
           color: #5C434B;
-          font-size: 0.875rem;
+          font-size: 0.85rem;
           font-weight: 500;
-          padding: 8px 16px;
+          padding: 8px 14px;
           border-radius: var(--radius-full);
           transition: all var(--transition-fast);
           display: flex;
@@ -81,7 +84,7 @@ export default function Navbar() {
           fill: rgba(255, 255, 255, 0.2);
         }
 
-        @media (max-width: 1080px) {
+        @media (max-width: 1180px) {
           .navbar-links {
             display: none;
           }
@@ -113,7 +116,9 @@ export default function Navbar() {
           </ul>
         </nav>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <LanguageSelector />
+
           {user ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               {user.isGuest ? (

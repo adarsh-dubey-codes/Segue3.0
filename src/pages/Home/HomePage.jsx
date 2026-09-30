@@ -1,34 +1,41 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useCycle } from '../../context/CycleContext';
+import { useLanguage } from '../../context/LanguageContext';
 import { dailyAffirmations } from '../../data/affirmationsData';
 import Button from '../../components/Button/Button';
 import HeroArt3D from '../../components/home/HeroArt3D';
 import CycleSetupModal from '../../components/cycle/CycleSetupModal';
 import DailyLogModal from '../../components/cycle/DailyLogModal';
+import CyclePhaseVisual from '../../components/cycle/CyclePhaseVisual';
+import VisualOnboarding from '../../components/home/VisualOnboarding';
+import FeatureIllustration from '../../components/illustrations/FeatureIllustration';
 import { 
-  Calendar, MessageCircle, Sparkles, ShoppingBag, Stethoscope, 
-  Users, User, Music, ArrowRight, Activity, Heart, Shield
+  Sparkles, MessageCircle, HelpCircle, ArrowRight
 } from 'lucide-react';
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const { cycleSetup, currentCycleDay, currentPhase } = useCycle();
+  const { currentCycleDay, currentPhase } = useCycle();
+  const { t } = useLanguage();
+
   const [isSetupOpen, setIsSetupOpen] = useState(false);
   const [isLogOpen, setIsLogOpen] = useState(false);
+  const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
 
   // Today's affirmation
   const randomAffirmation = dailyAffirmations[new Date().getDate() % dailyAffirmations.length];
 
   const features = [
-    { title: 'Cycle Tracker', desc: 'Log mood, flow & symptoms gently.', link: '/cycle', icon: Activity, color: '#EC738F' },
-    { title: 'Sakhi AI', desc: 'Ask anything about your body, gently.', link: '/chat', icon: MessageCircle, color: '#6C5CE7' },
-    { title: 'Lifestyle & Diet', desc: 'Phase-aware nutrition & movement.', link: '/lifestyle', icon: Sparkles, color: '#E09F3E' },
-    { title: 'Period Products', desc: 'How-to videos, cups & eco guides.', link: '/products', icon: ShoppingBag, color: '#4E9F76' },
-    { title: '24/7 Gynaecologists', desc: 'Verified specialists near you.', link: '/doctors', icon: Stethoscope, color: '#0984E3' },
-    { title: 'Anonymous Forum', desc: 'Share experiences — no names.', link: '/forum', icon: Users, color: '#EC738F' },
-    { title: 'Buddy System', desc: 'Connect with a cycle pen-pal.', link: '/buddy', icon: User, color: '#E84393' },
-    { title: 'Good Vibes', desc: 'Music, affirmations & breathwork.', link: '/vibes', icon: Music, color: '#E09F3E' }
+    { key: 'cycle', title: t('feature.cycle.title'), desc: t('feature.cycle.desc'), link: '/cycle' },
+    { key: 'mood', title: t('feature.mood.title'), desc: t('feature.mood.desc'), action: () => setIsLogOpen(true) },
+    { key: 'chat', title: t('feature.chat.title'), desc: t('feature.chat.desc'), link: '/chat' },
+    { key: 'eat', title: t('feature.eat.title'), desc: t('feature.eat.desc'), link: '/lifestyle' },
+    { key: 'move', title: t('feature.move.title'), desc: t('feature.move.desc'), link: '/lifestyle' },
+    { key: 'doctor', title: t('feature.doctor.title'), desc: t('feature.doctor.desc'), link: '/doctors' },
+    { key: 'buddy', title: t('feature.buddy.title'), desc: t('feature.buddy.desc'), link: '/buddy' },
+    { key: 'vibes', title: t('feature.vibes.title'), desc: t('feature.vibes.desc'), link: '/vibes' },
+    { key: 'water', title: t('feature.water.title'), desc: t('feature.water.desc'), link: '/lifestyle' }
   ];
 
   return (
@@ -46,7 +53,7 @@ export default function HomePage() {
           padding: 48px 56px;
           border: 1px solid rgba(250, 212, 222, 0.7);
           box-shadow: 0 20px 50px rgba(236, 115, 143, 0.12);
-          margin-bottom: 48px;
+          margin-bottom: 40px;
         }
         .cta-btn-primary {
           background-color: #EC738F !important;
@@ -61,23 +68,24 @@ export default function HomePage() {
         .cta-btn-primary:hover {
           background-color: #D95B78 !important;
           transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(236, 115, 143, 0.45) !important;
         }
-        .cta-btn-secondary {
-          background-color: #FFFFFF !important;
-          color: #38232A !important;
-          border: 1px solid rgba(250, 212, 222, 0.9) !important;
-          border-radius: var(--radius-full) !important;
-          padding: 14px 28px !important;
-          font-size: 1rem !important;
-          font-weight: 600 !important;
-          box-shadow: 0 4px 12px rgba(236, 115, 143, 0.08) !important;
-          transition: all 0.2s ease !important;
+        .visual-card-item {
+          background-color: #FFFFFF;
+          border-radius: 24px;
+          padding: 24px;
+          border: 1px solid var(--border);
+          box-shadow: var(--shadow-sm);
+          transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          text-decoration: none;
+          cursor: pointer;
         }
-        .cta-btn-secondary:hover {
-          background-color: #FFF0F3 !important;
-          border-color: #EC738F !important;
-          transform: translateY(-2px);
+        .visual-card-item:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 12px 30px rgba(236, 115, 143, 0.18);
+          border-color: #EC738F;
         }
 
         @media (max-width: 960px) {
@@ -95,14 +103,12 @@ export default function HomePage() {
       {/* MAIN HERO OUTER CONTAINER CARD */}
       <section className="hero-outer-card">
         <div className="hero-split-grid">
-          {/* LEFT SIDE: HEADLINE, BADGE, DESCRIPTIONS & CTAS */}
           <div>
-            {/* Pill Badge */}
             <div 
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '6px',
+                gap: '8px',
                 padding: '6px 14px',
                 borderRadius: 'var(--radius-full)',
                 backgroundColor: '#FFE5EC',
@@ -113,110 +119,102 @@ export default function HomePage() {
                 border: '1px solid rgba(236, 115, 143, 0.25)'
               }}
             >
-              <Sparkles size={14} color="#EC738F" />
-              <span>Hello beautiful</span>
+              <Sparkles size={15} color="#EC738F" />
+              <span>Sakhi Companion</span>
             </div>
 
-            {/* Main Headline */}
             <h1 
               style={{
                 fontFamily: 'var(--font-display)',
-                fontSize: '3.35rem',
-                lineHeight: '1.15',
+                fontSize: '3.1rem',
+                lineHeight: '1.18',
                 color: '#38232A',
-                fontWeight: '500',
-                marginBottom: '20px',
+                fontWeight: '600',
+                marginBottom: '18px',
                 letterSpacing: '-0.02em'
               }}
             >
-              Bloom in every <span style={{ color: '#EC738F', fontStyle: 'italic' }}>phase</span> of you.
+              {t('hero.title')}
             </h1>
 
-            {/* Supporting Description */}
             <p 
               style={{
                 fontFamily: 'var(--font-ui)',
                 fontSize: '1.1rem',
                 color: '#7D626C',
                 lineHeight: '1.65',
-                marginBottom: '36px',
-                maxWidth: '500px'
+                marginBottom: '32px',
+                maxWidth: '520px'
               }}
             >
-              Track your cycle, talk to <strong>Sakhi AI</strong>, find a buddy, and care for yourself with warm, science-backed guidance.
+              {t('hero.sub')}
             </p>
 
-            {/* CTAs */}
-            <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
+            <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', alignItems: 'center' }}>
               <Button 
                 variant="primary" 
                 className="cta-btn-primary"
                 onClick={() => navigate('/cycle')}
               >
-                Set up my cycle &rarr;
+                {t('hero.setup')} &rarr;
               </Button>
 
               <Button 
                 variant="outline" 
-                className="cta-btn-secondary"
                 onClick={() => navigate('/chat')}
                 icon={<MessageCircle size={18} color="#EC738F" />}
+                style={{ borderRadius: 'var(--radius-full)', padding: '14px 24px' }}
               >
-                Chat with Sakhi
+                {t('hero.chat')}
               </Button>
+
+              <button
+                type="button"
+                onClick={() => setIsOnboardingOpen(true)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--rose)',
+                  fontSize: '0.9rem',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '8px 12px'
+                }}
+              >
+                <HelpCircle size={17} />
+                <span>{t('hero.visualGuide')}</span>
+              </button>
             </div>
           </div>
 
-          {/* RIGHT SIDE: 3D ARTWORK & AFFIRMATION OVERLAY */}
           <div>
             <HeroArt3D affirmation={randomAffirmation} />
           </div>
         </div>
       </section>
 
-      {/* DYNAMIC CYCLE CONTEXT CARD */}
-      <div 
-        style={{
-          backgroundColor: '#FFFFFF',
-          borderRadius: '24px',
-          padding: '32px 40px',
-          border: '1px solid var(--border)',
-          boxShadow: 'var(--shadow-md)',
-          marginBottom: '48px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '24px'
-        }}
-      >
-        <div>
-          <span style={{ fontSize: '0.775rem', fontWeight: '700', textTransform: 'uppercase', color: '#EC738F', letterSpacing: '0.08em' }}>
-            Active Cycle Phase
-          </span>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', color: '#38232A', margin: '4px 0 8px 0' }}>
-            Day {currentCycleDay} • {currentPhase.toUpperCase()} PHASE
+      {/* DYNAMIC VISUAL CYCLE PHASE CARD */}
+      <section style={{ marginBottom: '40px' }}>
+        <CyclePhaseVisual
+          currentPhase={currentPhase}
+          currentDay={currentCycleDay}
+          onPhaseSelect={() => navigate('/cycle')}
+        />
+      </section>
+
+      {/* VISUAL-FIRST FEATURE DISCOVERY GRID */}
+      <section>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.9rem', color: '#38232A', margin: 0 }}>
+            Visual Exploration
           </h2>
-          <p style={{ color: '#7D626C', fontSize: '0.95rem', maxWidth: '540px' }}>
-            Add your last period date and average cycle length to unlock predictions, insights, and phase-aware tips.
-          </p>
+          <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+            Tap any visual to open
+          </span>
         </div>
-
-        <div style={{ display: 'flex', gap: '12px' }}>
-          <Button variant="outline" onClick={() => setIsSetupOpen(true)}>
-            Edit Setup
-          </Button>
-          <Button variant="primary" className="cta-btn-primary" onClick={() => setIsLogOpen(true)} icon={<Sparkles size={16} />}>
-            Log Today's Care
-          </Button>
-        </div>
-      </div>
-
-      {/* FEATURE DISCOVERY MODULES GRID */}
-      <div style={{ marginBottom: '40px' }}>
-        <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.85rem', color: '#38232A', marginBottom: '24px' }}>
-          Explore Sakhi Companion
-        </h3>
 
         <div 
           style={{
@@ -226,43 +224,13 @@ export default function HomePage() {
           }}
         >
           {features.map((item) => {
-            const Icon = item.icon;
-            return (
-              <Link
-                key={item.title}
-                to={item.link}
-                style={{
-                  textDecoration: 'none',
-                  backgroundColor: '#FFFFFF',
-                  borderRadius: '20px',
-                  padding: '24px',
-                  border: '1px solid var(--border)',
-                  boxShadow: 'var(--shadow-sm)',
-                  transition: 'all var(--transition-fast)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between'
-                }}
-                className="feature-card"
-              >
+            const Content = (
+              <>
                 <div>
-                  <div 
-                    style={{
-                      width: '44px',
-                      height: '44px',
-                      borderRadius: '12px',
-                      backgroundColor: 'var(--surface-soft)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      marginBottom: '16px'
-                    }}
-                  >
-                    <Icon size={22} color={item.color} />
-                  </div>
-                  <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.35rem', color: '#38232A', marginBottom: '6px' }}>
+                  <FeatureIllustration name={item.key} size={64} style={{ marginBottom: '16px' }} />
+                  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', color: '#38232A', marginTop: '16px', marginBottom: '6px' }}>
                     {item.title}
-                  </h4>
+                  </h3>
                   <p style={{ color: '#7D626C', fontSize: '0.875rem', lineHeight: '1.5' }}>
                     {item.desc}
                   </p>
@@ -272,14 +240,29 @@ export default function HomePage() {
                   <span>Open</span>
                   <ArrowRight size={14} />
                 </div>
-              </Link>
+              </>
+            );
+
+            if (item.link) {
+              return (
+                <Link key={item.key} to={item.link} className="visual-card-item" aria-label={item.title}>
+                  {Content}
+                </Link>
+              );
+            }
+
+            return (
+              <div key={item.key} onClick={item.action} className="visual-card-item" role="button" tabIndex={0} aria-label={item.title}>
+                {Content}
+              </div>
             );
           })}
         </div>
-      </div>
+      </section>
 
       <CycleSetupModal isOpen={isSetupOpen} onClose={() => setIsSetupOpen(false)} />
       <DailyLogModal isOpen={isLogOpen} onClose={() => setIsLogOpen(false)} />
+      <VisualOnboarding isOpen={isOnboardingOpen} onClose={() => setIsOnboardingOpen(false)} />
     </div>
   );
 }

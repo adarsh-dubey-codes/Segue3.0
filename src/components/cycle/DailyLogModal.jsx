@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import { useCycle } from '../../context/CycleContext';
 import Button from '../Button/Button';
-import { X, Heart, Droplets, Zap, Moon, Coffee, Sparkles, Check } from 'lucide-react';
+import VisualMoodSelector from './VisualMoodSelector';
+import VisualFlowSelector from './VisualFlowSelector';
+import VisualEnergySelector from './VisualEnergySelector';
+import { X, Check } from 'lucide-react';
 
 export default function DailyLogModal({ isOpen, onClose }) {
   const { addDailyLog } = useCycle();
 
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
-  const [mood, setMood] = useState('Calm');
-  const [energy, setEnergy] = useState(4);
-  const [flow, setFlow] = useState('Medium');
+  const [mood, setMood] = useState('happy');
+  const [energy, setEnergy] = useState('normal');
+  const [flow, setFlow] = useState('medium');
   const [selectedSymptoms, setSelectedSymptoms] = useState(['Cramps']);
   const [sleep, setSleep] = useState(8);
   const [water, setWater] = useState(6);
@@ -17,11 +20,9 @@ export default function DailyLogModal({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
-  const moodOptions = ['Happy', 'Calm', 'Sad', 'Anxious', 'Irritable', 'Energetic'];
-  const flowOptions = ['Spotting', 'Light', 'Medium', 'Heavy'];
   const symptomList = [
-    'Cramps', 'Headache', 'Bloating', 'Fatigue', 'Acne',
-    'Tender breasts', 'Back pain', 'Cravings', 'Nausea', 'Dizziness', 'Insomnia'
+    'Cramps 🩸', 'Headache 🤕', 'Bloating 🎈', 'Fatigue 😴', 'Acne ✨',
+    'Tender breasts 🌸', 'Back pain 🧘', 'Cravings 🍎', 'Nausea 🍵'
   ];
 
   const toggleSymptom = (sym) => {
@@ -66,12 +67,12 @@ export default function DailyLogModal({ isOpen, onClose }) {
       <div 
         style={{
           backgroundColor: '#FFFFFF',
-          borderRadius: 'var(--radius-lg)',
+          borderRadius: '24px',
           width: '100%',
           maxWidth: '540px',
           maxHeight: '90vh',
           overflowY: 'auto',
-          padding: '28px',
+          padding: '32px',
           boxShadow: 'var(--shadow-lg)',
           border: '1px solid var(--border)',
           position: 'relative'
@@ -88,25 +89,27 @@ export default function DailyLogModal({ isOpen, onClose }) {
             background: 'none',
             border: 'none',
             color: 'var(--text-secondary)',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            padding: '4px'
           }}
+          aria-label="Close dialog"
         >
-          <X size={20} />
+          <X size={22} />
         </button>
 
-        <div style={{ marginBottom: '20px' }}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.65rem', color: 'var(--rose-dark)' }}>
+        <div style={{ marginBottom: '24px' }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.75rem', color: 'var(--rose-dark)', marginBottom: '4px' }}>
             Log Today's Care
           </h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-            Record how your body and mind are feeling today.
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+            Tap simple faces and icons to record your day.
           </p>
         </div>
 
         <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
           {/* Date Picker */}
           <div>
-            <label style={{ fontSize: '0.825rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '6px' }}>
+            <label style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '6px' }}>
               Date
             </label>
             <input
@@ -116,7 +119,7 @@ export default function DailyLogModal({ isOpen, onClose }) {
               style={{
                 width: '100%',
                 padding: '10px 14px',
-                borderRadius: 'var(--radius-md)',
+                borderRadius: '14px',
                 border: '1px solid var(--border)',
                 fontFamily: 'var(--font-ui)',
                 fontSize: '0.9rem'
@@ -124,87 +127,21 @@ export default function DailyLogModal({ isOpen, onClose }) {
             />
           </div>
 
-          {/* Mood Selection */}
-          <div>
-            <label style={{ fontSize: '0.825rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '8px' }}>
-              Mood
-            </label>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-              {moodOptions.map((m) => (
-                <button
-                  key={m}
-                  type="button"
-                  onClick={() => setMood(m)}
-                  style={{
-                    padding: '8px 16px',
-                    borderRadius: 'var(--radius-full)',
-                    border: `1px solid ${mood === m ? 'var(--rose)' : 'var(--border)'}`,
-                    backgroundColor: mood === m ? 'var(--pink-soft)' : 'var(--surface-soft)',
-                    color: mood === m ? 'var(--rose-dark)' : 'var(--text-secondary)',
-                    fontWeight: mood === m ? '600' : '400',
-                    fontSize: '0.85rem',
-                    cursor: 'pointer'
-                  }}
-                >
-                  {m}
-                </button>
-              ))}
-            </div>
-          </div>
+          {/* Visual Mood Selector */}
+          <VisualMoodSelector value={mood} onChange={setMood} />
 
-          {/* Flow Intensity */}
-          <div>
-            <label style={{ fontSize: '0.825rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '8px' }}>
-              Period Flow
-            </label>
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-              {flowOptions.map((f) => (
-                <button
-                  key={f}
-                  type="button"
-                  onClick={() => setFlow(f)}
-                  style={{
-                    flex: 1,
-                    padding: '8px 12px',
-                    borderRadius: 'var(--radius-md)',
-                    border: `1px solid ${flow === f ? 'var(--rose)' : 'var(--border)'}`,
-                    backgroundColor: flow === f ? 'var(--pink-primary)' : '#FFFFFF',
-                    color: flow === f ? 'var(--rose-dark)' : 'var(--text-secondary)',
-                    fontWeight: flow === f ? '600' : '400',
-                    fontSize: '0.825rem',
-                    cursor: 'pointer'
-                  }}
-                >
-                  {f}
-                </button>
-              ))}
-            </div>
-          </div>
+          {/* Visual Flow Selector */}
+          <VisualFlowSelector value={flow} onChange={setFlow} />
 
-          {/* Energy Scale 1-5 */}
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
-              <label style={{ fontSize: '0.825rem', fontWeight: '600', color: 'var(--text-primary)' }}>
-                Energy Level
-              </label>
-              <span style={{ fontSize: '0.85rem', fontWeight: '700', color: 'var(--rose)' }}>{energy} / 5</span>
-            </div>
-            <input
-              type="range"
-              min="1"
-              max="5"
-              value={energy}
-              onChange={(e) => setEnergy(Number(e.target.value))}
-              style={{ width: '100%', accentColor: 'var(--rose)' }}
-            />
-          </div>
+          {/* Visual Energy Selector */}
+          <VisualEnergySelector value={energy} onChange={setEnergy} />
 
-          {/* Symptoms Checkboxes */}
+          {/* Symptoms */}
           <div>
-            <label style={{ fontSize: '0.825rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '8px' }}>
+            <label style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '8px' }}>
               Symptoms
             </label>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
               {symptomList.map((sym) => {
                 const active = selectedSymptoms.includes(sym);
                 return (
@@ -213,19 +150,20 @@ export default function DailyLogModal({ isOpen, onClose }) {
                     type="button"
                     onClick={() => toggleSymptom(sym)}
                     style={{
-                      padding: '6px 12px',
+                      padding: '8px 14px',
                       borderRadius: 'var(--radius-full)',
                       border: `1px solid ${active ? 'var(--rose)' : 'var(--border)'}`,
                       backgroundColor: active ? 'var(--pink-primary)' : 'var(--surface-soft)',
                       color: active ? 'var(--rose-dark)' : 'var(--text-secondary)',
-                      fontSize: '0.8rem',
+                      fontSize: '0.85rem',
+                      fontWeight: active ? '600' : '400',
                       cursor: 'pointer',
                       display: 'inline-flex',
                       alignItems: 'center',
-                      gap: '4px'
+                      gap: '6px'
                     }}
                   >
-                    {active && <Check size={12} />}
+                    {active && <Check size={14} />}
                     {sym}
                   </button>
                 );
@@ -236,8 +174,8 @@ export default function DailyLogModal({ isOpen, onClose }) {
           {/* Sleep & Water inputs */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
             <div>
-              <label style={{ fontSize: '0.825rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>
-                Sleep (Hours)
+              <label style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '6px' }}>
+                😴 Sleep (Hours)
               </label>
               <input
                 type="number"
@@ -247,17 +185,17 @@ export default function DailyLogModal({ isOpen, onClose }) {
                 onChange={(e) => setSleep(e.target.value)}
                 style={{
                   width: '100%',
-                  padding: '8px 12px',
-                  borderRadius: 'var(--radius-md)',
+                  padding: '10px 14px',
+                  borderRadius: '14px',
                   border: '1px solid var(--border)',
-                  fontSize: '0.9rem'
+                  fontSize: '0.95rem'
                 }}
               />
             </div>
 
             <div>
-              <label style={{ fontSize: '0.825rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>
-                Water (Cups)
+              <label style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '6px' }}>
+                💧 Water (Glasses)
               </label>
               <input
                 type="number"
@@ -267,10 +205,10 @@ export default function DailyLogModal({ isOpen, onClose }) {
                 onChange={(e) => setWater(e.target.value)}
                 style={{
                   width: '100%',
-                  padding: '8px 12px',
-                  borderRadius: 'var(--radius-md)',
+                  padding: '10px 14px',
+                  borderRadius: '14px',
                   border: '1px solid var(--border)',
-                  fontSize: '0.9rem'
+                  fontSize: '0.95rem'
                 }}
               />
             </div>
@@ -278,18 +216,18 @@ export default function DailyLogModal({ isOpen, onClose }) {
 
           {/* Notes */}
           <div>
-            <label style={{ fontSize: '0.825rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>
+            <label style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '6px' }}>
               Personal Notes
             </label>
             <textarea
               rows="3"
-              placeholder="How did you feel today? Any special thoughts..."
+              placeholder="Any special thoughts or notes..."
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               style={{
                 width: '100%',
-                padding: '10px 14px',
-                borderRadius: 'var(--radius-md)',
+                padding: '12px 14px',
+                borderRadius: '14px',
                 border: '1px solid var(--border)',
                 fontFamily: 'var(--font-ui)',
                 fontSize: '0.9rem'
@@ -303,7 +241,7 @@ export default function DailyLogModal({ isOpen, onClose }) {
               Cancel
             </Button>
             <Button variant="primary" type="submit">
-              Save Log Entry
+              Save Log
             </Button>
           </div>
         </form>
