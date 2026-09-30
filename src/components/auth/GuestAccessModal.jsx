@@ -1,10 +1,10 @@
 import React from 'react';
-import { useLanguage } from '../../context/LanguageContext';
+import { useTranslation } from 'react-i18next';
 import { ShieldCheck, Laptop, HelpCircle, X, ArrowRight } from 'lucide-react';
 import Button from '../Button/Button';
 
 export default function GuestAccessModal({ isOpen, onClose, onConfirm, isLoading }) {
-  const { t } = useLanguage();
+  const { t } = useTranslation();
   if (!isOpen) return null;
 
   return (

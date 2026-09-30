@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mic, X, Volume2, Radio, Sparkles, RefreshCw, AlertCircle, Heart } from 'lucide-react';
 import { useBoloSakhiEngine } from '../hooks/useBoloSakhiEngine';
@@ -32,6 +33,7 @@ const VOICE_CHIPS: VoicePromptChip[] = [
 ];
 
 export const BoloSakhiMicCircle: React.FC = () => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const {

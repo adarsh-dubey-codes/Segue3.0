@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useLanguage } from '../../context/LanguageContext';
+import { useTranslation } from 'react-i18next';
 import { LotusFlowerIcon } from '../illustrations/VibesIllustrations';
 import { Play, Pause, Heart } from 'lucide-react';
 
 export default function BreathingWidget() {
-  const { t } = useLanguage();
+  const { t } = useTranslation();
   const [isActive, setIsActive] = useState(false);
   const [phaseText, setPhaseText] = useState('Inhale');
 

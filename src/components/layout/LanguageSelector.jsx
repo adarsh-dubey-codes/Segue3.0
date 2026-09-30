@@ -3,7 +3,7 @@ import { useLanguage, LANGUAGES } from '../../context/LanguageContext';
 import { Globe, ChevronDown, Check } from 'lucide-react';
 
 export default function LanguageSelector() {
-  const { language, setLanguage } = useLanguage();
+  const { language, setLanguage, t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -46,7 +46,7 @@ export default function LanguageSelector() {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          background-color: rgba(255, 255, 255, 0.9);
+          background-color: rgba(255, 255, 255, 0.95);
           padding: 7px 14px;
           border-radius: var(--radius-full);
           border: 1px solid var(--border);
@@ -70,17 +70,21 @@ export default function LanguageSelector() {
           position: absolute;
           top: calc(100% + 8px);
           right: 0;
-          min-width: 170px;
+          min-width: 210px;
+          max-height: 380px;
+          overflow-y: auto;
           background-color: #FFFFFF;
-          border-radius: 16px;
-          border: 1px solid rgba(250, 212, 222, 0.8);
-          box-shadow: 0 12px 32px rgba(62, 36, 43, 0.15), 0 4px 12px rgba(236, 115, 143, 0.1);
-          padding: 6px;
+          border-radius: 18px;
+          border: 1px solid rgba(250, 212, 222, 0.9);
+          box-shadow: 0 12px 36px rgba(62, 36, 43, 0.18), 0 4px 12px rgba(236, 115, 143, 0.12);
+          padding: 8px;
           z-index: 1000;
           display: flex;
           flex-direction: column;
           gap: 3px;
           animation: dropdownSlideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          scrollbar-width: thin;
+          scrollbar-color: var(--rose-primary) transparent;
         }
 
         .lang-option-btn {
@@ -102,8 +106,8 @@ export default function LanguageSelector() {
         }
 
         .lang-option-btn:hover {
-          background-color: rgba(255, 240, 243, 0.7);
-          color: var(--rose);
+          background-color: rgba(255, 240, 243, 0.8);
+          color: var(--rose-dark);
         }
 
         .lang-option-btn.active {
@@ -119,7 +123,7 @@ export default function LanguageSelector() {
         onClick={() => setIsOpen(!isOpen)}
         className={`lang-trigger-btn ${isOpen ? 'open' : ''}`}
         aria-expanded={isOpen}
-        aria-label="Select language"
+        aria-label={t('accessibility.selectLanguage')}
       >
         <Globe size={16} color="var(--rose)" style={{ flexShrink: 0 }} />
         <span>{currentLang.native}</span>
@@ -134,11 +138,11 @@ export default function LanguageSelector() {
         />
       </button>
 
-      {/* Vertical Dropdown Menu */}
+      {/* Dropdown Menu */}
       {isOpen && (
         <div className="lang-dropdown-menu" role="menu">
-          <div style={{ padding: '6px 10px 4px 10px', fontSize: '0.725rem', fontWeight: '700', color: 'var(--text-muted)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-            Choose Language
+          <div style={{ padding: '6px 10px 6px 10px', fontSize: '0.725rem', fontWeight: '700', color: 'var(--text-muted)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+            {t('common.chooseLanguage')}
           </div>
 
           {Object.values(LANGUAGES).map((lang) => {
@@ -151,10 +155,10 @@ export default function LanguageSelector() {
                 className={`lang-option-btn ${isActive ? 'active' : ''}`}
                 role="menuitem"
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ fontSize: '1rem', lineHeight: 1 }}>{lang.flag}</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <span style={{ fontSize: '1.1rem', lineHeight: 1 }}>{lang.flag}</span>
                   <div>
-                    <span style={{ display: 'block', fontSize: '0.875rem' }}>{lang.native}</span>
+                    <span style={{ display: 'block', fontSize: '0.9rem', lineHeight: 1.2 }}>{lang.native}</span>
                     {lang.native !== lang.label && (
                       <span style={{ display: 'block', fontSize: '0.725rem', color: 'var(--text-muted)', fontWeight: '400' }}>
                         {lang.label}
@@ -163,7 +167,7 @@ export default function LanguageSelector() {
                   </div>
                 </div>
 
-                {isActive && <Check size={15} color="var(--pink-vivid)" />}
+                {isActive && <Check size={16} color="var(--pink-vivid)" />}
               </button>
             );
           })}

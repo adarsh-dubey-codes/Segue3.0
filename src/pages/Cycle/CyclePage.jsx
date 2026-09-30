@@ -9,7 +9,7 @@ import DailyLogModal from '../../components/cycle/DailyLogModal';
 import CycleSetupModal from '../../components/cycle/CycleSetupModal';
 import PhaseDetailModal from '../../components/cycle/PhaseDetailModal';
 import Button from '../../components/Button/Button';
-import { Settings, Plus, Sparkles } from 'lucide-react';
+import { Settings, Plus } from 'lucide-react';
 
 export default function CyclePage() {
   const { cycleSetup, updateCycleSetup } = useCycle();
@@ -24,16 +24,16 @@ export default function CyclePage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px', flexWrap: 'wrap', gap: '20px' }}>
         <div>
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.6rem', color: '#38232A', margin: 0, fontWeight: '600' }}>
-            Cycle Tracker & Care ✨
+            {t('cyclePage.headerTitle')}
           </h1>
           <p style={{ color: '#8E6E79', fontSize: '1.05rem', marginTop: '4px' }}>
-            Track your cycle, understand your body, and take better care of your health — all in one place ♡
+            {t('cyclePage.headerSub')}
           </p>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
           <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.95rem', color: '#EC738F', fontStyle: 'italic' }}>
-            Small steps big changes ♡
+            {t('common.smallSteps')}
           </span>
 
           <button
@@ -55,7 +55,7 @@ export default function CyclePage() {
             }}
           >
             <Settings size={16} color="#EC738F" />
-            <span>Configure Cycle</span>
+            <span>{t('cyclePage.configureCycle')}</span>
           </button>
 
           <Button 
@@ -64,7 +64,7 @@ export default function CyclePage() {
             icon={<Plus size={18} />}
             style={{ borderRadius: 'var(--radius-full)', padding: '12px 24px', fontSize: '0.9rem', backgroundColor: '#EC738F', boxShadow: '0 4px 14px rgba(236, 115, 143, 0.35)' }}
           >
-            + Log Daily Care
+            {t('cyclePage.logDailyCare')}
           </Button>
         </div>
       </div>

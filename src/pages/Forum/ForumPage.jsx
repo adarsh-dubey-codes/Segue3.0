@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { initialForumPosts } from '../../data/forumSeedData';
 import CreatePostModal from '../../components/forum/CreatePostModal';
 import { 
@@ -13,6 +14,7 @@ import {
 } from 'lucide-react';
 
 export default function ForumPage() {
+  const { t } = useTranslation();
   const [posts, setPosts] = useState(initialForumPosts);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [isCreateOpen, setIsCreateOpen] = useState(false);

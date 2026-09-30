@@ -6,8 +6,17 @@ const LanguageContext = createContext(null);
 
 export const LANGUAGES = {
   en: { code: 'en', label: 'English', native: 'English', flag: '🇬🇧' },
-  hi: { code: 'hi', label: 'Hindi', native: 'हिंदी', flag: '🇮🇳' },
-  mr: { code: 'mr', label: 'Marathi', native: 'मराठी', flag: '🇮🇳' }
+  hi: { code: 'hi', label: 'Hindi', native: 'हिन्दी', flag: '🇮🇳' },
+  bn: { code: 'bn', label: 'Bengali', native: 'বাংলা', flag: '🇮🇳' },
+  mr: { code: 'mr', label: 'Marathi', native: 'मराठी', flag: '🇮🇳' },
+  te: { code: 'te', label: 'Telugu', native: 'తెలుగు', flag: '🇮🇳' },
+  ta: { code: 'ta', label: 'Tamil', native: 'தமிழ்', flag: '🇮🇳' },
+  gu: { code: 'gu', label: 'Gujarati', native: 'ગુજરાતી', flag: '🇮🇳' },
+  kn: { code: 'kn', label: 'Kannada', native: 'ಕನ್ನಡ', flag: '🇮🇳' },
+  ml: { code: 'ml', label: 'Malayalam', native: 'മലയാളം', flag: '🇮🇳' },
+  pa: { code: 'pa', label: 'Punjabi', native: 'ਪੰਜਾਬੀ', flag: '🇮🇳' },
+  or: { code: 'or', label: 'Odia', native: 'ଓଡ଼ିଆ', flag: '🇮🇳' },
+  as: { code: 'as', label: 'Assamese', native: 'অসমীয়া', flag: '🇮🇳' }
 };
 
 export const LanguageProvider = ({ children }) => {
@@ -18,11 +27,19 @@ export const LanguageProvider = ({ children }) => {
   const setLanguage = (langCode) => {
     if (LANGUAGES[langCode]) {
       i18nInstance.changeLanguage(langCode);
+      try {
+        localStorage.setItem('sakhi-language', langCode);
+        localStorage.setItem('sakhi_cycle_lang_v1', langCode);
+      } catch (e) {
+        console.error('Error saving language:', e);
+      }
     }
   };
 
   useEffect(() => {
-    document.documentElement.lang = currentLanguage;
+    if (typeof document !== 'undefined') {
+      document.documentElement.lang = currentLanguage;
+    }
   }, [currentLanguage]);
 
   return (

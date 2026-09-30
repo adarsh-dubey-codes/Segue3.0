@@ -5,25 +5,25 @@ import LanguageSelector from './LanguageSelector';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { 
-  Heart, Activity, MessageCircle, Sparkles, Play, 
-  Stethoscope, Users, User, Music, LogOut 
+  Home, Calendar, MessageCircle, Utensils, ShoppingBag, 
+  Stethoscope, Users, User, Sun, LogOut 
 } from 'lucide-react';
 
 export default function Navbar() {
-  const { user, logout, isAuthenticated } = useAuth();
+  const { user, logout } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
 
   const navLinks = [
-    { to: '/', label: t('nav.home'), icon: Heart },
-    { to: '/cycle', label: t('nav.cycle'), icon: Activity },
+    { to: '/', label: t('nav.home'), icon: Home },
+    { to: '/cycle', label: t('nav.cycle'), icon: Calendar },
     { to: '/chat', label: t('nav.chat'), icon: MessageCircle },
-    { to: '/lifestyle', label: t('nav.lifestyle'), icon: Sparkles },
-    { to: '/products', label: t('nav.products'), icon: Play },
+    { to: '/lifestyle', label: t('nav.lifestyle'), icon: Utensils },
+    { to: '/products', label: t('nav.products'), icon: ShoppingBag },
     { to: '/doctors', label: t('nav.doctors'), icon: Stethoscope },
     { to: '/forum', label: t('nav.forum'), icon: Users },
     { to: '/buddy', label: t('nav.buddy'), icon: User },
-    { to: '/vibes', label: t('nav.vibes'), icon: Music }
+    { to: '/vibes', label: t('nav.vibes'), icon: Sun }
   ];
 
   return (
@@ -35,12 +35,12 @@ export default function Navbar() {
           position: sticky;
           top: 0;
           z-index: 100;
-          padding: 8px 0;
+          padding: 10px 0;
         }
         .navbar-container {
           max-width: 1440px;
           margin: 0 auto;
-          padding: 0 16px;
+          padding: 0 20px;
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -61,11 +61,12 @@ export default function Navbar() {
           align-items: center;
           gap: clamp(2px, 0.4vw, 6px);
           list-style: none;
-          background-color: rgba(255, 255, 255, 0.85);
+          background-color: rgba(255, 255, 255, 0.9);
           padding: 4px;
           border-radius: var(--radius-full);
-          border: 1px solid rgba(250, 212, 222, 0.6);
+          border: 1px solid rgba(250, 212, 222, 0.7);
           backdrop-filter: blur(8px);
+          box-shadow: 0 2px 12px rgba(236, 115, 143, 0.06);
           overflow-x: auto;
           scrollbar-width: none;
           max-width: 100%;
@@ -78,33 +79,33 @@ export default function Navbar() {
           color: #5C434B;
           font-size: clamp(0.725rem, 0.82vw, 0.85rem);
           font-weight: 500;
-          padding: 7px clamp(6px, 0.75vw, 12px);
+          padding: 7px clamp(8px, 0.85vw, 14px);
           border-radius: var(--radius-full);
           transition: all var(--transition-fast);
           display: flex;
           align-items: center;
-          gap: 5px;
+          gap: 6px;
           white-space: nowrap;
           flex-shrink: 0;
         }
         .nav-item-link:hover {
-          color: #E85C7D;
+          color: #C23B68;
           background-color: rgba(255, 229, 236, 0.6);
         }
         .nav-item-link.active {
           color: #FFFFFF !important;
-          background-color: #EC738F !important;
+          background-color: #B9345D !important;
           font-weight: 600;
-          box-shadow: 0 4px 14px rgba(236, 115, 143, 0.35);
+          box-shadow: 0 4px 14px rgba(185, 52, 93, 0.35);
         }
         .nav-item-link.active svg {
           stroke: #FFFFFF !important;
-          fill: rgba(255, 255, 255, 0.2);
+          fill: none !important;
         }
         .navbar-right-actions {
           display: flex;
           align-items: center;
-          gap: 8px;
+          gap: 10px;
           flex-shrink: 0;
         }
 
@@ -133,7 +134,7 @@ export default function Navbar() {
                     className={({ isActive }) => `nav-item-link ${isActive ? 'active' : ''}`}
                     end={link.to === '/'}
                   >
-                    <Icon size={15} color={link.to === '/' ? '#EC738F' : '#7D626C'} />
+                    <Icon size={15} color={link.to === '/' ? '#C23B68' : '#7D626C'} />
                     <span>{link.label}</span>
                   </NavLink>
                 </li>
@@ -152,15 +153,19 @@ export default function Navbar() {
                   style={{ 
                     fontSize: '0.75rem', 
                     fontWeight: '600', 
-                    padding: '4px 10px', 
+                    padding: '4px 12px', 
                     borderRadius: 'var(--radius-full)', 
-                    backgroundColor: 'var(--pink-primary)', 
-                    color: 'var(--pink-vivid)',
-                    border: '1px solid var(--border)',
-                    letterSpacing: '0.02em'
+                    backgroundColor: '#FFEBF0', 
+                    color: '#C23B68',
+                    border: '1px solid #FAD4DE',
+                    letterSpacing: '0.02em',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px'
                   }}
-                  title="Guest mode data is saved locally on this browser."
+                  title={t('nav.guestModeTooltip')}
                 >
+                  <User size={13} color="#C23B68" />
                   {t('nav.guestMode')}
                 </span>
               ) : (
@@ -197,7 +202,7 @@ export default function Navbar() {
               type="button"
               onClick={() => navigate('/login')}
               style={{
-                backgroundColor: '#EC738F',
+                backgroundColor: '#B9345D',
                 color: '#FFFFFF',
                 border: 'none',
                 borderRadius: 'var(--radius-full)',
@@ -205,7 +210,7 @@ export default function Navbar() {
                 fontSize: '0.875rem',
                 fontWeight: '600',
                 cursor: 'pointer',
-                boxShadow: '0 4px 12px rgba(236, 115, 143, 0.3)'
+                boxShadow: '0 4px 12px rgba(185, 52, 93, 0.3)'
               }}
             >
               {t('nav.signIn')}

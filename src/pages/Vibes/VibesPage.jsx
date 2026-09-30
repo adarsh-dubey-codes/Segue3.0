@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { playlistsData, dailyAffirmations } from '../../data/affirmationsData';
 import BreathingWidget from '../../components/vibes/BreathingWidget';
 import { GirlMindfulCareIllustration } from '../../components/illustrations/VibesIllustrations';
 import { Heart, RefreshCw, Music, ChevronRight, Sparkles } from 'lucide-react';
 
 export default function VibesPage() {
+  const { t } = useTranslation();
   const [affirmationIdx, setAffirmationIdx] = useState(0);
   const [selectedMood, setSelectedMood] = useState('Restful');
 

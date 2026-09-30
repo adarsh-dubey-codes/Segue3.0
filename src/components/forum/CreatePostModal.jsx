@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import Button from '../Button/Button';
-import { useLanguage } from '../../context/LanguageContext';
+import { useTranslation } from 'react-i18next';
 import { X, Shield, Sparkles } from 'lucide-react';
 
 export default function CreatePostModal({ isOpen, onClose, onCreatePost }) {
-  const { t } = useLanguage();
+  const { t } = useTranslation();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [category, setCategory] = useState('General');

@@ -1,8 +1,22 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useCycle } from '../../context/CycleContext';
-import { ChevronLeft, ChevronRight, Check, Sparkles, Sun } from 'lucide-react';
-import { formatDate } from '../../utils/dateFormatter';
+import { ChevronLeft, ChevronRight, Check, Sun } from 'lucide-react';
+
+const LOCALE_MAP = {
+  en: 'en-IN',
+  hi: 'hi-IN',
+  bn: 'bn-IN',
+  mr: 'mr-IN',
+  te: 'te-IN',
+  ta: 'ta-IN',
+  gu: 'gu-IN',
+  kn: 'kn-IN',
+  ml: 'ml-IN',
+  pa: 'pa-IN',
+  or: 'or-IN',
+  as: 'as-IN',
+};
 
 export default function Calendar({ selectedDate, onSelectDate, onOpenLog }) {
   const { t, language } = useLanguage();
@@ -14,20 +28,17 @@ export default function Calendar({ selectedDate, onSelectDate, onOpenLog }) {
   const year = currentViewDate.getFullYear();
   const month = currentViewDate.getMonth();
 
-  const monthNamesEn = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
-  
-  const monthNamesHi = [
-    'जनवरी', 'फरवरी', 'मार्च', 'अप्रैल', 'मई', 'जून',
-    'जुलाई', 'अगस्त', 'सितंबर', 'अक्टूबर', 'नवंबर', 'दिसंबर'
-  ];
+  const locale = LOCALE_MAP[language] || 'en-IN';
 
-  const monthNames = language === 'hi' ? monthNamesHi : monthNamesEn;
-  const daysOfWeek = language === 'hi' 
-    ? ['रवि', 'सोम', 'मंगल', 'बुध', 'गुरु', 'शुक्र', 'शनि']
-    : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  // Format month name using Intl
+  const monthName = new Intl.DateTimeFormat(locale, { month: 'long' }).format(currentViewDate);
+
+  // Build localized short weekday names (Sun-Sat)
+  const daysOfWeek = Array.from({ length: 7 }, (_, i) => {
+    // 2026-03-01 is a Sunday
+    const d = new Date(2026, 2, 1 + i);
+    return new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(d);
+  });
 
   const firstDayOfMonth = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -62,7 +73,6 @@ export default function Calendar({ selectedDate, onSelectDate, onOpenLog }) {
     );
   };
 
-  // Helper to determine day classification (logged period, predicted next period, fertile window, ovulation)
   const getDayStatus = (day) => {
     const checkDate = new Date(year, month, day);
     checkDate.setHours(0, 0, 0, 0);
@@ -72,18 +82,13 @@ export default function Calendar({ selectedDate, onSelectDate, onOpenLog }) {
 
     const diffDays = Math.round((checkDate - baseStart) / (1000 * 60 * 60 * 24));
     
-    // Position in cycle loop
     let mod = diffDays % cycleLen;
     if (mod < 0) mod += cycleLen;
 
-    // Past / Current logged flow range (0 to periodLen-1)
     const isFlow = mod < periodLen && diffDays >= 0 && diffDays < cycleLen;
-    // Predicted next period flow range
     const isPredictedNext = mod < periodLen && diffDays >= cycleLen;
-    // Ovulation day (typically day cycleLen - 14)
     const ovulationCycleDay = Math.max(1, cycleLen - 14);
     const isOvulation = mod === (ovulationCycleDay - 1);
-    // Fertile window (ovulation ± 3 days)
     const isFertile = mod >= (ovulationCycleDay - 4) && mod <= (ovulationCycleDay);
 
     return { isFlow, isPredictedNext, isOvulation, isFertile };
@@ -95,7 +100,6 @@ export default function Calendar({ selectedDate, onSelectDate, onOpenLog }) {
     if (onOpenLog) onOpenLog();
   };
 
-  // Build grid days
   const calendarCells = [];
   for (let i = 0; i < firstDayOfMonth; i++) {
     calendarCells.push(<div key={`empty-${i}`} className="calendar-cell empty" />);
@@ -134,7 +138,7 @@ export default function Calendar({ selectedDate, onSelectDate, onOpenLog }) {
         key={`day-${day}`}
         type="button"
         onClick={() => handleDayClick(day)}
-        aria-label={`${monthNames[month]} ${day}, ${year}`}
+        aria-label={`${monthName} ${day}, ${year}`}
         style={{
           aspectRatio: '1',
           border: borderStyle,
@@ -209,10 +213,11 @@ export default function Calendar({ selectedDate, onSelectDate, onOpenLog }) {
               fontSize: '1.3rem', 
               fontWeight: '600',
               color: 'var(--rose-dark)',
-              margin: 0 
+              margin: 0,
+              textTransform: 'capitalize'
             }}
           >
-            {monthNames[month]} {year}
+            {monthName} {year}
           </h3>
           <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
             {t('calendar.selectDayAction')}
@@ -268,14 +273,15 @@ export default function Calendar({ selectedDate, onSelectDate, onOpenLog }) {
           marginBottom: '10px'
         }}
       >
-        {daysOfWeek.map((day) => (
+        {daysOfWeek.map((day, idx) => (
           <div 
-            key={day} 
+            key={idx} 
             style={{ 
               fontSize: '0.775rem', 
               fontWeight: '600', 
               color: 'var(--text-secondary)',
-              padding: '4px 0' 
+              padding: '4px 0',
+              textTransform: 'capitalize'
             }}
           >
             {day}

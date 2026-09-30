@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { useLanguage } from '../../context/LanguageContext';
+import { useTranslation } from 'react-i18next';
 import { periodProductsData } from '../../data/productsData';
 import ProductModal from '../../components/products/ProductModal';
 import { Search, ArrowRight } from 'lucide-react';
 
 export default function ProductsPage() {
-  const { t } = useLanguage();
+  const { t } = useTranslation();
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -30,10 +30,10 @@ export default function ProductsPage() {
     <div style={{ maxWidth: '1240px', margin: '0 auto', padding: '40px 24px 80px 24px' }}>
       <div style={{ marginBottom: '32px' }}>
         <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.5rem', color: 'var(--rose-dark)' }}>
-          {t('productsPage.title')}
+          {t('productsPage.title', 'Period Products Guide')}
         </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '1rem' }}>
-          {t('productsPage.sub')}
+          {t('productsPage.sub', 'Learn about sanitary pads, menstrual cups, tampons, and reusable products with safety and hygiene tips.')}
         </p>
       </div>
 
@@ -67,7 +67,7 @@ export default function ProductsPage() {
                 textTransform: 'capitalize'
               }}
             >
-              {cat === 'All' ? t('common.open') : cat === 'reusable' ? t('productsPage.cups') : cat}
+              {cat === 'All' ? t('common.all', 'All') : t(`productsPage.${cat.toLowerCase()}`, cat)}
             </button>
           ))}
         </div>
@@ -77,7 +77,7 @@ export default function ProductsPage() {
           <Search size={18} color="var(--text-secondary)" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
           <input
             type="text"
-            placeholder={t('common.search')}
+            placeholder={t('common.search', 'Search...')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             style={{
@@ -113,8 +113,8 @@ export default function ProductsPage() {
               <img src={prod.image} alt={prod.name} style={{ width: '100%', height: '180px', objectFit: 'cover' }} />
               <div style={{ padding: '24px' }}>
                 <div style={{ display: 'flex', gap: '6px', marginBottom: '8px' }}>
-                  <span className="badge-tag">{prod.type}</span>
-                  <span className="badge-tag" style={{ backgroundColor: 'var(--surface-soft)' }}>{prod.category}</span>
+                  <span className="badge-tag">{t(`productsPage.${prod.type.toLowerCase()}`, prod.type)}</span>
+                  <span className="badge-tag" style={{ backgroundColor: 'var(--surface-soft)' }}>{t(`productsPage.${prod.category.toLowerCase()}`, prod.category)}</span>
                 </div>
                 <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.45rem', color: 'var(--rose-dark)', marginBottom: '6px' }}>
                   {prod.name}
@@ -123,8 +123,8 @@ export default function ProductsPage() {
                   {prod.tagline}
                 </p>
                 <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', display: 'flex', justifyContent: 'space-between', borderTop: '1px solid var(--border)', paddingTop: '12px' }}>
-                  <span>Cost: <strong>{prod.costInfo}</strong></span>
-                  <span>Eco: <strong>{prod.ecoRating}</strong></span>
+                  <span>{t('productsPage.costLabel', 'Cost')}: <strong>{prod.costInfo}</strong></span>
+                  <span>{t('productsPage.ecoLabel', 'Eco')}: <strong>{prod.ecoRating}</strong></span>
                 </div>
               </div>
             </div>
@@ -149,7 +149,7 @@ export default function ProductsPage() {
                   gap: '6px'
                 }}
               >
-                <span>{t('common.view')}</span>
+                <span>{t('common.view', 'View Details')}</span>
                 <ArrowRight size={14} />
               </button>
             </div>

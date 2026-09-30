@@ -1,7 +1,7 @@
 import React from 'react';
 import { useCycle } from '../../context/CycleContext';
 import { useLanguage } from '../../context/LanguageContext';
-import { ArrowRight, Droplet } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 export default function CyclePhaseCard({ onOpenDetails }) {
   const { currentCycleDay, currentPhase, cycleSetup } = useCycle();
@@ -9,21 +9,21 @@ export default function CyclePhaseCard({ onOpenDetails }) {
 
   const totalDays = Number(cycleSetup?.cycleLength) || 28;
   const cycleLen = Number(cycleSetup?.cycleLength) || 28;
-  const periodLen = Number(cycleSetup?.periodLength) || 5;
   const lastStart = cycleSetup?.periodStartDate ? new Date(cycleSetup.periodStartDate) : new Date();
 
   const nextPeriodStart = new Date(lastStart.getTime() + cycleLen * 24 * 60 * 60 * 1000);
   const daysUntilNext = Math.ceil((nextPeriodStart - new Date()) / (1000 * 60 * 60 * 24));
 
-  const phaseNameMap = {
-    menstrual: 'Menstrual Phase 🩸',
-    period: 'Menstrual Phase 🩸',
-    follicular: 'Follicular Phase 🌱',
-    ovulation: 'Ovulation Phase ☀️',
-    luteal: 'Luteal Phase 🌙'
+  const phaseKeyMap = {
+    menstrual: 'phase.period',
+    period: 'phase.period',
+    follicular: 'phase.follicular',
+    ovulation: 'phase.ovulation',
+    luteal: 'phase.luteal'
   };
 
-  const displayName = phaseNameMap[currentPhase?.toLowerCase()] || 'Menstrual Phase 🩸';
+  const phaseKey = phaseKeyMap[currentPhase?.toLowerCase()] || 'phase.period';
+  const displayName = t(phaseKey);
 
   return (
     <div
@@ -53,7 +53,7 @@ export default function CyclePhaseCard({ onOpenDetails }) {
 
       <div style={{ position: 'relative', zIndex: 1, flex: 1, paddingRight: '16px' }}>
         <span style={{ fontSize: '0.85rem', color: '#8E6E79', fontWeight: '500', display: 'block', marginBottom: '2px' }}>
-          You're in your
+          {t('cyclePage.youAreInYour')}
         </span>
         <h2 
           style={{ 
@@ -70,7 +70,7 @@ export default function CyclePhaseCard({ onOpenDetails }) {
         {/* Cycle Day Counter */}
         <div style={{ marginBottom: '16px' }}>
           <span style={{ fontSize: '0.8rem', color: '#8E6E79', display: 'block', marginBottom: '2px' }}>
-            Cycle Day
+            {t('cyclePage.cycleDay')}
           </span>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
             <span style={{ fontFamily: 'var(--font-display)', fontSize: '3.2rem', fontWeight: '700', color: '#EC738F', lineHeight: 1 }}>
@@ -98,7 +98,7 @@ export default function CyclePhaseCard({ onOpenDetails }) {
             border: '1px solid rgba(236, 115, 143, 0.25)'
           }}
         >
-          <span>Next period in {Math.max(0, daysUntilNext)} days</span>
+          <span>{t('cyclePage.nextPeriodInDays', { days: Math.max(0, daysUntilNext) })}</span>
         </div>
 
         <div>
@@ -121,7 +121,7 @@ export default function CyclePhaseCard({ onOpenDetails }) {
               transition: 'all 0.2s ease'
             }}
           >
-            <span>View Details</span>
+            <span>{t('common.viewDetails')}</span>
             <ArrowRight size={15} />
           </button>
         </div>

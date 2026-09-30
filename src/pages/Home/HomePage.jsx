@@ -10,7 +10,7 @@ import PhaseDetailModal from '../../components/cycle/PhaseDetailModal';
 import VisualOnboarding from '../../components/home/VisualOnboarding';
 import { 
   Sparkles, MessageCircle, PlayCircle, Home, Palette, Image as ImageIcon, 
-  Target, Compass, Calendar, Smile, Utensils, Droplet, ArrowRight, Heart
+  Target, Compass, Calendar, Smile, Utensils, Droplet, Heart
 } from 'lucide-react';
 
 export default function HomePage() {
@@ -22,9 +22,6 @@ export default function HomePage() {
   const [isLogOpen, setIsLogOpen] = useState(false);
   const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-
-  // Today's affirmation
-  const randomAffirmation = dailyAffirmations[new Date().getDate() % dailyAffirmations.length];
 
   return (
     <div className="home-wrapper" style={{ maxWidth: '1360px', margin: '0 auto', padding: '24px 20px 80px 20px' }}>
@@ -513,29 +510,29 @@ export default function HomePage() {
         {/* LEFT SIDEBAR FEATURE CARD */}
         <aside className="left-sidebar-card">
           <div>
-            <span className="option-pill-badge">Option 1</span>
-            <h2 className="sidebar-title">Calm & Minimal</h2>
+            <span className="option-pill-badge">{t('hero.option1')}</span>
+            <h2 className="sidebar-title">{t('hero.calmMinimal')}</h2>
 
             <ul className="sidebar-feature-list">
               <li className="sidebar-feature-item">
                 <Home size={18} className="sidebar-feature-icon" />
-                <span>Clean and airy layout</span>
+                <span>{t('hero.cleanLayout')}</span>
               </li>
               <li className="sidebar-feature-item">
                 <Palette size={18} className="sidebar-feature-icon" />
-                <span>Soft pastel gradients</span>
+                <span>{t('hero.softPastels')}</span>
               </li>
               <li className="sidebar-feature-item">
                 <ImageIcon size={18} className="sidebar-feature-icon" />
-                <span>Simple illustrations</span>
+                <span>{t('hero.simpleIllus')}</span>
               </li>
               <li className="sidebar-feature-item">
                 <Target size={18} className="sidebar-feature-icon" />
-                <span>Focus on clarity</span>
+                <span>{t('hero.focusClarity')}</span>
               </li>
               <li className="sidebar-feature-item">
                 <Compass size={18} className="sidebar-feature-icon" />
-                <span>Easy to navigate</span>
+                <span>{t('hero.easyNav')}</span>
               </li>
             </ul>
           </div>
@@ -562,15 +559,15 @@ export default function HomePage() {
             <div>
               <div className="sakhi-companion-pill">
                 <Sparkles size={14} color="#EC738F" />
-                <span>Sakhi Companion</span>
+                <span>{t('home.companionTag')}</span>
               </div>
 
               <h1 className="hero-main-title">
-                Your cycle. Your body. Your Sakhi. ✨
+                {t('hero.title')}
               </h1>
 
               <p className="hero-sub-text">
-                Track your period, understand your feelings, and care for yourself in your language.
+                {t('hero.sub')}
               </p>
 
               <div className="hero-buttons-group">
@@ -579,7 +576,7 @@ export default function HomePage() {
                   className="btn-setup-cycle"
                   onClick={() => setIsSetupOpen(true)}
                 >
-                  Set Up My Cycle &rarr;
+                  {t('hero.setup')}
                 </Button>
 
                 <Button 
@@ -588,7 +585,7 @@ export default function HomePage() {
                   onClick={() => navigate('/chat')}
                   icon={<MessageCircle size={16} color="#EC738F" />}
                 >
-                  Talk to Sakhi
+                  {t('hero.chat')}
                 </Button>
 
                 <button
@@ -597,7 +594,7 @@ export default function HomePage() {
                   onClick={() => setIsOnboardingOpen(true)}
                 >
                   <PlayCircle size={17} />
-                  <span>Visual Guide</span>
+                  <span>{t('hero.visualGuide')}</span>
                 </button>
               </div>
             </div>
@@ -611,9 +608,9 @@ export default function HomePage() {
             </div>
 
             <div className="hero-affirmation-card">
-              <span className="affirmation-tag">Today's Affirmation</span>
+              <span className="affirmation-tag">{t('home.affirmationTag')}</span>
               <p className="affirmation-quote-text">
-                “You are strong, kind and enough.”
+                {t('home.affirmationText')}
               </p>
               <div style={{ position: 'absolute', bottom: '12px', right: '14px', opacity: 0.35 }}>
                 <Heart size={20} fill="#EC738F" color="#EC738F" />
@@ -629,10 +626,10 @@ export default function HomePage() {
               <div>
                 <div className="phase-badge-pill">
                   <span style={{ fontSize: '0.85rem' }}>🩸</span>
-                  <span>DAY {currentCycleDay} OF {cycleLength}</span>
+                  <span>{t('home.dayOfTotal', { day: currentCycleDay, total: cycleLength })}</span>
                 </div>
 
-                <h2 className="phase-heading-title">{currentPhase} Phase</h2>
+                <h2 className="phase-heading-title">{t('home.phaseTitle', { phase: currentPhase })}</h2>
 
                 <div className="phase-progress-track">
                   <div 
@@ -642,7 +639,7 @@ export default function HomePage() {
                 </div>
 
                 <p className="next-period-subtext">
-                  Next period in {Math.max(1, cycleLength - currentCycleDay)} days
+                  {t('home.nextPeriodCountdown', { days: Math.max(1, cycleLength - currentCycleDay) })}
                 </p>
 
                 <Button 
@@ -650,7 +647,7 @@ export default function HomePage() {
                   className="btn-view-details"
                   onClick={() => setIsDetailModalOpen(true)}
                 >
-                  View Details &rarr;
+                  {t('common.viewDetails')} &rarr;
                 </Button>
               </div>
 
@@ -667,8 +664,8 @@ export default function HomePage() {
 
             {/* RIGHT CARD: MOTIVATIONAL QUOTE */}
             <div className="motivational-quote-card">
-              <p className="cursive-quote-large">You're doing great ♡</p>
-              <p className="cursive-quote-small">Small steps make big changes ♡</p>
+              <p className="cursive-quote-large">{t('home.quoteLarge')}</p>
+              <p className="cursive-quote-small">{t('home.quoteSmall')}</p>
               
               <div style={{ position: 'absolute', bottom: '12px', right: '16px', opacity: 0.8 }}>
                 <svg width="50" height="60" viewBox="0 0 50 60" fill="none">
@@ -683,8 +680,8 @@ export default function HomePage() {
 
           {/* 3. QUICK ACTIONS SECTION */}
           <section className="quick-actions-container">
-            <h2 className="quick-actions-header-title">Quick Actions ✨</h2>
-            <p className="quick-actions-header-sub">Everything you need, right here.</p>
+            <h2 className="quick-actions-header-title">{t('home.quickActionsTitle')}</h2>
+            <p className="quick-actions-header-sub">{t('home.quickActionsSub')}</p>
 
             <div className="quick-actions-cards-grid">
               
@@ -694,10 +691,10 @@ export default function HomePage() {
                   <Calendar size={20} />
                 </div>
                 <div>
-                  <h3 className="action-card-title">My Cycle</h3>
-                  <p className="action-card-desc">Track period, dates & phases</p>
+                  <h3 className="action-card-title">{t('home.myCycleTitle')}</h3>
+                  <p className="action-card-desc">{t('home.myCycleDesc')}</p>
                 </div>
-                <span className="action-card-link">Open &rarr;</span>
+                <span className="action-card-link">{t('home.openBtn')}</span>
               </Link>
 
               {/* 2. HOW I FEEL */}
@@ -706,10 +703,10 @@ export default function HomePage() {
                   <Smile size={20} />
                 </div>
                 <div>
-                  <h3 className="action-card-title">How I Feel</h3>
-                  <p className="action-card-desc">Log mood, cramps & feelings</p>
+                  <h3 className="action-card-title">{t('home.howIFeelTitle')}</h3>
+                  <p className="action-card-desc">{t('home.howIFeelDesc')}</p>
                 </div>
-                <span className="action-card-link">Open &rarr;</span>
+                <span className="action-card-link">{t('home.openBtn')}</span>
               </div>
 
               {/* 3. TALK TO SAKHI */}
@@ -718,10 +715,10 @@ export default function HomePage() {
                   <MessageCircle size={20} />
                 </div>
                 <div>
-                  <h3 className="action-card-title">Talk to Sakhi</h3>
-                  <p className="action-card-desc">Ask anything about your body</p>
+                  <h3 className="action-card-title">{t('home.talkToSakhiTitle')}</h3>
+                  <p className="action-card-desc">{t('home.talkToSakhiDesc')}</p>
                 </div>
-                <span className="action-card-link">Open &rarr;</span>
+                <span className="action-card-link">{t('home.openBtn')}</span>
               </Link>
 
               {/* 4. EAT WELL */}
@@ -730,10 +727,10 @@ export default function HomePage() {
                   <Utensils size={20} />
                 </div>
                 <div>
-                  <h3 className="action-card-title">Eat Well</h3>
-                  <p className="action-card-desc">Healthy food for your phase</p>
+                  <h3 className="action-card-title">{t('home.eatWellTitle')}</h3>
+                  <p className="action-card-desc">{t('home.eatWellDesc')}</p>
                 </div>
-                <span className="action-card-link">Open &rarr;</span>
+                <span className="action-card-link">{t('home.openBtn')}</span>
               </Link>
 
               {/* 5. DRINK WATER */}
@@ -742,10 +739,10 @@ export default function HomePage() {
                   <Droplet size={20} />
                 </div>
                 <div>
-                  <h3 className="action-card-title">Drink Water</h3>
-                  <p className="action-card-desc">Stay hydrated daily</p>
+                  <h3 className="action-card-title">{t('home.drinkWaterTitle')}</h3>
+                  <p className="action-card-desc">{t('home.drinkWaterDesc')}</p>
                 </div>
-                <span className="action-card-link">Open &rarr;</span>
+                <span className="action-card-link">{t('home.openBtn')}</span>
               </Link>
 
             </div>
@@ -762,4 +759,3 @@ export default function HomePage() {
     </div>
   );
 }
-

@@ -1,8 +1,10 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import Button from '../Button/Button';
 import { X, ExternalLink, Check, AlertCircle, PlayCircle, ShieldCheck } from 'lucide-react';
 
 export default function ProductModal({ product, onClose }) {
+  const { t } = useTranslation();
   if (!product) return null;
 
   return (
@@ -40,6 +42,7 @@ export default function ProductModal({ product, onClose }) {
           type="button"
           onClick={onClose}
           style={{ position: 'absolute', top: '20px', right: '20px', background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer' }}
+          aria-label={t('common.close', 'Close')}
         >
           <X size={20} />
         </button>
@@ -53,8 +56,8 @@ export default function ProductModal({ product, onClose }) {
           />
           <div>
             <div style={{ display: 'flex', gap: '6px', marginBottom: '4px' }}>
-              <span className="badge-tag">{product.type}</span>
-              <span className="badge-tag" style={{ backgroundColor: 'var(--surface-soft)' }}>{product.category}</span>
+              <span className="badge-tag">{t(`productsPage.${product.type.toLowerCase()}`, product.type)}</span>
+              <span className="badge-tag" style={{ backgroundColor: 'var(--surface-soft)' }}>{t(`productsPage.${product.category.toLowerCase()}`, product.category)}</span>
             </div>
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.85rem', color: 'var(--rose-dark)' }}>
               {product.name}
@@ -68,15 +71,15 @@ export default function ProductModal({ product, onClose }) {
         {/* Info Pill Badges */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '24px', textAlign: 'center' }}>
           <div style={{ padding: '10px', backgroundColor: 'var(--surface-soft)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
-            <span style={{ display: 'block', fontSize: '0.725rem', color: 'var(--text-secondary)' }}>Cost Range</span>
+            <span style={{ display: 'block', fontSize: '0.725rem', color: 'var(--text-secondary)' }}>{t('productsPage.costRange', 'Cost Range')}</span>
             <strong style={{ fontSize: '0.85rem', color: 'var(--rose-dark)' }}>{product.costInfo}</strong>
           </div>
           <div style={{ padding: '10px', backgroundColor: 'var(--surface-soft)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
-            <span style={{ display: 'block', fontSize: '0.725rem', color: 'var(--text-secondary)' }}>Beginner Friendly</span>
+            <span style={{ display: 'block', fontSize: '0.725rem', color: 'var(--text-secondary)' }}>{t('productsPage.beginnerFriendly', 'Beginner Friendly')}</span>
             <strong style={{ fontSize: '0.85rem', color: 'var(--rose-dark)' }}>{product.beginnerFriendly}</strong>
           </div>
           <div style={{ padding: '10px', backgroundColor: 'var(--surface-soft)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
-            <span style={{ display: 'block', fontSize: '0.725rem', color: 'var(--text-secondary)' }}>Eco Impact</span>
+            <span style={{ display: 'block', fontSize: '0.725rem', color: 'var(--text-secondary)' }}>{t('productsPage.ecoImpact', 'Eco Impact')}</span>
             <strong style={{ fontSize: '0.85rem', color: 'var(--rose-dark)' }}>{product.ecoRating}</strong>
           </div>
         </div>
@@ -89,7 +92,7 @@ export default function ProductModal({ product, onClose }) {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '24px' }}>
           <div>
             <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', color: 'var(--rose-dark)', marginBottom: '10px' }}>
-              Key Benefits
+              {t('productsPage.keyBenefits', 'Key Benefits')}
             </h4>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.875rem' }}>
               {product.benefits.map((b, i) => (
@@ -103,13 +106,13 @@ export default function ProductModal({ product, onClose }) {
 
           <div>
             <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', color: 'var(--rose-dark)', marginBottom: '10px' }}>
-              Things to Know
+              {t('productsPage.thingsToKnow', 'Things to Know')}
             </h4>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.875rem' }}>
-              {product.thingsToKnow.map((t, i) => (
+              {product.thingsToKnow.map((item, i) => (
                 <li key={i} style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
                   <AlertCircle size={16} color="var(--warning)" style={{ marginTop: '2px', flexShrink: 0 }} />
-                  <span>{t}</span>
+                  <span>{item}</span>
                 </li>
               ))}
             </ul>
@@ -119,7 +122,7 @@ export default function ProductModal({ product, onClose }) {
         {/* How to Use Step-by-Step */}
         <div style={{ marginBottom: '24px', backgroundColor: 'var(--surface-soft)', padding: '20px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
           <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', color: 'var(--rose-dark)', marginBottom: '12px' }}>
-            How to Use
+            {t('productsPage.howToUse', 'How to Use')}
           </h4>
           <ol style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.9rem', color: 'var(--text-primary)' }}>
             {product.howToUse.map((step, idx) => (
@@ -131,7 +134,7 @@ export default function ProductModal({ product, onClose }) {
         {/* Tutorials */}
         <div>
           <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', color: 'var(--rose-dark)', marginBottom: '12px' }}>
-            Video Tutorials & Guides
+            {t('productsPage.tutorialsHeader', 'Video Tutorials & Guides')}
           </h4>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {product.tutorials.map((tut, idx) => (

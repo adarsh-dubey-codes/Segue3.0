@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { 
   GirlBuddyHeaderIllustration, 
   NightSkyBannerIllustration, 
@@ -10,6 +11,7 @@ import {
 } from 'lucide-react';
 
 export default function BuddyPage() {
+  const { t } = useTranslation();
   const [buddyInfo] = useState({
     name: 'Gentle Moon',
     cycleDay: 'Day 12 (Follicular)',

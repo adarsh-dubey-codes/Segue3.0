@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useLanguage } from '../../context/LanguageContext';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { Mail, CheckCircle2, X } from 'lucide-react';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 
 export default function ForgotPasswordModal({ isOpen, onClose, initialEmail = '' }) {
-  const { t } = useLanguage();
+  const { t } = useTranslation();
   const { resetPassword } = useAuth();
   const [email, setEmail] = useState(initialEmail);
   const [submitted, setSubmitted] = useState(false);

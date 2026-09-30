@@ -1,8 +1,11 @@
 import React from 'react';
 import SakhiLogo from '../Brand/SakhiLogo';
+import { useLanguage } from '../../context/LanguageContext';
 import { ShieldCheck, Heart } from 'lucide-react';
 
 export default function Footer() {
+  const { t } = useLanguage();
+
   return (
     <footer 
       style={{
@@ -33,32 +36,32 @@ export default function Footer() {
           <div style={{ maxWidth: '360px' }}>
             <SakhiLogo size="large" />
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.925rem', marginTop: '12px', lineHeight: '1.6' }}>
-              A gentle, privacy-first menstrual-health companion to help you understand your cycle, care for yourself, and feel supported in every phase.
+              {t('footer.aboutText')}
             </p>
           </div>
 
           <div style={{ display: 'flex', gap: '48px', flexWrap: 'wrap' }}>
             <div>
               <h4 style={{ fontSize: '0.875rem', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--rose-dark)', marginBottom: '14px' }}>
-                Modules
+                {t('footer.modulesTitle')}
               </h4>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.875rem' }}>
-                <li><a href="/cycle" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>Cycle Tracker</a></li>
-                <li><a href="/chat" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>Sakhi AI</a></li>
-                <li><a href="/lifestyle" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>Lifestyle & Diet</a></li>
-                <li><a href="/products" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>Period Products</a></li>
+                <li><a href="/cycle" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>{t('nav.cycle')}</a></li>
+                <li><a href="/chat" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>{t('nav.chat')}</a></li>
+                <li><a href="/lifestyle" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>{t('nav.lifestyle')}</a></li>
+                <li><a href="/products" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>{t('nav.products')}</a></li>
               </ul>
             </div>
 
             <div>
               <h4 style={{ fontSize: '0.875rem', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--rose-dark)', marginBottom: '14px' }}>
-                Community & Care
+                {t('footer.communityTitle')}
               </h4>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.875rem' }}>
-                <li><a href="/doctors" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>Find Doctors</a></li>
-                <li><a href="/forum" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>Anonymous Forum</a></li>
-                <li><a href="/buddy" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>Cycle Buddy</a></li>
-                <li><a href="/vibes" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>Good Vibes</a></li>
+                <li><a href="/doctors" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>{t('nav.doctors')}</a></li>
+                <li><a href="/forum" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>{t('nav.forum')}</a></li>
+                <li><a href="/buddy" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>{t('nav.buddy')}</a></li>
+                <li><a href="/vibes" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>{t('nav.vibes')}</a></li>
               </ul>
             </div>
           </div>
@@ -80,7 +83,7 @@ export default function Footer() {
         >
           <ShieldCheck size={20} color="var(--rose)" style={{ flexShrink: 0 }} />
           <span>
-            <strong>Privacy & Health Disclaimer:</strong> Sakhi Cycle stores your data locally on your device. Sakhi AI and application guidance are provided for educational and wellness purposes only and do not replace professional medical evaluation or diagnosis.
+            <strong>{t('footer.disclaimerTitle')}</strong> {t('footer.disclaimerText')}
           </span>
         </div>
 
@@ -97,9 +100,9 @@ export default function Footer() {
             gap: '12px'
           }}
         >
-          <span>© {new Date().getFullYear()} Sakhi Cycle — Privacy First</span>
+          <span>© {new Date().getFullYear()} {t('footer.copyright')}</span>
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-            Bloom in every phase of you <Heart size={14} fill="var(--rose)" color="var(--rose)" />
+            {t('footer.tagline')} <Heart size={14} fill="var(--rose)" color="var(--rose)" />
           </span>
         </div>
       </div>

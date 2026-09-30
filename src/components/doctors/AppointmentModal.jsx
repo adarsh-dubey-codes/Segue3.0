@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import Button from '../Button/Button';
-import { useLanguage } from '../../context/LanguageContext';
+import { useTranslation } from 'react-i18next';
 import { X, Calendar, Clock, CheckCircle2, User, Phone } from 'lucide-react';
 
 export default function AppointmentModal({ doctor, onClose }) {
-  const { t } = useLanguage();
+  const { t } = useTranslation();
   const [step, setStep] = useState(1); // 1: Date & Time, 2: Patient Info, 3: Confirmation
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [selectedTime, setSelectedTime] = useState('11:00 AM');

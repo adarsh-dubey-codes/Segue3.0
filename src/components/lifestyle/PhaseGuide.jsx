@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useCycle } from '../../context/CycleContext';
 import { 
   GirlStretchingIllustration, 
@@ -14,6 +15,7 @@ import {
 } from 'lucide-react';
 
 export default function PhaseGuide() {
+  const { t } = useTranslation();
   const { currentPhase } = useCycle();
   // Default to ovulation phase or user current phase
   const [activePhase, setActivePhase] = useState(currentPhase || 'ovulation');
@@ -257,7 +259,7 @@ export default function PhaseGuide() {
                     zIndex: 2
                   }}
                 >
-                  Active Phase
+                  {t("lifestylePage.activePhaseLabel", "Active Phase")}
                 </span>
               )}
             </div>
@@ -363,7 +365,7 @@ export default function PhaseGuide() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: current.activeColor }}>
             <Sparkles size={16} />
             <h4 style={{ fontSize: '0.95rem', fontWeight: '700', margin: 0, color: '#38232A' }}>
-              Quick Tips
+              {t("lifestylePage.quickTips", "Quick Tips")}
             </h4>
           </div>
 
@@ -399,7 +401,7 @@ export default function PhaseGuide() {
               transform: 'rotate(-6deg)'
             }}
           >
-            Feel your best ! ♡
+            {t("lifestylePage.feelYourBest", "Feel your best ! ♡")}
           </span>
         </div>
       </div>
@@ -457,7 +459,7 @@ export default function PhaseGuide() {
                 <Utensils size={18} color="#EC738F" />
               </div>
               <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: '700', color: '#3E242B', margin: 0 }}>
-                Nourish & Hydrate
+                {t("lifestylePage.nourishTitle", "Nourish & Hydrate")}
               </h3>
             </div>
 
@@ -507,7 +509,7 @@ export default function PhaseGuide() {
                 <Ban size={18} color="#A855F7" />
               </div>
               <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: '700', color: '#3E242B', margin: 0 }}>
-                Minimize or Avoid
+                {t("lifestylePage.avoidTitle", "Minimize or Avoid")}
               </h3>
             </div>
 
@@ -557,7 +559,7 @@ export default function PhaseGuide() {
                 <Activity size={18} color="#D97706" />
               </div>
               <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: '700', color: '#3E242B', margin: 0 }}>
-                Movement & Fitness
+                {t("lifestylePage.moveTitle", "Movement & Fitness")}
               </h3>
             </div>
 
@@ -607,7 +609,7 @@ export default function PhaseGuide() {
                 <Moon size={18} color="#0EA5E9" />
               </div>
               <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: '700', color: '#3E242B', margin: 0 }}>
-                Rest & Self-Care
+                {t("lifestylePage.restTitle", "Rest & Self-Care")}
               </h3>
             </div>
 
@@ -645,7 +647,7 @@ export default function PhaseGuide() {
         }}
       >
         <Sparkles size={16} color="#C23B68" />
-        <span>Remember: Every phase is powerful. You just need the right support ♡</span>
+        <span>{t("lifestylePage.rememberNote", "Remember: Every phase is powerful. You just need the right support ♡")}</span>
       </div>
     </div>
   );

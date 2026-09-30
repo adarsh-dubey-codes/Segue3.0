@@ -2,28 +2,30 @@ import React, { useState } from 'react';
 import SakhiChat from '../../components/ai/SakhiChat';
 import SakhiCompanionIllustration from '../../components/illustrations/SakhiCompanionIllustration';
 import { HealthierYouBanner } from '../../components/illustrations/FloralBannerDecorations';
+import { useLanguage } from '../../context/LanguageContext';
 import { 
   MessageCircle, Heart, Smile, BarChart2, Sparkles, 
   Leaf, Shield, ChevronRight, Droplet, Utensils, Calendar, Flower2 
 } from 'lucide-react';
 
 export default function AIPage() {
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState('chat');
   const [activePrompt, setActivePrompt] = useState(null);
 
   const companionNavItems = [
-    { id: 'chat', label: 'Chat with Sakhi', icon: MessageCircle, prompt: null },
-    { id: 'health', label: 'Health Guidance', icon: Heart, prompt: 'Give me personal health guidance for my current period phase.' },
-    { id: 'mood', label: 'Mood Support', icon: Smile, prompt: 'How can I manage mood swings and emotional shifts during my cycle?' },
-    { id: 'insights', label: 'Cycle Insights', icon: BarChart2, prompt: 'What are key insights I should track during my cycle?' },
-    { id: 'ask', label: 'Ask Anything', icon: Sparkles, prompt: 'What are common symptoms women experience during ovulation?' }
+    { id: 'chat', label: t('aiPage.chatNav'), icon: MessageCircle, prompt: null },
+    { id: 'health', label: t('aiPage.healthNav'), icon: Heart, prompt: t('aiPage.healthGuidancePrompt', { defaultValue: 'Give me personal health guidance for my current period phase.' }) },
+    { id: 'mood', label: t('aiPage.moodNav'), icon: Smile, prompt: t('aiPage.moodSupportPrompt', { defaultValue: 'How can I manage mood swings and emotional shifts during my cycle?' }) },
+    { id: 'insights', label: t('aiPage.insightsNav'), icon: BarChart2, prompt: t('aiPage.cycleInsightsPrompt', { defaultValue: 'What are key insights I should track during my cycle?' }) },
+    { id: 'ask', label: t('aiPage.askNav'), icon: Sparkles, prompt: t('aiPage.askAnythingPrompt', { defaultValue: 'What are common symptoms women experience during ovulation?' }) }
   ];
 
   const supportCards = [
     {
       id: 'personalized',
-      title: 'Personalized Guidance',
-      sub: 'Based on your cycle & health',
+      title: t('aiPage.personalizedTitle'),
+      sub: t('aiPage.personalizedSub'),
       icon: Heart,
       iconBg: '#FFE5EC',
       iconColor: '#EC738F',
@@ -31,8 +33,8 @@ export default function AIPage() {
     },
     {
       id: 'lifestyle',
-      title: 'Healthy Lifestyle',
-      sub: 'Food, fitness & self care',
+      title: t('aiPage.lifestyleTitle'),
+      sub: t('aiPage.lifestyleSub'),
       icon: Leaf,
       iconBg: '#E6F4EA',
       iconColor: '#34A853',
@@ -40,8 +42,8 @@ export default function AIPage() {
     },
     {
       id: 'emotional',
-      title: 'Emotional Support',
-      sub: 'For every mood & phase',
+      title: t('aiPage.emotionalTitle'),
+      sub: t('aiPage.emotionalSub'),
       icon: Smile,
       iconBg: '#FEF7E0',
       iconColor: '#FB8C00',
@@ -49,8 +51,8 @@ export default function AIPage() {
     },
     {
       id: 'privacy',
-      title: 'Privacy First',
-      sub: 'Your data is always safe',
+      title: t('aiPage.privacyTitle'),
+      sub: t('aiPage.privacySub'),
       icon: Shield,
       iconBg: '#EEF2FF',
       iconColor: '#6366F1',
@@ -61,8 +63,8 @@ export default function AIPage() {
   const popularTopics = [
     {
       id: 'pain',
-      title: 'Period Pain',
-      sub: 'Relief & care tips',
+      title: t('aiPage.painTopic'),
+      sub: t('aiPage.painTopicSub'),
       icon: Droplet,
       bgColor: '#FFF0F4',
       borderColor: '#FAD4DE',
@@ -72,8 +74,8 @@ export default function AIPage() {
     },
     {
       id: 'food',
-      title: 'Food & Nutrition',
-      sub: 'Better food choices',
+      title: t('aiPage.foodTopic'),
+      sub: t('aiPage.foodTopicSub'),
       icon: Utensils,
       bgColor: '#FFF8F0',
       borderColor: '#FFE4C4',
@@ -83,8 +85,8 @@ export default function AIPage() {
     },
     {
       id: 'mood_topic',
-      title: 'Mood & Energy',
-      sub: 'Feel your best',
+      title: t('aiPage.moodTopic'),
+      sub: t('aiPage.moodTopicSub'),
       icon: Smile,
       bgColor: '#FAF5FF',
       borderColor: '#E9D5FF',
@@ -94,8 +96,8 @@ export default function AIPage() {
     },
     {
       id: 'cycle_q',
-      title: 'Cycle Questions',
-      sub: 'Common doubts',
+      title: t('aiPage.cycleTopic'),
+      sub: t('aiPage.cycleTopicSub'),
       icon: Calendar,
       bgColor: '#F0FDF4',
       borderColor: '#BBF7D0',
@@ -105,8 +107,8 @@ export default function AIPage() {
     },
     {
       id: 'mental',
-      title: 'Mental Wellness',
-      sub: 'Stay balanced',
+      title: t('aiPage.mentalTopic'),
+      sub: t('aiPage.mentalTopicSub'),
       icon: Flower2,
       bgColor: '#F0F9FF',
       borderColor: '#BAE6FD',
@@ -142,7 +144,7 @@ export default function AIPage() {
     >
       <div style={{ maxWidth: '1360px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '28px' }}>
         
-        {/* Main 3-Column Grid Layout matching user design screenshot */}
+        {/* Main 3-Column Grid Layout */}
         <div
           style={{
             display: 'grid',
@@ -198,7 +200,7 @@ export default function AIPage() {
                     margin: 0
                   }}
                 >
-                  Sakhi Companion
+                  {t('aiPage.companionTitle')}
                 </h3>
               </div>
 
@@ -256,7 +258,7 @@ export default function AIPage() {
                   lineHeight: 1.2
                 }}
               >
-                You're not alone in this journey ♡
+                {t('aiPage.notAloneText')}
               </p>
 
               {/* Girl holding heart illustration */}
@@ -305,7 +307,7 @@ export default function AIPage() {
                     margin: 0
                   }}
                 >
-                  Sakhi's Support
+                  {t('aiPage.supportTitle')}
                 </h3>
               </div>
 
@@ -388,7 +390,7 @@ export default function AIPage() {
               </div>
             </div>
 
-            {/* Bottom Promo Banner Card: "A healthier you is a happier you ♡" */}
+            {/* Bottom Promo Banner Card */}
             <HealthierYouBanner />
           </aside>
         </div>
@@ -416,11 +418,11 @@ export default function AIPage() {
                   margin: 0
                 }}
               >
-                Popular Topics <span style={{ color: '#EC738F' }}>✦</span>
+                {t('aiPage.popularTopicsTitle')} <span style={{ color: '#EC738F' }}>✦</span>
               </h3>
             </div>
             <p style={{ fontSize: '0.85rem', color: '#7D626C', margin: '4px 0 0 0' }}>
-              Explore topics people ask about most.
+              {t('aiPage.popularTopicsSub')}
             </p>
           </div>
 

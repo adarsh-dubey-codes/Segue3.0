@@ -12,7 +12,7 @@ export default function SakhiChat({ activePrompt, onSelectPrompt }) {
     {
       id: 'welcome',
       sender: 'sakhi',
-      text: 'Ask me anything about your menstrual health, cramps, nutrition, or body in simple Hindi, Marathi, or English. 💕',
+      text: t('aiPage.sub'),
       timestamp: '07:40 pm'
     }
   ]);
@@ -28,21 +28,37 @@ export default function SakhiChat({ activePrompt, onSelectPrompt }) {
     {
       id: 'cramps',
       icon: <Heart size={14} color="#EC738F" fill="#EC738F" />,
-      text: 'How can I relieve severe period cramps naturally?'
+      text: t('aiPage.q1')
     },
     {
       id: 'foods',
       icon: <Heart size={14} color="#EC738F" fill="#EC738F" />,
-      text: 'What foods should I eat during my period phase?'
+      text: t('aiPage.q2')
     },
     {
       id: 'fluctuate',
       icon: <Calendar size={14} color="#EC738F" />,
-      text: 'Is it normal for cycle dates to fluctuate by 3 days?'
+      text: t('aiPage.q3')
     }
   ];
 
-  // If parent component sends a prompt (e.g. from Popular Topics or Sakhi's Support cards)
+  // Update welcome message when language changes if only welcome message is present
+  useEffect(() => {
+    setMessages((prev) => {
+      if (prev.length === 1 && prev[0].id === 'welcome') {
+        return [
+          {
+            id: 'welcome',
+            sender: 'sakhi',
+            text: t('aiPage.sub'),
+            timestamp: prev[0].timestamp
+          }
+        ];
+      }
+      return prev;
+    });
+  }, [language, t]);
+
   useEffect(() => {
     if (activePrompt) {
       handleSend(activePrompt);
@@ -89,7 +105,6 @@ export default function SakhiChat({ activePrompt, onSelectPrompt }) {
     }
   };
 
-  // Speech Recognition integration
   const handleMicClick = () => {
     if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
       alert('Speech recognition is not supported in your browser. Please type your query.');
@@ -158,7 +173,6 @@ export default function SakhiChat({ activePrompt, onSelectPrompt }) {
         minHeight: '620px'
       }}
     >
-      {/* Hidden file input for attachment */}
       <input
         type="file"
         ref={fileInputRef}
@@ -178,7 +192,6 @@ export default function SakhiChat({ activePrompt, onSelectPrompt }) {
           background: 'linear-gradient(180deg, #FFFFFF 0%, #FFFDFE 100%)'
         }}
       >
-        {/* Left: Avatar & Status */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
           <div style={{ position: 'relative' }}>
             <SakhiAvatarSvg size={48} />
@@ -221,13 +234,12 @@ export default function SakhiChat({ activePrompt, onSelectPrompt }) {
                 }}
               />
               <span style={{ fontSize: '0.825rem', color: '#7D626C', fontWeight: '500' }}>
-                Online • Always here for you ♡
+                Online • {t('common.smallSteps')}
               </span>
             </div>
           </div>
         </div>
 
-        {/* Right: Small steps create big changes banner */}
         <div style={{ display: 'none', minWidth: '220px', '@media (min-width: 640px)': { display: 'block' } }}>
           <SmallStepsBanner />
         </div>
@@ -251,7 +263,7 @@ export default function SakhiChat({ activePrompt, onSelectPrompt }) {
         >
           <Info size={16} color="#D97706" style={{ flexShrink: 0 }} />
           <span>
-            <strong>Sakhi AI</strong> provides companion guidance, not formal medical diagnosis. Consult a doctor for severe pain.
+            {t('aiPage.disclaimer')}
           </span>
         </div>
       </div>
@@ -339,7 +351,7 @@ export default function SakhiChat({ activePrompt, onSelectPrompt }) {
               }}
             >
               <Sparkles size={16} style={{ animation: 'spin 1.5s linear infinite' }} />
-              <span>Sakhi is thinking...</span>
+              <span>{t('aiPage.thinking')}</span>
             </div>
           </div>
         )}
@@ -361,7 +373,7 @@ export default function SakhiChat({ activePrompt, onSelectPrompt }) {
           }}
         >
           <Sparkles size={14} color="#EC738F" />
-          <span>Quick Questions</span>
+          <span>{t('aiPage.suggestedQuestions')}</span>
         </div>
 
         <div
@@ -434,7 +446,6 @@ export default function SakhiChat({ activePrompt, onSelectPrompt }) {
             gap: '8px'
           }}
         >
-          {/* Attachment Icon */}
           <button
             type="button"
             onClick={handleAttachmentClick}
@@ -454,7 +465,6 @@ export default function SakhiChat({ activePrompt, onSelectPrompt }) {
             <Paperclip size={18} />
           </button>
 
-          {/* Language Translate Icon */}
           <button
             type="button"
             onClick={toggleLanguage}
@@ -474,10 +484,9 @@ export default function SakhiChat({ activePrompt, onSelectPrompt }) {
             <Languages size={18} />
           </button>
 
-          {/* Text input */}
           <input
             type="text"
-            placeholder="Ask Sakhi anything about your cycle, cramps, or health..."
+            placeholder={t('aiPage.askPlaceholder')}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             disabled={loading || remainingQuota <= 0}
@@ -492,7 +501,6 @@ export default function SakhiChat({ activePrompt, onSelectPrompt }) {
             }}
           />
 
-          {/* Audio Mic Button */}
           <button
             type="button"
             onClick={handleMicClick}
@@ -510,12 +518,11 @@ export default function SakhiChat({ activePrompt, onSelectPrompt }) {
               transition: 'all 0.2s ease',
               boxShadow: isRecording ? '0 0 12px rgba(236, 115, 143, 0.5)' : 'none'
             }}
-            title={isRecording ? 'Listening... Click to stop' : 'Click to speak your query'}
+            title={isRecording ? 'Listening...' : 'Click to speak'}
           >
             <Mic size={18} />
           </button>
 
-          {/* Send Button */}
           <button
             type="submit"
             disabled={!input.trim() || loading || remainingQuota <= 0}
@@ -535,7 +542,7 @@ export default function SakhiChat({ activePrompt, onSelectPrompt }) {
               transition: 'all 0.2s ease',
               boxShadow: input.trim() ? '0 4px 14px rgba(236, 115, 143, 0.35)' : 'none'
             }}
-            title="Send Message"
+            title={t('aiPage.send')}
           >
             <Send size={18} />
           </button>

@@ -1,8 +1,11 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import PhaseGuide from '../../components/lifestyle/PhaseGuide';
 import { GirlStretchingIllustration } from '../../components/illustrations/EatAndMoveIllustrations';
 
 export default function LifestylePage() {
+  const { t } = useTranslation();
+
   return (
     <div
       style={{
@@ -51,7 +54,7 @@ export default function LifestylePage() {
                 gap: '6px'
               }}
             >
-              Healthy Choices <span style={{ fontSize: '1rem' }}>✦</span> Happier You ♡
+              {t("lifestyle.tagline", "Healthy Choices ✦ Happier You ♡")}
             </p>
 
             {/* Display Title */}
@@ -65,7 +68,7 @@ export default function LifestylePage() {
                 margin: '0 0 12px 0'
               }}
             >
-              Eat & Move <span style={{ color: '#C23B68' }}>for Your Phase</span>
+              {t("lifestyle.title", "Eat & Move for Your Phase")}
             </h1>
 
             {/* Subtitle */}
@@ -78,7 +81,7 @@ export default function LifestylePage() {
                 margin: 0
               }}
             >
-              Personalized nutrition, gentle exercises, and self-care tips tailored to your current cycle phase.
+              {t("lifestyle.subtitle", "Personalized nutrition, gentle exercises, and self-care tips tailored to your current cycle phase.")}
             </p>
           </div>
 
@@ -104,8 +107,7 @@ export default function LifestylePage() {
                 transform: 'rotate(6deg)'
               }}
             >
-              Your cycle <br />
-              <span style={{ fontSize: '1.6rem', color: '#EC738F' }}>Your power</span>
+              {t("lifestyle.illustrationQuote", "Your cycle, Your power")}
             </div>
           </div>
         </div>

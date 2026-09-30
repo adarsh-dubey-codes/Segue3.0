@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { doctorsDirectoryData } from '../../data/doctorsData';
 import AppointmentModal from '../../components/doctors/AppointmentModal';
 import Button from '../../components/Button/Button';
-import { useLanguage } from '../../context/LanguageContext';
+import { useTranslation } from 'react-i18next';
 import { Search, Stethoscope, Star, Phone, MessageCircle, MapPin, Calendar, CheckCircle2 } from 'lucide-react';
 
 export default function DoctorsPage() {
-  const { t } = useLanguage();
+  const { t } = useTranslation();
   const [search, setSearch] = useState('');
   const [selectedCity, setSelectedCity] = useState('All');
   const [onlineOnly, setOnlineOnly] = useState(false);
