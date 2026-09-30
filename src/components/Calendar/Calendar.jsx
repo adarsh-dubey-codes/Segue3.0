@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useCycle } from '../../context/CycleContext';
+import { getCategoryInfo } from '../../utils/cycleInsightEngine';
+import EventDetailSheet from '../cycle/EventDetailSheet';
+import EventComposerModal from '../cycle/EventComposerModal';
 import { ChevronLeft, ChevronRight, Check, Sun } from 'lucide-react';
 
 const LOCALE_MAP = {
@@ -18,11 +21,10 @@ const LOCALE_MAP = {
   as: 'as-IN',
 };
 
-export default function Calendar({ selectedDate, onSelectDate, onOpenLog }) {
+export default function Calendar({ selectedDate, onSelectDate, onOpenLog, onOpenComposer }) {
   const { t, language } = useLanguage();
-  const { cycleSetup } = useCycle();
+  const { cycleSetup, getEventsForDate } = useCycle();
   const today = new Date();
-  
   const getValidDate = (val) => {
     if (!val) return today;
     const d = val instanceof Date ? val : new Date(val);
@@ -30,6 +32,8 @@ export default function Calendar({ selectedDate, onSelectDate, onOpenLog }) {
   };
 
   const [currentViewDate, setCurrentViewDate] = useState(() => getValidDate(selectedDate));
+  const [activeDetailDate, setActiveDetailDate] = useState(null);
+  const [composerDate, setComposerDate] = useState(null);
   const safeViewDate = getValidDate(currentViewDate);
 
   const year = safeViewDate.getFullYear();
@@ -112,9 +116,17 @@ export default function Calendar({ selectedDate, onSelectDate, onOpenLog }) {
   };
 
   const handleDayClick = (day) => {
-    const clickedDate = new Date(year, month, day);
-    if (onSelectDate) onSelectDate(clickedDate);
-    if (onOpenLog) onOpenLog();
+    const clickedDateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const dayEvts = getEventsForDate(clickedDateStr);
+
+    if (onSelectDate) onSelectDate(new Date(year, month, day));
+
+    // If day has logged events, open detail sheet
+    if (dayEvts && dayEvts.length > 0) {
+      setActiveDetailDate(clickedDateStr);
+    } else if (onOpenLog) {
+      onOpenLog();
+    }
   };
 
   const calendarCells = [];
@@ -126,6 +138,10 @@ export default function Calendar({ selectedDate, onSelectDate, onOpenLog }) {
     const selected = isSelected(day);
     const todayDay = isToday(day);
     const { isFlow, isPredictedNext, isOvulation, isFertile } = getDayStatus(day);
+
+    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const dayEvents = getEventsForDate(dateStr);
+    const eventCount = dayEvents ? dayEvents.length : 0;
 
     let bgColor = 'transparent';
     let textColor = 'var(--text-primary)';
@@ -150,12 +166,18 @@ export default function Calendar({ selectedDate, onSelectDate, onOpenLog }) {
       textColor = '#27AE60';
     }
 
+    // Accessible description including events
+    let ariaLabelStr = `${monthName} ${day}, ${year}`;
+    if (eventCount > 0) {
+      ariaLabelStr += `. ${eventCount} context event${eventCount > 1 ? 's' : ''} logged: ${dayEvents.map(e => e.title).join(', ')}`;
+    }
+
     calendarCells.push(
       <button
         key={`day-${day}`}
         type="button"
         onClick={() => handleDayClick(day)}
-        aria-label={`${monthName} ${day}, ${year}`}
+        aria-label={ariaLabelStr}
         style={{
           aspectRatio: '1',
           border: borderStyle,
@@ -165,7 +187,7 @@ export default function Calendar({ selectedDate, onSelectDate, onOpenLog }) {
           alignItems: 'center',
           justifyContent: 'center',
           position: 'relative',
-          fontSize: '0.9rem',
+          fontSize: '0.875rem',
           fontWeight: selected || isFlow || isPredictedNext ? '700' : todayDay ? '600' : '400',
           color: textColor,
           backgroundColor: bgColor,
@@ -176,10 +198,59 @@ export default function Calendar({ selectedDate, onSelectDate, onOpenLog }) {
         }}
       >
         <span>{day}</span>
+
+        {/* Primary Ovulation / Today icons */}
         {isOvulation && !selected && (
-          <Sun size={9} color="#F39C12" style={{ position: 'absolute', bottom: '2px' }} />
+          <Sun size={9} color="#F39C12" style={{ position: 'absolute', top: '2px' }} />
         )}
-        {todayDay && !selected && !isOvulation && (
+
+        {/* Event Indicators (Hierarchy: Period > Fertile > User Events) */}
+        {eventCount > 0 && (
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '2px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '2px'
+            }}
+          >
+            {eventCount <= 2 ? (
+              dayEvents.map((evt) => {
+                const catObj = getCategoryInfo(evt.category);
+                return (
+                  <span
+                    key={evt.id}
+                    title={evt.title}
+                    style={{
+                      width: '5px',
+                      height: '5px',
+                      borderRadius: '50%',
+                      backgroundColor: selected ? '#FFFFFF' : catObj.color
+                    }}
+                  />
+                );
+              })
+            ) : (
+              <span
+                style={{
+                  fontSize: '0.625rem',
+                  lineHeight: 1,
+                  fontWeight: '700',
+                  color: selected ? '#FFFFFF' : '#EC738F',
+                  backgroundColor: selected ? 'rgba(255,255,255,0.25)' : '#FFE5EC',
+                  padding: '1px 3px',
+                  borderRadius: '4px'
+                }}
+              >
+                +{eventCount}
+              </span>
+            )}
+          </div>
+        )}
+
+        {todayDay && !selected && !isOvulation && eventCount === 0 && (
           <span 
             style={{
               position: 'absolute',
@@ -192,8 +263,8 @@ export default function Calendar({ selectedDate, onSelectDate, onOpenLog }) {
           />
         )}
         {selected && (
-          <span style={{ position: 'absolute', bottom: '2px', display: 'flex' }}>
-            <Check size={10} strokeWidth={3} color="#FFF" />
+          <span style={{ position: 'absolute', top: '2px', display: 'flex' }}>
+            <Check size={9} strokeWidth={3} color="#FFF" />
           </span>
         )}
       </button>
@@ -201,149 +272,174 @@ export default function Calendar({ selectedDate, onSelectDate, onOpenLog }) {
   }
 
   return (
-    <div 
-      className="sakhi-calendar"
-      style={{
-        backgroundColor: '#FFFFFF',
-        borderRadius: '24px',
-        padding: '24px',
-        border: '1px solid var(--border)',
-        boxShadow: 'var(--shadow-sm)',
-        width: '100%',
-        maxWidth: '420px',
-        margin: '0 auto'
-      }}
-    >
-      {/* Calendar Header */}
+    <>
       <div 
+        className="sakhi-calendar"
         style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          marginBottom: '20px'
+          backgroundColor: '#FFFFFF',
+          borderRadius: '24px',
+          padding: '24px',
+          border: '1px solid var(--border)',
+          boxShadow: 'var(--shadow-sm)',
+          width: '100%',
+          maxWidth: '420px',
+          margin: '0 auto'
         }}
       >
-        <div>
-          <h3 
-            style={{ 
-              fontFamily: 'var(--font-display)', 
-              fontSize: '1.3rem', 
-              fontWeight: '600',
-              color: 'var(--rose-dark)',
-              margin: 0,
-              textTransform: 'capitalize'
-            }}
-          >
-            {monthName} {year}
-          </h3>
-          <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-            {t('calendar.selectDayAction')}
-          </span>
-        </div>
-
-        <div style={{ display: 'flex', gap: '4px' }}>
-          <button
-            type="button"
-            onClick={prevMonth}
-            aria-label="Previous month"
-            style={{
-              background: 'none',
-              border: '1px solid var(--border)',
-              borderRadius: 'var(--radius-sm)',
-              padding: '6px',
-              cursor: 'pointer',
-              color: 'var(--text-secondary)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            <ChevronLeft size={18} />
-          </button>
-          <button
-            type="button"
-            onClick={nextMonth}
-            aria-label="Next month"
-            style={{
-              background: 'none',
-              border: '1px solid var(--border)',
-              borderRadius: 'var(--radius-sm)',
-              padding: '6px',
-              cursor: 'pointer',
-              color: 'var(--text-secondary)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            <ChevronRight size={18} />
-          </button>
-        </div>
-      </div>
-
-      {/* Weekday Labels */}
-      <div 
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(7, 1fr)',
-          textAlign: 'center',
-          marginBottom: '10px'
-        }}
-      >
-        {daysOfWeek.map((day, idx) => (
-          <div 
-            key={idx} 
-            style={{ 
-              fontSize: '0.775rem', 
-              fontWeight: '600', 
-              color: 'var(--text-secondary)',
-              padding: '4px 0',
-              textTransform: 'capitalize'
-            }}
-          >
-            {day}
+        {/* Calendar Header */}
+        <div 
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: '20px'
+          }}
+        >
+          <div>
+            <h3 
+              style={{ 
+                fontFamily: 'var(--font-display)', 
+                fontSize: '1.3rem', 
+                fontWeight: '600',
+                color: 'var(--rose-dark)',
+                margin: 0,
+                textTransform: 'capitalize'
+              }}
+            >
+              {monthName} {year}
+            </h3>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+              {t('calendar.selectDayAction')}
+            </span>
           </div>
-        ))}
+
+          <div style={{ display: 'flex', gap: '4px' }}>
+            <button
+              type="button"
+              onClick={prevMonth}
+              aria-label="Previous month"
+              style={{
+                background: 'none',
+                border: '1px solid var(--border)',
+                borderRadius: 'var(--radius-sm)',
+                padding: '6px',
+                cursor: 'pointer',
+                color: 'var(--text-secondary)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <ChevronLeft size={18} />
+            </button>
+            <button
+              type="button"
+              onClick={nextMonth}
+              aria-label="Next month"
+              style={{
+                background: 'none',
+                border: '1px solid var(--border)',
+                borderRadius: 'var(--radius-sm)',
+                padding: '6px',
+                cursor: 'pointer',
+                color: 'var(--text-secondary)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <ChevronRight size={18} />
+            </button>
+          </div>
+        </div>
+
+        {/* Weekday Labels */}
+        <div 
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(7, 1fr)',
+            textAlign: 'center',
+            marginBottom: '10px'
+          }}
+        >
+          {daysOfWeek.map((day, idx) => (
+            <div 
+              key={idx} 
+              style={{ 
+                fontSize: '0.775rem', 
+                fontWeight: '600', 
+                color: 'var(--text-secondary)',
+                padding: '4px 0',
+                textTransform: 'capitalize'
+              }}
+            >
+              {day}
+            </div>
+          ))}
+        </div>
+
+        {/* Days Grid */}
+        <div 
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(7, 1fr)',
+            gap: '4px'
+          }}
+        >
+          {calendarCells}
+        </div>
+
+        {/* Legend / Key */}
+        <div 
+          style={{
+            marginTop: '20px',
+            paddingTop: '14px',
+            borderTop: '1px solid var(--border)',
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: '12px',
+            fontSize: '0.75rem',
+            color: 'var(--text-secondary)'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: 'var(--rose-primary)' }} />
+            <span>{t('calendar.loggedFlow')}</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#FFEBF0', border: '1px dashed var(--rose)' }} />
+            <span>{t('calendar.recommendedArrival')}</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#E11D48' }} />
+            <span>{t('events.eventIndicator', { defaultValue: 'Context Events' })}</span>
+          </div>
+        </div>
       </div>
 
-      {/* Days Grid */}
-      <div 
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(7, 1fr)',
-          gap: '4px'
-        }}
-      >
-        {calendarCells}
-      </div>
+      {/* Event Detail Sheet for active clicked date */}
+      {activeDetailDate && (
+        <EventDetailSheet
+          isOpen={Boolean(activeDetailDate)}
+          onClose={() => setActiveDetailDate(null)}
+          dateStr={activeDetailDate}
+          eventsList={getEventsForDate(activeDetailDate)}
+          onAddNewEvent={(d) => {
+            setComposerDate(d);
+          }}
+        />
+      )}
 
-      {/* Legend / Key */}
-      <div 
-        style={{
-          marginTop: '20px',
-          paddingTop: '14px',
-          borderTop: '1px solid var(--border)',
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          gap: '12px',
-          fontSize: '0.75rem',
-          color: 'var(--text-secondary)'
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: 'var(--rose-primary)' }} />
-          <span>{t('calendar.loggedFlow')}</span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#FFEBF0', border: '1px dashed var(--rose)' }} />
-          <span>{t('calendar.recommendedArrival')}</span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#F0F9F1' }} />
-          <span>{t('calendar.fertileWindow')}</span>
-        </div>
-      </div>
-    </div>
+      {/* Quick Event Composer Modal */}
+      {composerDate && (
+        <EventComposerModal
+          isOpen={Boolean(composerDate)}
+          onClose={() => setComposerDate(null)}
+          initialDate={composerDate}
+        />
+      )}
+    </>
   );
 }
+

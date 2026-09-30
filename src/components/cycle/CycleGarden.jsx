@@ -1,7 +1,8 @@
 import React from 'react';
 import { useCycle } from '../../context/CycleContext';
 import { useLanguage } from '../../context/LanguageContext';
-import { Droplet, Flame, FileText, Moon, Droplets, ChevronRight, Mic } from 'lucide-react';
+import FloatingDecoration from '../decorations/FloatingDecoration';
+import { Droplet, Flame, FileText, Moon, Droplets, ChevronRight, Sparkles } from 'lucide-react';
 
 export default function CycleGarden() {
   const { plantStage, plantIcon, streakCount, totalLogs, avgSleep, avgWater, currentPhase } = useCycle();
@@ -28,6 +29,7 @@ export default function CycleGarden() {
 
   return (
     <div 
+      className="card-micro-hover"
       style={{
         backgroundColor: '#FFFFFF',
         borderRadius: '28px',
@@ -38,9 +40,14 @@ export default function CycleGarden() {
         flexDirection: 'column',
         justifyContent: 'space-between',
         position: 'relative',
+        overflow: 'hidden',
         height: '100%'
       }}
     >
+      {/* Gentle Floating Botanical Accents */}
+      <FloatingDecoration type="leaf" top="16px" right="48px" opacity={0.3} size={20} behavior="sway" duration={6} />
+      <FloatingDecoration type="sparkle" bottom="18px" left="18px" opacity={0.25} size={16} behavior="sparkle" duration={5} />
+
       <div>
         {/* Top Header Row */}
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '16px' }}>
@@ -56,9 +63,9 @@ export default function CycleGarden() {
             </p>
           </div>
 
-          {/* Plant Pot Graphic */}
-          <div style={{ fontSize: '2.8rem', lineHeight: 1 }}>
-            🪴
+          {/* Swaying Plant Pot Graphic */}
+          <div style={{ fontSize: '2.8rem', lineHeight: 1, animation: 'swayMotion 6s ease-in-out infinite' }}>
+            {plantIcon || '🪴'}
           </div>
         </div>
 
@@ -105,32 +112,32 @@ export default function CycleGarden() {
         </div>
       </div>
 
-      {/* Bottom 4 Stat Blocks */}
+      {/* Bottom 4 Stat Blocks with Micro-animations (Section #11 of Prompt) */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px' }}>
         {/* Streak */}
-        <div style={{ backgroundColor: '#FFF5F7', padding: '12px 8px', borderRadius: '16px', border: '1px solid #FFE5EC', textAlign: 'center' }}>
-          <Flame size={16} color="#EC738F" style={{ marginBottom: '2px' }} />
+        <div className="btn-micro-hover" style={{ backgroundColor: '#FFF5F7', padding: '12px 8px', borderRadius: '16px', border: '1px solid #FFE5EC', textAlign: 'center' }}>
+          <Flame size={16} color="#EC738F" style={{ marginBottom: '2px', animation: 'sparklePulse 3s ease-in-out infinite' }} />
           <span style={{ display: 'block', fontSize: '0.7rem', color: '#8E6E79' }}>Streak</span>
           <strong style={{ fontSize: '1.1rem', color: '#38232A', fontWeight: '700' }}>{streakCount}d</strong>
         </div>
 
         {/* Logs */}
-        <div style={{ backgroundColor: '#FFF5F7', padding: '12px 8px', borderRadius: '16px', border: '1px solid #FFE5EC', textAlign: 'center' }}>
+        <div className="btn-micro-hover" style={{ backgroundColor: '#FFF5F7', padding: '12px 8px', borderRadius: '16px', border: '1px solid #FFE5EC', textAlign: 'center' }}>
           <FileText size={16} color="#EC738F" style={{ marginBottom: '2px' }} />
           <span style={{ display: 'block', fontSize: '0.7rem', color: '#8E6E79' }}>Logs</span>
           <strong style={{ fontSize: '1.1rem', color: '#38232A', fontWeight: '700' }}>{totalLogs}</strong>
         </div>
 
         {/* Sleep */}
-        <div style={{ backgroundColor: '#FFF5F7', padding: '12px 8px', borderRadius: '16px', border: '1px solid #FFE5EC', textAlign: 'center' }}>
-          <Moon size={16} color="#6C5CE7" style={{ marginBottom: '2px' }} />
+        <div className="btn-micro-hover" style={{ backgroundColor: '#FFF5F7', padding: '12px 8px', borderRadius: '16px', border: '1px solid #FFE5EC', textAlign: 'center' }}>
+          <Moon size={16} color="#6C5CE7" style={{ marginBottom: '2px', animation: 'swayMotion 4s ease-in-out infinite' }} />
           <span style={{ display: 'block', fontSize: '0.7rem', color: '#8E6E79' }}>Sleep</span>
           <strong style={{ fontSize: '1.1rem', color: '#38232A', fontWeight: '700' }}>{avgSleep}h</strong>
         </div>
 
         {/* Water */}
-        <div style={{ backgroundColor: '#FFF5F7', padding: '12px 8px', borderRadius: '16px', border: '1px solid #FFE5EC', textAlign: 'center' }}>
-          <Droplets size={16} color="#0984E3" style={{ marginBottom: '2px' }} />
+        <div className="btn-micro-hover" style={{ backgroundColor: '#FFF5F7', padding: '12px 8px', borderRadius: '16px', border: '1px solid #FFE5EC', textAlign: 'center' }}>
+          <Droplets size={16} color="#0984E3" style={{ marginBottom: '2px', animation: 'floatSphere 5s ease-in-out infinite' }} />
           <span style={{ display: 'block', fontSize: '0.7rem', color: '#8E6E79' }}>Water</span>
           <strong style={{ fontSize: '1.1rem', color: '#38232A', fontWeight: '700' }}>{avgWater}c</strong>
         </div>
@@ -138,3 +145,4 @@ export default function CycleGarden() {
     </div>
   );
 }
+

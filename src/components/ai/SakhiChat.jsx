@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
+import { useCycle } from '../../context/CycleContext';
+import { detectEventFromNaturalLanguage } from '../../utils/nlpEventDetector';
 import { generateSakhiResponse, getRemainingQuota } from '../../utils/aiClient';
 import SakhiAvatarSvg from '../illustrations/SakhiAvatarSvg';
 import { SmallStepsBanner } from '../illustrations/FloralBannerDecorations';
-import { Paperclip, Languages, Mic, Send, Info, Sparkles, Heart, Calendar } from 'lucide-react';
+import { Paperclip, Languages, Mic, Send, Info, Sparkles, Heart, Calendar, Check, X } from 'lucide-react';
 
 export default function SakhiChat({ activePrompt, onSelectPrompt }) {
   const { t, language, setLanguage } = useLanguage();
+  const { addEvent } = useCycle();
 
   const [messages, setMessages] = useState([
     {
@@ -73,6 +76,36 @@ export default function SakhiChat({ activePrompt, onSelectPrompt }) {
     return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).toLowerCase();
   };
 
+  const handleConfirmSaveEvent = (msgId, eventData) => {
+    addEvent({
+      date: eventData.date || new Date().toISOString().split('T')[0],
+      category: eventData.category,
+      type: eventData.type,
+      title: eventData.defaultTitle || eventData.title || 'Event',
+      description: eventData.description,
+      metadata: eventData.metadata || {},
+      source: 'chat'
+    });
+
+    setMessages((prev) =>
+      prev.map((m) =>
+        m.id === msgId && m.pendingEvent
+          ? { ...m, pendingEvent: { ...m.pendingEvent, saved: true, dismissed: false } }
+          : m
+      )
+    );
+  };
+
+  const handleDismissEvent = (msgId) => {
+    setMessages((prev) =>
+      prev.map((m) =>
+        m.id === msgId && m.pendingEvent
+          ? { ...m, pendingEvent: { ...m.pendingEvent, dismissed: true } }
+          : m
+      )
+    );
+  };
+
   const handleSend = async (textToSend) => {
     const text = textToSend || input;
     if (!text.trim() || loading || remainingQuota <= 0) return;
@@ -88,14 +121,23 @@ export default function SakhiChat({ activePrompt, onSelectPrompt }) {
     if (!textToSend) setInput('');
     setLoading(true);
 
+    const detectedEvent = detectEventFromNaturalLanguage(text);
+
     try {
-      const sakhiText = await generateSakhiResponse(text, { language });
+      let sakhiText = await generateSakhiResponse(text, { language });
+
+      if (detectedEvent) {
+        sakhiText += `\n\nI noticed you mentioned something that happened in your day! Would you like me to save this to your cycle timeline? 🌸`;
+      }
+
       const sakhiMsg = {
         id: (Date.now() + 1).toString(),
         sender: 'sakhi',
         text: sakhiText,
-        timestamp: getCurrentTimeString()
+        timestamp: getCurrentTimeString(),
+        pendingEvent: detectedEvent ? { ...detectedEvent, saved: false, dismissed: false } : null
       };
+
       setMessages((prev) => [...prev, sakhiMsg]);
       setRemainingQuota(getRemainingQuota());
     } catch (err) {
@@ -317,6 +359,70 @@ export default function SakhiChat({ activePrompt, onSelectPrompt }) {
                   }}
                 >
                   {msg.text}
+
+                  {/* Interactive Pending Event Confirmation Box */}
+                  {msg.pendingEvent && !msg.pendingEvent.dismissed && (
+                    <div
+                      style={{
+                        marginTop: '12px',
+                        padding: '12px 14px',
+                        borderRadius: '14px',
+                        backgroundColor: msg.pendingEvent.saved ? '#F0F9F1' : '#FFFFFF',
+                        border: `1px solid ${msg.pendingEvent.saved ? '#BBF7D0' : '#FAD4DE'}`,
+                        fontSize: '0.85rem'
+                      }}
+                    >
+                      {!msg.pendingEvent.saved ? (
+                        <div>
+                          <p style={{ margin: '0 0 10px 0', fontWeight: '600', color: '#3E242B' }}>
+                            {t('events.confirmPrompt', { defaultValue: `Would you like me to save "${msg.pendingEvent.defaultTitle}" to your cycle timeline?` })}
+                          </p>
+                          <div style={{ display: 'flex', gap: '8px' }}>
+                            <button
+                              type="button"
+                              onClick={() => handleConfirmSaveEvent(msg.id, msg.pendingEvent)}
+                              style={{
+                                backgroundColor: '#EC738F',
+                                color: '#FFFFFF',
+                                border: 'none',
+                                padding: '6px 14px',
+                                borderRadius: '9999px',
+                                fontWeight: '600',
+                                fontSize: '0.8rem',
+                                cursor: 'pointer',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '4px'
+                              }}
+                            >
+                              <Check size={14} />
+                              {t('events.saveToTimelineBtn', { defaultValue: 'Save to timeline' })}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleDismissEvent(msg.id)}
+                              style={{
+                                backgroundColor: 'transparent',
+                                color: '#7D626C',
+                                border: '1px solid #F0D5DD',
+                                padding: '6px 12px',
+                                borderRadius: '9999px',
+                                fontSize: '0.8rem',
+                                cursor: 'pointer'
+                              }}
+                            >
+                              {t('events.notNowBtn', { defaultValue: 'Not now' })}
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#15803D', fontWeight: '600' }}>
+                          <Check size={16} />
+                          <span>{t('events.savedConfirmation', { defaultValue: '✓ Saved to your cycle timeline!' })}</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 <span

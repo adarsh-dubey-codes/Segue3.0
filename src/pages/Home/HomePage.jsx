@@ -8,6 +8,10 @@ import CycleSetupModal from '../../components/cycle/CycleSetupModal';
 import DailyLogModal from '../../components/cycle/DailyLogModal';
 import PhaseDetailModal from '../../components/cycle/PhaseDetailModal';
 import VisualOnboarding from '../../components/home/VisualOnboarding';
+import AmbientBackground from '../../components/decorations/AmbientBackground';
+import FloatingDecoration from '../../components/decorations/FloatingDecoration';
+import FloatingText from '../../components/decorations/FloatingText';
+import GentleReveal from '../../components/decorations/GentleReveal';
 import { 
   Sparkles, MessageCircle, PlayCircle, Home, Palette, Image as ImageIcon, 
   Target, Compass, Calendar, Smile, Utensils, Droplet, Heart
@@ -24,7 +28,8 @@ export default function HomePage() {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
   return (
-    <div className="home-wrapper" style={{ maxWidth: '1360px', margin: '0 auto', padding: '24px 20px 80px 20px' }}>
+    <div className="home-wrapper" style={{ maxWidth: '1360px', margin: '0 auto', padding: '24px 20px 80px 20px', position: 'relative' }}>
+      <AmbientBackground intensity="delightful" />
       <style>{`
         .home-main-grid {
           display: grid;
@@ -555,198 +560,212 @@ export default function HomePage() {
         <main className="right-content-area">
 
           {/* 1. HERO BANNER CARD */}
-          <section className="hero-banner-card">
-            <div>
-              <div className="sakhi-companion-pill">
-                <Sparkles size={14} color="#EC738F" />
-                <span>{t('home.companionTag')}</span>
-              </div>
+          <GentleReveal delay={0.05}>
+            <section className="hero-banner-card">
+              {/* Organic visual decorations for hero card */}
+              <FloatingDecoration type="flower" top="12px" right="28px" size={26} color="#EC738F" opacity={0.4} behavior="sway" />
+              <FloatingDecoration type="sparkle" top="24px" left="42%" size={18} color="#E85C7D" opacity={0.45} behavior="sparkle" delay={1.5} />
+              <FloatingDecoration type="petal" bottom="18px" left="220px" size={16} color="#EC738F" opacity={0.3} behavior="float" delay={2} />
+              <FloatingText phraseKey="breathe" top="14px" right="140px" opacity={0.5} duration={7} />
 
-              <h1 className="hero-main-title">
-                {t('hero.title')}
-              </h1>
-
-              <p className="hero-sub-text">
-                {t('hero.sub')}
-              </p>
-
-              <div className="hero-buttons-group">
-                <Button 
-                  variant="primary" 
-                  className="btn-setup-cycle"
-                  onClick={() => setIsSetupOpen(true)}
-                >
-                  {t('hero.setup')}
-                </Button>
-
-                <Button 
-                  variant="outline" 
-                  className="btn-talk-sakhi"
-                  onClick={() => navigate('/chat')}
-                  icon={<MessageCircle size={16} color="#EC738F" />}
-                >
-                  {t('hero.chat')}
-                </Button>
-
-                <button
-                  type="button"
-                  className="btn-visual-guide"
-                  onClick={() => setIsOnboardingOpen(true)}
-                >
-                  <PlayCircle size={17} />
-                  <span>{t('hero.visualGuide')}</span>
-                </button>
-              </div>
-            </div>
-
-            <div className="hero-woman-illustration">
-              <img 
-                src="/images/cycle/cycle-phase-woman.jpg" 
-                alt="Woman holding heart" 
-                className="hero-woman-img" 
-              />
-            </div>
-
-            <div className="hero-affirmation-card">
-              <span className="affirmation-tag">{t('home.affirmationTag')}</span>
-              <p className="affirmation-quote-text">
-                {t('home.affirmationText')}
-              </p>
-              <div style={{ position: 'absolute', bottom: '12px', right: '14px', opacity: 0.35 }}>
-                <Heart size={20} fill="#EC738F" color="#EC738F" />
-              </div>
-            </div>
-          </section>
-
-          {/* 2. MIDDLE TWO CARDS ROW */}
-          <section className="middle-cards-grid">
-            
-            {/* LEFT CARD: PERIOD PHASE */}
-            <div className="period-phase-main-card">
               <div>
-                <div className="phase-badge-pill">
-                  <span style={{ fontSize: '0.85rem' }}>🩸</span>
-                  <span>{t('home.dayOfTotal', { day: currentCycleDay, total: cycleLength })}</span>
+                <div className="sakhi-companion-pill">
+                  <Sparkles size={14} color="#EC738F" />
+                  <span>{t('home.companionTag')}</span>
                 </div>
 
-                <h2 className="phase-heading-title">{t('home.phaseTitle', { phase: currentPhase })}</h2>
+                <h1 className="hero-main-title">
+                  {t('hero.title')}
+                </h1>
 
-                <div className="phase-progress-track">
-                  <div 
-                    className="phase-progress-fill" 
-                    style={{ width: `${Math.min(100, Math.round((currentCycleDay / cycleLength) * 100))}%` }} 
-                  />
-                </div>
-
-                <p className="next-period-subtext">
-                  {t('home.nextPeriodCountdown', { days: Math.max(1, cycleLength - currentCycleDay) })}
+                <p className="hero-sub-text">
+                  {t('hero.sub')}
                 </p>
 
-                <Button 
-                  variant="primary" 
-                  className="btn-view-details"
-                  onClick={() => setIsDetailModalOpen(true)}
-                >
-                  {t('common.viewDetails')} &rarr;
-                </Button>
+                <div className="hero-buttons-group">
+                  <Button 
+                    variant="primary" 
+                    className="btn-setup-cycle"
+                    onClick={() => setIsSetupOpen(true)}
+                  >
+                    {t('hero.setup')}
+                  </Button>
+
+                  <Button 
+                    variant="outline" 
+                    className="btn-talk-sakhi"
+                    onClick={() => navigate('/chat')}
+                    icon={<MessageCircle size={16} color="#EC738F" />}
+                  >
+                    {t('hero.chat')}
+                  </Button>
+
+                  <button
+                    type="button"
+                    className="btn-visual-guide"
+                    onClick={() => setIsOnboardingOpen(true)}
+                  >
+                    <PlayCircle size={17} />
+                    <span>{t('hero.visualGuide')}</span>
+                  </button>
+                </div>
               </div>
 
-              {/* Flower accent decoration */}
-              <div style={{ position: 'absolute', bottom: '16px', right: '20px', pointerEvents: 'none' }}>
-                <svg width="70" height="90" viewBox="0 0 70 90" fill="none">
-                  <path d="M35 85 Q30 50 45 20" stroke="#8E6E79" strokeWidth="2" />
-                  <circle cx="45" cy="20" r="10" fill="#FAD4DE" />
-                  <circle cx="45" cy="20" r="5" fill="#EC738F" />
-                  <path d="M35 60 Q20 55 18 65 Q30 68 35 60 Z" fill="#A3B899" />
-                </svg>
+              <div className="hero-woman-illustration">
+                <img 
+                  src="/images/cycle/cycle-phase-woman.jpg" 
+                  alt="Woman holding heart" 
+                  className="hero-woman-img" 
+                />
               </div>
-            </div>
 
-            {/* RIGHT CARD: MOTIVATIONAL QUOTE */}
-            <div className="motivational-quote-card">
-              <p className="cursive-quote-large">{t('home.quoteLarge')}</p>
-              <p className="cursive-quote-small">{t('home.quoteSmall')}</p>
+              <div className="hero-affirmation-card">
+                <span className="affirmation-tag">{t('home.affirmationTag')}</span>
+                <p className="affirmation-quote-text">
+                  {t('home.affirmationText')}
+                </p>
+                <div style={{ position: 'absolute', bottom: '12px', right: '14px', opacity: 0.35 }}>
+                  <Heart size={20} fill="#EC738F" color="#EC738F" />
+                </div>
+              </div>
+            </section>
+          </GentleReveal>
+
+          {/* 2. MIDDLE TWO CARDS ROW */}
+          <GentleReveal delay={0.15}>
+            <section className="middle-cards-grid">
               
-              <div style={{ position: 'absolute', bottom: '12px', right: '16px', opacity: 0.8 }}>
-                <svg width="50" height="60" viewBox="0 0 50 60" fill="none">
-                  <path d="M25 55 Q20 30 35 15" stroke="#8E6E79" strokeWidth="1.5" />
-                  <circle cx="35" cy="15" r="7" fill="#FAD4DE" />
-                  <circle cx="35" cy="15" r="3.5" fill="#EC738F" />
-                </svg>
-              </div>
-            </div>
+              {/* LEFT CARD: PERIOD PHASE */}
+              <div className="period-phase-main-card">
+                <FloatingDecoration type="sparkle" top="16px" right="24px" size={16} color="#EC738F" opacity={0.35} behavior="sparkle" />
+                <div>
+                  <div className="phase-badge-pill">
+                    <span style={{ fontSize: '0.85rem' }}>🩸</span>
+                    <span>{t('home.dayOfTotal', { day: currentCycleDay, total: cycleLength })}</span>
+                  </div>
 
-          </section>
+                  <h2 className="phase-heading-title">{t('home.phaseTitle', { phase: currentPhase })}</h2>
+
+                  <div className="phase-progress-track">
+                    <div 
+                      className="phase-progress-fill" 
+                      style={{ width: `${Math.min(100, Math.round((currentCycleDay / cycleLength) * 100))}%` }} 
+                    />
+                  </div>
+
+                  <p className="next-period-subtext">
+                    {t('home.nextPeriodCountdown', { days: Math.max(1, cycleLength - currentCycleDay) })}
+                  </p>
+
+                  <Button 
+                    variant="primary" 
+                    className="btn-view-details"
+                    onClick={() => setIsDetailModalOpen(true)}
+                  >
+                    {t('common.viewDetails')} &rarr;
+                  </Button>
+                </div>
+
+                {/* Flower accent decoration */}
+                <div style={{ position: 'absolute', bottom: '16px', right: '20px', pointerEvents: 'none' }}>
+                  <svg width="70" height="90" viewBox="0 0 70 90" fill="none">
+                    <path d="M35 85 Q30 50 45 20" stroke="#8E6E79" strokeWidth="2" />
+                    <circle cx="45" cy="20" r="10" fill="#FAD4DE" />
+                    <circle cx="45" cy="20" r="5" fill="#EC738F" />
+                    <path d="M35 60 Q20 55 18 65 Q30 68 35 60 Z" fill="#A3B899" />
+                  </svg>
+                </div>
+              </div>
+
+              {/* RIGHT CARD: MOTIVATIONAL QUOTE */}
+              <div className="motivational-quote-card" style={{ position: 'relative' }}>
+                <FloatingText phraseKey="youveGotThis" bottom="14px" left="24px" opacity={0.55} duration={8} delay={1} />
+                <p className="cursive-quote-large">{t('home.quoteLarge')}</p>
+                <p className="cursive-quote-small">{t('home.quoteSmall')}</p>
+                
+                <div style={{ position: 'absolute', bottom: '12px', right: '16px', opacity: 0.8 }}>
+                  <svg width="50" height="60" viewBox="0 0 50 60" fill="none">
+                    <path d="M25 55 Q20 30 35 15" stroke="#8E6E79" strokeWidth="1.5" />
+                    <circle cx="35" cy="15" r="7" fill="#FAD4DE" />
+                    <circle cx="35" cy="15" r="3.5" fill="#EC738F" />
+                  </svg>
+                </div>
+              </div>
+
+            </section>
+          </GentleReveal>
 
           {/* 3. QUICK ACTIONS SECTION */}
-          <section className="quick-actions-container">
-            <h2 className="quick-actions-header-title">{t('home.quickActionsTitle')}</h2>
-            <p className="quick-actions-header-sub">{t('home.quickActionsSub')}</p>
+          <GentleReveal delay={0.25}>
+            <section className="quick-actions-container">
+              <h2 className="quick-actions-header-title">{t('home.quickActionsTitle')}</h2>
+              <p className="quick-actions-header-sub">{t('home.quickActionsSub')}</p>
 
-            <div className="quick-actions-cards-grid">
-              
-              {/* 1. MY CYCLE */}
-              <Link to="/cycle" className="quick-action-card-item">
-                <div className="action-icon-wrapper pink">
-                  <Calendar size={20} />
-                </div>
-                <div>
-                  <h3 className="action-card-title">{t('home.myCycleTitle')}</h3>
-                  <p className="action-card-desc">{t('home.myCycleDesc')}</p>
-                </div>
-                <span className="action-card-link">{t('home.openBtn')}</span>
-              </Link>
+              <div className="quick-actions-cards-grid">
+                
+                {/* 1. MY CYCLE */}
+                <Link to="/cycle" className="quick-action-card-item card-micro-hover">
+                  <div className="action-icon-wrapper pink">
+                    <Calendar size={20} />
+                  </div>
+                  <div>
+                    <h3 className="action-card-title">{t('home.myCycleTitle')}</h3>
+                    <p className="action-card-desc">{t('home.myCycleDesc')}</p>
+                  </div>
+                  <span className="action-card-link">{t('home.openBtn')}</span>
+                </Link>
 
-              {/* 2. HOW I FEEL */}
-              <div className="quick-action-card-item" onClick={() => setIsLogOpen(true)}>
-                <div className="action-icon-wrapper yellow">
-                  <Smile size={20} />
+                {/* 2. HOW I FEEL */}
+                <div className="quick-action-card-item card-micro-hover" onClick={() => setIsLogOpen(true)}>
+                  <div className="action-icon-wrapper yellow">
+                    <Smile size={20} />
+                  </div>
+                  <div>
+                    <h3 className="action-card-title">{t('home.howIFeelTitle')}</h3>
+                    <p className="action-card-desc">{t('home.howIFeelDesc')}</p>
+                  </div>
+                  <span className="action-card-link">{t('home.openBtn')}</span>
                 </div>
-                <div>
-                  <h3 className="action-card-title">{t('home.howIFeelTitle')}</h3>
-                  <p className="action-card-desc">{t('home.howIFeelDesc')}</p>
-                </div>
-                <span className="action-card-link">{t('home.openBtn')}</span>
+
+                {/* 3. TALK TO SAKHI */}
+                <Link to="/chat" className="quick-action-card-item card-micro-hover">
+                  <div className="action-icon-wrapper purple">
+                    <MessageCircle size={20} />
+                  </div>
+                  <div>
+                    <h3 className="action-card-title">{t('home.talkToSakhiTitle')}</h3>
+                    <p className="action-card-desc">{t('home.talkToSakhiDesc')}</p>
+                  </div>
+                  <span className="action-card-link">{t('home.openBtn')}</span>
+                </Link>
+
+                {/* 4. EAT WELL */}
+                <Link to="/lifestyle" className="quick-action-card-item card-micro-hover">
+                  <div className="action-icon-wrapper green">
+                    <Utensils size={20} />
+                  </div>
+                  <div>
+                    <h3 className="action-card-title">{t('home.eatWellTitle')}</h3>
+                    <p className="action-card-desc">{t('home.eatWellDesc')}</p>
+                  </div>
+                  <span className="action-card-link">{t('home.openBtn')}</span>
+                </Link>
+
+                {/* 5. DRINK WATER */}
+                <Link to="/lifestyle" className="quick-action-card-item card-micro-hover">
+                  <div className="action-icon-wrapper blue">
+                    <Droplet size={20} />
+                  </div>
+                  <div>
+                    <h3 className="action-card-title">{t('home.drinkWaterTitle')}</h3>
+                    <p className="action-card-desc">{t('home.drinkWaterDesc')}</p>
+                  </div>
+                  <span className="action-card-link">{t('home.openBtn')}</span>
+                </Link>
+
               </div>
-
-              {/* 3. TALK TO SAKHI */}
-              <Link to="/chat" className="quick-action-card-item">
-                <div className="action-icon-wrapper purple">
-                  <MessageCircle size={20} />
-                </div>
-                <div>
-                  <h3 className="action-card-title">{t('home.talkToSakhiTitle')}</h3>
-                  <p className="action-card-desc">{t('home.talkToSakhiDesc')}</p>
-                </div>
-                <span className="action-card-link">{t('home.openBtn')}</span>
-              </Link>
-
-              {/* 4. EAT WELL */}
-              <Link to="/lifestyle" className="quick-action-card-item">
-                <div className="action-icon-wrapper green">
-                  <Utensils size={20} />
-                </div>
-                <div>
-                  <h3 className="action-card-title">{t('home.eatWellTitle')}</h3>
-                  <p className="action-card-desc">{t('home.eatWellDesc')}</p>
-                </div>
-                <span className="action-card-link">{t('home.openBtn')}</span>
-              </Link>
-
-              {/* 5. DRINK WATER */}
-              <Link to="/lifestyle" className="quick-action-card-item">
-                <div className="action-icon-wrapper blue">
-                  <Droplet size={20} />
-                </div>
-                <div>
-                  <h3 className="action-card-title">{t('home.drinkWaterTitle')}</h3>
-                  <p className="action-card-desc">{t('home.drinkWaterDesc')}</p>
-                </div>
-                <span className="action-card-link">{t('home.openBtn')}</span>
-              </Link>
-
-            </div>
-          </section>
+            </section>
+          </GentleReveal>
 
         </main>
       </div>

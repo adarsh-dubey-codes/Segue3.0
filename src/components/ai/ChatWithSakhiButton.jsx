@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, X } from 'lucide-react';
+import { MessageCircle, X, Sparkles } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import SakhiChat from './SakhiChat';
 
@@ -51,12 +51,14 @@ export default function ChatWithSakhiButton() {
         )}
       </AnimatePresence>
 
-      {/* Floating Circular Chat Icon Button */}
+      {/* Floating Circular Chat Icon Button with Breathing Scale (Section #12 of Prompt) */}
       <motion.button
         type="button"
         onClick={toggleChat}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        animate={!isOpen ? { scale: [1, 1.03, 1] } : { scale: 1 }}
+        transition={!isOpen ? { duration: 5, repeat: Infinity, ease: 'easeInOut' } : {}}
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.95 }}
         style={{
@@ -77,6 +79,18 @@ export default function ChatWithSakhiButton() {
         aria-label={localizedChatLabel}
         title={localizedChatLabel}
       >
+        {isHovered && !isOpen && (
+          <Sparkles
+            size={14}
+            color="#FFD1DC"
+            style={{
+              position: 'absolute',
+              top: '6px',
+              right: '6px',
+              animation: 'sparklePulse 2s ease-in-out infinite'
+            }}
+          />
+        )}
         {isOpen ? (
           <X size={26} color="#FFFFFF" strokeWidth={2.5} />
         ) : (
@@ -178,3 +192,4 @@ export default function ChatWithSakhiButton() {
     </div>
   );
 }
+

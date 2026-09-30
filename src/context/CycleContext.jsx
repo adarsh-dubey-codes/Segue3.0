@@ -4,6 +4,7 @@ const CycleContext = createContext();
 
 const STORAGE_KEY_SETUP = 'sakhi_cycle_setup_v2';
 const STORAGE_KEY_LOGS = 'sakhi_cycle_logs_v2';
+const STORAGE_KEY_EVENTS = 'sakhi_cycle_events_v2';
 
 export const CycleProvider = ({ children }) => {
   // Cycle configuration setup state
@@ -48,6 +49,82 @@ export const CycleProvider = ({ children }) => {
     ];
   });
 
+  // Personal health events state
+  const [events, setEvents] = useState(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY_EVENTS);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {
+      console.error('Error loading events:', e);
+    }
+    // Seed sample historical events if empty for immediate context demonstration
+    const todayObj = new Date();
+    const formatDateOffset = (offsetDays) => {
+      const d = new Date(todayObj);
+      d.setDate(d.getDate() + offsetDays);
+      return d.toISOString().split('T')[0];
+    };
+
+    return [
+      {
+        id: 'evt_sample_1',
+        userId: 'user_local',
+        date: formatDateOffset(-5),
+        category: 'health',
+        type: 'fever',
+        title: 'Fever & Rest',
+        description: 'Had a mild fever, rested at home.',
+        metadata: { medicationName: 'Paracetamol', severity: 'moderate' },
+        severity: 'moderate',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        source: 'manual'
+      },
+      {
+        id: 'evt_sample_2',
+        userId: 'user_local',
+        date: formatDateOffset(-5),
+        category: 'medication',
+        type: 'medication_taken',
+        title: 'Fever Medicine',
+        description: 'Took fever medication after lunch.',
+        metadata: { medicationName: 'Crocin / Paracetamol' },
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        source: 'manual'
+      },
+      {
+        id: 'evt_sample_3',
+        userId: 'user_local',
+        date: formatDateOffset(-3),
+        category: 'mental',
+        type: 'stressful_day',
+        title: 'Work Stress',
+        description: 'High workload and deadline pressure today.',
+        severity: 'high',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        source: 'manual'
+      },
+      {
+        id: 'evt_sample_4',
+        userId: 'user_local',
+        date: formatDateOffset(-2),
+        category: 'lifestyle',
+        type: 'poor_sleep',
+        title: 'Poor Sleep',
+        description: 'Slept 5 hours only.',
+        metadata: { sleepHours: 5 },
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        source: 'manual'
+      }
+    ];
+  });
+
   // Save changes to localStorage
   useEffect(() => {
     try {
@@ -65,6 +142,14 @@ export const CycleProvider = ({ children }) => {
     }
   }, [dailyLogs]);
 
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY_EVENTS, JSON.stringify(events));
+    } catch (e) {
+      console.error('Error saving events:', e);
+    }
+  }, [events]);
+
   // Update setup handler
   const updateCycleSetup = (newSetup) => {
     setCycleSetup((prev) => ({
@@ -74,13 +159,97 @@ export const CycleProvider = ({ children }) => {
     }));
   };
 
-  // Log today's entry
+  // Add a personal event
+  const addEvent = (eventData) => {
+    const newEvent = {
+      id: eventData.id || `evt_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+      userId: eventData.userId || 'user_local',
+      date: eventData.date || new Date().toISOString().split('T')[0],
+      category: eventData.category || 'personal',
+      type: eventData.type || 'other',
+      title: eventData.title || 'Event',
+      description: eventData.description || eventData.note || '',
+      metadata: eventData.metadata || {},
+      severity: eventData.severity || 'normal',
+      createdAt: eventData.createdAt || new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      source: eventData.source || 'manual'
+    };
+
+    setEvents((prev) => [newEvent, ...prev]);
+    return newEvent;
+  };
+
+  // Update an existing event
+  const updateEvent = (eventId, updatedData) => {
+    setEvents((prev) =>
+      prev.map((item) =>
+        item.id === eventId
+          ? { ...item, ...updatedData, updatedAt: new Date().toISOString() }
+          : item
+      )
+    );
+  };
+
+  // Delete an event
+  const deleteEvent = (eventId) => {
+    setEvents((prev) => prev.filter((item) => item.id !== eventId));
+  };
+
+  // Clear all events
+  const clearEvents = () => {
+    setEvents([]);
+  };
+
+  // Helper to get events for a date
+  const getEventsForDate = (dateStr) => {
+    if (!dateStr) return [];
+    return events.filter((evt) => evt.date === dateStr);
+  };
+
+  // Log today's entry & create linked symptom events if symptoms selected
   const addDailyLog = (logEntry) => {
     const dateKey = logEntry.date || new Date().toISOString().split('T')[0];
     setDailyLogs((prev) => {
       const filtered = prev.filter((item) => item.date !== dateKey);
       return [{ ...logEntry, date: dateKey }, ...filtered];
     });
+
+    // Also link symptoms to timeline events if any symptoms were logged
+    if (logEntry.symptoms && Array.isArray(logEntry.symptoms) && logEntry.symptoms.length > 0) {
+      logEntry.symptoms.forEach((sym) => {
+        const symClean = typeof sym === 'string' ? sym.replace(/[\u1F600-\u1F64F\u1F300-\u1F5FF\u1F680-\u1F6FF\u2600-\u26FF\u2700-\u27BF]/g, '').trim() : sym;
+        const existingSymptomEvent = events.find(
+          (e) => e.date === dateKey && e.category === 'symptoms' && e.title.includes(symClean)
+        );
+        if (!existingSymptomEvent) {
+          addEvent({
+            date: dateKey,
+            category: 'symptoms',
+            type: symClean.toLowerCase().replace(/\s+/g, '_'),
+            title: `Symptom: ${symClean}`,
+            description: logEntry.notes || `Logged symptom: ${symClean}`,
+            source: 'symptom_log'
+          });
+        }
+      });
+    }
+
+    // Link sleep event if sleep logged < 6 hrs
+    if (logEntry.sleep && Number(logEntry.sleep) < 6) {
+      const existingSleepEvent = events.find((e) => e.date === dateKey && e.type === 'poor_sleep');
+      if (!existingSleepEvent) {
+        addEvent({
+          date: dateKey,
+          category: 'lifestyle',
+          type: 'poor_sleep',
+          title: 'Poor Sleep',
+          description: `Logged ${logEntry.sleep} hours of sleep`,
+          metadata: { sleepHours: Number(logEntry.sleep) },
+          source: 'symptom_log'
+        });
+      }
+    }
   };
 
   // Export cycle data as downloadable JSON file
@@ -88,6 +257,7 @@ export const CycleProvider = ({ children }) => {
     const exportPayload = {
       setup: cycleSetup,
       logs: dailyLogs,
+      events: events,
       exportedAt: new Date().toISOString(),
       version: '2.0'
     };
@@ -106,6 +276,7 @@ export const CycleProvider = ({ children }) => {
       const parsed = typeof jsonPayload === 'string' ? JSON.parse(jsonPayload) : jsonPayload;
       if (parsed.setup) setCycleSetup(parsed.setup);
       if (parsed.logs && Array.isArray(parsed.logs)) setDailyLogs(parsed.logs);
+      if (parsed.events && Array.isArray(parsed.events)) setEvents(parsed.events);
       return true;
     } catch (err) {
       console.error('Failed to import cycle data:', err);
@@ -177,6 +348,12 @@ export const CycleProvider = ({ children }) => {
         updateCycleSetup,
         dailyLogs,
         addDailyLog,
+        events,
+        addEvent,
+        updateEvent,
+        deleteEvent,
+        clearEvents,
+        getEventsForDate,
         exportCycleData,
         importCycleData,
         currentCycleDay,
@@ -195,3 +372,4 @@ export const CycleProvider = ({ children }) => {
 };
 
 export const useCycle = () => useContext(CycleContext);
+

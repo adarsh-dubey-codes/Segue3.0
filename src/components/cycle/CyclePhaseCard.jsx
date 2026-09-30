@@ -1,6 +1,7 @@
 import React from 'react';
 import { useCycle } from '../../context/CycleContext';
 import { useLanguage } from '../../context/LanguageContext';
+import FloatingDecoration from '../decorations/FloatingDecoration';
 import { ArrowRight } from 'lucide-react';
 
 export default function CyclePhaseCard({ onOpenDetails }) {
@@ -32,8 +33,16 @@ export default function CyclePhaseCard({ onOpenDetails }) {
   const phaseKey = phaseKeyMap[currentPhase?.toLowerCase()] || 'phase.period';
   const displayName = t(phaseKey);
 
+  // Phase Mood Accents (Section #9 of Prompt)
+  const normPhase = currentPhase?.toLowerCase() || 'menstrual';
+  const phaseDecorationType = 
+    normPhase === 'follicular' ? 'leaf' :
+    normPhase === 'ovulation' ? 'sparkle' :
+    normPhase === 'luteal' ? 'leaf' : 'petal';
+
   return (
     <div
+      className="card-micro-hover"
       style={{
         backgroundColor: '#FFFFFF',
         borderRadius: '28px',
@@ -57,6 +66,10 @@ export default function CyclePhaseCard({ onOpenDetails }) {
           zIndex: 0
         }}
       />
+
+      {/* Floating Mood Accents for Cycle Phase */}
+      <FloatingDecoration type={phaseDecorationType} top="12px" right="20px" opacity={0.35} size={22} behavior={normPhase === 'ovulation' ? 'sparkle' : 'sway'} />
+      <FloatingDecoration type="flower" bottom="14px" left="16px" opacity={0.25} size={18} duration={8} />
 
       <div style={{ position: 'relative', zIndex: 1, flex: 1, paddingRight: '16px' }}>
         <span style={{ fontSize: '0.85rem', color: '#8E6E79', fontWeight: '500', display: 'block', marginBottom: '2px' }}>
@@ -111,6 +124,7 @@ export default function CyclePhaseCard({ onOpenDetails }) {
         <div>
           <button
             type="button"
+            className="btn-micro-hover"
             onClick={onOpenDetails}
             style={{
               backgroundColor: '#EC738F',
@@ -157,3 +171,4 @@ export default function CyclePhaseCard({ onOpenDetails }) {
     </div>
   );
 }
+

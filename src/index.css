@@ -120,7 +120,7 @@ html, body {
   border: 1px solid var(--border);
 }
 
-/* Keyframes & Animations */
+/* Keyframes & Motion Animations */
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
@@ -128,8 +128,38 @@ html, body {
 
 @keyframes floatSphere {
   0% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-12px) rotate(3deg); }
+  50% { transform: translateY(-8px) rotate(3deg); }
   100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes swayMotion {
+  0% { transform: rotate(-3deg) translateY(0px); }
+  50% { transform: rotate(3deg) translateY(-5px); }
+  100% { transform: rotate(-3deg) translateY(0px); }
+}
+
+@keyframes sparklePulse {
+  0% { transform: scale(0.92) rotate(0deg); opacity: 0.4; }
+  50% { transform: scale(1.08) rotate(15deg); opacity: 0.85; }
+  100% { transform: scale(0.92) rotate(0deg); opacity: 0.4; }
+}
+
+@keyframes breatheScale {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+@keyframes floatingPhraseMotion {
+  0% { transform: translateY(0px); opacity: 0.35; }
+  50% { transform: translateY(-8px); opacity: 0.75; }
+  100% { transform: translateY(0px); opacity: 0.35; }
+}
+
+@keyframes slowAmbientDrift {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(25px, -15px) scale(1.05); }
+  100% { transform: translate(0, 0) scale(1); }
 }
 
 @keyframes pulseGlow {
@@ -142,6 +172,35 @@ html, body {
   0% { transform: translateX(0) scaleY(1); }
   50% { transform: translateX(-15px) scaleY(1.05); }
   100% { transform: translateX(0) scaleY(1); }
+}
+
+/* Micro-interaction Helper Classes */
+.btn-micro-hover {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease !important;
+}
+.btn-micro-hover:hover {
+  transform: translateY(-1px) !important;
+}
+.btn-micro-hover:active {
+  transform: scale(0.98) !important;
+}
+
+.card-micro-hover {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease !important;
+}
+.card-micro-hover:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+/* ACCESSIBILITY: Prefers-Reduced-Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 *:focus-visible {
@@ -176,4 +235,5 @@ html, body {
     font-size: 1.5rem !important;
   }
 }
+
 
