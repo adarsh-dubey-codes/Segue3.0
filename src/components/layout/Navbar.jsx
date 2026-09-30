@@ -44,7 +44,6 @@ export default function Navbar() {
     { to: '/forum', label: t('nav.forum'), icon: Users },
     { to: '/buddy', label: t('nav.buddy'), icon: User },
     { to: '/vibes', label: t('nav.vibes'), icon: Sun }
->>>>>>> dfee620 (Redesign Chat with Sakhi feature into floating circular pink action button above mic control)
   ];
 
   // Features inside the Explore Dropdown
