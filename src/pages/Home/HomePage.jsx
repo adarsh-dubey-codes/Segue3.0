@@ -4,265 +4,762 @@ import { useCycle } from '../../context/CycleContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { dailyAffirmations } from '../../data/affirmationsData';
 import Button from '../../components/Button/Button';
-import HeroArt3D from '../../components/home/HeroArt3D';
 import CycleSetupModal from '../../components/cycle/CycleSetupModal';
 import DailyLogModal from '../../components/cycle/DailyLogModal';
-import CyclePhaseVisual from '../../components/cycle/CyclePhaseVisual';
+import PhaseDetailModal from '../../components/cycle/PhaseDetailModal';
 import VisualOnboarding from '../../components/home/VisualOnboarding';
-import FeatureIllustration from '../../components/illustrations/FeatureIllustration';
 import { 
-  Sparkles, MessageCircle, HelpCircle, ArrowRight
+  Sparkles, MessageCircle, PlayCircle, Home, Palette, Image as ImageIcon, 
+  Target, Compass, Calendar, Smile, Utensils, Droplet, ArrowRight, Heart
 } from 'lucide-react';
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const { currentCycleDay, currentPhase } = useCycle();
+  const { currentCycleDay, currentPhase, cycleLength } = useCycle();
   const { t } = useLanguage();
 
   const [isSetupOpen, setIsSetupOpen] = useState(false);
   const [isLogOpen, setIsLogOpen] = useState(false);
   const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
   // Today's affirmation
   const randomAffirmation = dailyAffirmations[new Date().getDate() % dailyAffirmations.length];
 
-  const features = [
-    { key: 'cycle', title: t('feature.cycle.title'), desc: t('feature.cycle.desc'), link: '/cycle' },
-    { key: 'mood', title: t('feature.mood.title'), desc: t('feature.mood.desc'), action: () => setIsLogOpen(true) },
-    { key: 'chat', title: t('feature.chat.title'), desc: t('feature.chat.desc'), link: '/chat' },
-    { key: 'eat', title: t('feature.eat.title'), desc: t('feature.eat.desc'), link: '/lifestyle' },
-    { key: 'move', title: t('feature.move.title'), desc: t('feature.move.desc'), link: '/lifestyle' },
-    { key: 'doctor', title: t('feature.doctor.title'), desc: t('feature.doctor.desc'), link: '/doctors' },
-    { key: 'buddy', title: t('feature.buddy.title'), desc: t('feature.buddy.desc'), link: '/buddy' },
-    { key: 'vibes', title: t('feature.vibes.title'), desc: t('feature.vibes.desc'), link: '/vibes' },
-    { key: 'water', title: t('feature.water.title'), desc: t('feature.water.desc'), link: '/lifestyle' }
-  ];
-
   return (
-    <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '24px 24px 80px 24px' }}>
+    <div className="home-wrapper" style={{ maxWidth: '1360px', margin: '0 auto', padding: '24px 20px 80px 20px' }}>
       <style>{`
-        .hero-split-grid {
+        .home-main-grid {
           display: grid;
-          grid-template-columns: 1.15fr 1fr;
-          gap: 40px;
-          align-items: center;
+          grid-template-columns: 240px 1fr;
+          gap: 24px;
+          align-items: start;
         }
-        .hero-outer-card {
-          background: linear-gradient(135deg, #FFFFFF 0%, #FFF2F5 45%, #FFE2E9 100%);
-          border-radius: 32px;
-          padding: 48px 56px;
-          border: 1px solid rgba(250, 212, 222, 0.7);
-          box-shadow: 0 20px 50px rgba(236, 115, 143, 0.12);
-          margin-bottom: 40px;
-        }
-        .cta-btn-primary {
-          background-color: #EC738F !important;
-          color: #FFFFFF !important;
-          border-radius: var(--radius-full) !important;
-          padding: 14px 28px !important;
-          font-size: 1rem !important;
-          font-weight: 600 !important;
-          box-shadow: 0 6px 20px rgba(236, 115, 143, 0.35) !important;
-          transition: all 0.2s ease !important;
-        }
-        .cta-btn-primary:hover {
-          background-color: #D95B78 !important;
-          transform: translateY(-2px);
-        }
-        .visual-card-item {
-          background-color: #FFFFFF;
-          border-radius: 24px;
-          padding: 24px;
-          border: 1px solid var(--border);
-          box-shadow: var(--shadow-sm);
-          transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+        /* LEFT SIDEBAR FEATURE CARD */
+        .left-sidebar-card {
+          background: linear-gradient(180deg, #FFF9FA 0%, #FFF0F4 100%);
+          border: 1px solid #FAD4DE;
+          border-radius: 28px;
+          padding: 24px 20px;
+          box-shadow: 0 8px 30px rgba(236, 115, 143, 0.06);
+          position: sticky;
+          top: 90px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-          text-decoration: none;
-          cursor: pointer;
+          min-height: 520px;
         }
-        .visual-card-item:hover {
+
+        .option-pill-badge {
+          display: inline-block;
+          background-color: #EC738F;
+          color: #FFFFFF;
+          font-size: 0.75rem;
+          font-weight: 700;
+          padding: 4px 14px;
+          border-radius: 20px;
+          width: fit-content;
+          margin-bottom: 12px;
+          letter-spacing: 0.03em;
+        }
+
+        .sidebar-title {
+          font-family: var(--font-display);
+          font-size: 1.5rem;
+          font-weight: 600;
+          color: #38232A;
+          margin-bottom: 24px;
+        }
+
+        .sidebar-feature-list {
+          list-style: none;
+          padding: 0;
+          margin: 0 0 32px 0;
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        .sidebar-feature-item {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          font-size: 0.875rem;
+          color: #634751;
+          font-weight: 500;
+          line-height: 1.3;
+        }
+
+        .sidebar-feature-icon {
+          color: #EC738F;
+          flex-shrink: 0;
+        }
+
+        .sidebar-flower-art {
+          display: flex;
+          justify-content: center;
+          margin-top: auto;
+          opacity: 0.85;
+        }
+
+        /* MAIN RIGHT CONTENT AREA */
+        .right-content-area {
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+        }
+
+        /* HERO CARD BANNER */
+        .hero-banner-card {
+          background: linear-gradient(135deg, #FFFFFF 0%, #FFF2F5 45%, #FFE5EC 100%);
+          border: 1px solid #FAD4DE;
+          border-radius: 32px;
+          padding: 36px 40px;
+          box-shadow: 0 16px 45px rgba(236, 115, 143, 0.09);
+          display: grid;
+          grid-template-columns: 1.1fr 0.9fr 260px;
+          gap: 24px;
+          align-items: center;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .sakhi-companion-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          background-color: #FFE5EC;
+          color: #EC738F;
+          border: 1px solid rgba(236, 115, 143, 0.25);
+          font-size: 0.8rem;
+          font-weight: 600;
+          padding: 5px 14px;
+          border-radius: 20px;
+          margin-bottom: 16px;
+        }
+
+        .hero-main-title {
+          font-family: var(--font-display);
+          font-size: 2.6rem;
+          line-height: 1.15;
+          color: #38232A;
+          font-weight: 600;
+          margin-bottom: 14px;
+          letter-spacing: -0.02em;
+        }
+
+        .hero-sub-text {
+          font-size: 0.975rem;
+          color: #7D626C;
+          line-height: 1.55;
+          margin-bottom: 28px;
+          max-width: 440px;
+        }
+
+        .hero-buttons-group {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          flex-wrap: wrap;
+        }
+
+        .btn-setup-cycle {
+          background-color: #EC738F !important;
+          color: #FFFFFF !important;
+          border-radius: 24px !important;
+          padding: 12px 24px !important;
+          font-size: 0.925rem !important;
+          font-weight: 600 !important;
+          box-shadow: 0 6px 20px rgba(236, 115, 143, 0.3) !important;
+          border: none !important;
+          transition: all 0.2s ease !important;
+        }
+
+        .btn-setup-cycle:hover {
+          background-color: #D95B78 !important;
+          transform: translateY(-2px);
+        }
+
+        .btn-talk-sakhi {
+          background-color: #FFFFFF !important;
+          color: #EC738F !important;
+          border: 1.5px solid #FAD4DE !important;
+          border-radius: 24px !important;
+          padding: 12px 22px !important;
+          font-size: 0.925rem !important;
+          font-weight: 600 !important;
+          transition: all 0.2s ease !important;
+        }
+
+        .btn-talk-sakhi:hover {
+          background-color: #FFF2F5 !important;
+          border-color: #EC738F !important;
+        }
+
+        .btn-visual-guide {
+          background: none;
+          border: none;
+          color: #EC738F;
+          font-size: 0.925rem;
+          font-weight: 600;
+          cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 8px 12px;
+          transition: transform 0.2s ease;
+        }
+
+        .btn-visual-guide:hover {
+          transform: scale(1.04);
+        }
+
+        .hero-woman-illustration {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .hero-woman-img {
+          width: 100%;
+          max-width: 240px;
+          height: auto;
+          border-radius: 20px;
+          object-fit: cover;
+          box-shadow: 0 10px 30px rgba(236, 115, 143, 0.12);
+        }
+
+        .hero-affirmation-card {
+          background-color: rgba(255, 255, 255, 0.85);
+          backdrop-filter: blur(10px);
+          border: 1px solid #FAD4DE;
+          border-radius: 20px;
+          padding: 20px;
+          box-shadow: 0 8px 25px rgba(236, 115, 143, 0.08);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          min-height: 160px;
+          position: relative;
+        }
+
+        .affirmation-tag {
+          font-size: 0.725rem;
+          font-weight: 600;
+          color: #A0828C;
+          letter-spacing: 0.02em;
+          margin-bottom: 8px;
+          display: block;
+        }
+
+        .affirmation-quote-text {
+          font-family: var(--font-display);
+          font-size: 1.15rem;
+          line-height: 1.4;
+          color: #38232A;
+          font-weight: 600;
+          font-style: italic;
+        }
+
+        /* MIDDLE TWO CARDS GRID */
+        .middle-cards-grid {
+          display: grid;
+          grid-template-columns: 1.35fr 1fr;
+          gap: 24px;
+        }
+
+        .period-phase-main-card {
+          background-color: #FFFFFF;
+          border: 1px solid #FAD4DE;
+          border-radius: 28px;
+          padding: 28px 32px;
+          box-shadow: 0 10px 35px rgba(236, 115, 143, 0.06);
+          position: relative;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
+
+        .phase-badge-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          background-color: #FFF0F4;
+          color: #E85C7D;
+          font-size: 0.75rem;
+          font-weight: 700;
+          padding: 4px 12px;
+          border-radius: 16px;
+          letter-spacing: 0.05em;
+          margin-bottom: 12px;
+          width: fit-content;
+        }
+
+        .phase-heading-title {
+          font-family: var(--font-display);
+          font-size: 1.9rem;
+          color: #38232A;
+          font-weight: 600;
+          margin-bottom: 16px;
+        }
+
+        .phase-progress-track {
+          width: 100%;
+          max-width: 420px;
+          height: 6px;
+          background-color: #FFE5EC;
+          border-radius: 10px;
+          margin-bottom: 12px;
+          overflow: hidden;
+        }
+
+        .phase-progress-fill {
+          height: 100%;
+          background-color: #EC738F;
+          border-radius: 10px;
+        }
+
+        .next-period-subtext {
+          font-size: 0.85rem;
+          color: #7D626C;
+          margin-bottom: 20px;
+          font-weight: 500;
+        }
+
+        .btn-view-details {
+          background-color: #EC738F !important;
+          color: #FFFFFF !important;
+          border-radius: 24px !important;
+          padding: 10px 22px !important;
+          font-size: 0.875rem !important;
+          font-weight: 600 !important;
+          box-shadow: 0 4px 14px rgba(236, 115, 143, 0.25) !important;
+          border: none !important;
+          width: fit-content;
+        }
+
+        .motivational-quote-card {
+          background: linear-gradient(135deg, #FFF5F7 0%, #FFEBEF 100%);
+          border: 1px solid #FAD4DE;
+          border-radius: 28px;
+          padding: 32px 28px;
+          box-shadow: 0 10px 35px rgba(236, 115, 143, 0.06);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .cursive-quote-large {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: 1.8rem;
+          color: #D95B78;
+          font-style: italic;
+          margin-bottom: 14px;
+          line-height: 1.3;
+        }
+
+        .cursive-quote-small {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: 1.1rem;
+          color: #8E6E79;
+          font-style: italic;
+          line-height: 1.4;
+        }
+
+        /* QUICK ACTIONS SECTION */
+        .quick-actions-container {
+          background-color: #FFFFFF;
+          border: 1px solid #FAD4DE;
+          border-radius: 28px;
+          padding: 32px;
+          box-shadow: 0 10px 35px rgba(236, 115, 143, 0.05);
+        }
+
+        .quick-actions-header-title {
+          font-family: var(--font-display);
+          font-size: 1.6rem;
+          color: #38232A;
+          font-weight: 600;
+          margin-bottom: 4px;
+        }
+
+        .quick-actions-header-sub {
+          font-size: 0.875rem;
+          color: #7D626C;
+          margin-bottom: 24px;
+        }
+
+        .quick-actions-cards-grid {
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+          gap: 16px;
+        }
+
+        .quick-action-card-item {
+          background-color: #FFF9FA;
+          border: 1px solid #FAD4DE;
+          border-radius: 20px;
+          padding: 20px 16px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          transition: all 0.2s ease;
+          cursor: pointer;
+          text-decoration: none;
+          min-height: 165px;
+        }
+
+        .quick-action-card-item:hover {
           transform: translateY(-4px);
-          box-shadow: 0 12px 30px rgba(236, 115, 143, 0.18);
+          box-shadow: 0 10px 25px rgba(236, 115, 143, 0.15);
           border-color: #EC738F;
+          background-color: #FFFFFF;
+        }
+
+        .action-icon-wrapper {
+          width: 42px;
+          height: 42px;
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 14px;
+        }
+
+        .action-icon-wrapper.pink { background-color: #FFE5EC; color: #EC738F; }
+        .action-icon-wrapper.yellow { background-color: #FEF3C7; color: #D97706; }
+        .action-icon-wrapper.purple { background-color: #F3E8FF; color: #9333EA; }
+        .action-icon-wrapper.green { background-color: #DCFCE7; color: #16A34A; }
+        .action-icon-wrapper.blue { background-color: #E0F2FE; color: #0284C7; }
+
+        .action-card-title {
+          font-family: var(--font-display);
+          font-size: 1.05rem;
+          font-weight: 600;
+          color: #38232A;
+          margin-bottom: 4px;
+        }
+
+        .action-card-desc {
+          font-size: 0.775rem;
+          color: #7D626C;
+          line-height: 1.35;
+          margin-bottom: 16px;
+        }
+
+        .action-card-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          font-size: 0.8rem;
+          font-weight: 600;
+          color: #EC738F;
+          margin-top: auto;
+        }
+
+        /* RESPONSIVE MEDIA QUERIES */
+        @media (max-width: 1200px) {
+          .hero-banner-card {
+            grid-template-columns: 1fr 1fr;
+          }
+          .hero-affirmation-card {
+            grid-column: span 2;
+          }
+          .quick-actions-cards-grid {
+            grid-template-columns: repeat(3, 1fr);
+          }
         }
 
         @media (max-width: 960px) {
-          .hero-split-grid {
+          .home-main-grid {
             grid-template-columns: 1fr !important;
-            gap: 32px !important;
           }
-          .hero-outer-card {
-            padding: 32px 24px !important;
-            border-radius: 24px !important;
+          .left-sidebar-card {
+            position: relative;
+            top: 0;
+            min-height: auto;
+          }
+          .hero-banner-card {
+            grid-template-columns: 1fr !important;
+            padding: 24px !important;
+          }
+          .hero-affirmation-card {
+            grid-column: span 1;
+          }
+          .middle-cards-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .quick-actions-cards-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        @media (max-width: 600px) {
+          .quick-actions-cards-grid {
+            grid-template-columns: 1fr;
           }
         }
       `}</style>
 
-      {/* MAIN HERO OUTER CONTAINER CARD */}
-      <section className="hero-outer-card">
-        <div className="hero-split-grid">
+      {/* MAIN TWO COLUMN LAYOUT */}
+      <div className="home-main-grid">
+        
+        {/* LEFT SIDEBAR FEATURE CARD */}
+        <aside className="left-sidebar-card">
           <div>
-            <div 
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '6px 14px',
-                borderRadius: 'var(--radius-full)',
-                backgroundColor: '#FFE5EC',
-                color: '#EC738F',
-                fontSize: '0.825rem',
-                fontWeight: '600',
-                marginBottom: '20px',
-                border: '1px solid rgba(236, 115, 143, 0.25)'
-              }}
-            >
-              <Sparkles size={15} color="#EC738F" />
-              <span>Sakhi Companion</span>
-            </div>
+            <span className="option-pill-badge">Option 1</span>
+            <h2 className="sidebar-title">Calm & Minimal</h2>
 
-            <h1 
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '3.1rem',
-                lineHeight: '1.18',
-                color: '#38232A',
-                fontWeight: '600',
-                marginBottom: '18px',
-                letterSpacing: '-0.02em'
-              }}
-            >
-              {t('hero.title')}
-            </h1>
-
-            <p 
-              style={{
-                fontFamily: 'var(--font-ui)',
-                fontSize: '1.1rem',
-                color: '#7D626C',
-                lineHeight: '1.65',
-                marginBottom: '32px',
-                maxWidth: '520px'
-              }}
-            >
-              {t('hero.sub')}
-            </p>
-
-            <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', alignItems: 'center' }}>
-              <Button 
-                variant="primary" 
-                className="cta-btn-primary"
-                onClick={() => navigate('/cycle')}
-              >
-                {t('hero.setup')} &rarr;
-              </Button>
-
-              <Button 
-                variant="outline" 
-                onClick={() => navigate('/chat')}
-                icon={<MessageCircle size={18} color="#EC738F" />}
-                style={{ borderRadius: 'var(--radius-full)', padding: '14px 24px' }}
-              >
-                {t('hero.chat')}
-              </Button>
-
-              <button
-                type="button"
-                onClick={() => setIsOnboardingOpen(true)}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: 'var(--rose)',
-                  fontSize: '0.9rem',
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  padding: '8px 12px'
-                }}
-              >
-                <HelpCircle size={17} />
-                <span>{t('hero.visualGuide')}</span>
-              </button>
-            </div>
+            <ul className="sidebar-feature-list">
+              <li className="sidebar-feature-item">
+                <Home size={18} className="sidebar-feature-icon" />
+                <span>Clean and airy layout</span>
+              </li>
+              <li className="sidebar-feature-item">
+                <Palette size={18} className="sidebar-feature-icon" />
+                <span>Soft pastel gradients</span>
+              </li>
+              <li className="sidebar-feature-item">
+                <ImageIcon size={18} className="sidebar-feature-icon" />
+                <span>Simple illustrations</span>
+              </li>
+              <li className="sidebar-feature-item">
+                <Target size={18} className="sidebar-feature-icon" />
+                <span>Focus on clarity</span>
+              </li>
+              <li className="sidebar-feature-item">
+                <Compass size={18} className="sidebar-feature-icon" />
+                <span>Easy to navigate</span>
+              </li>
+            </ul>
           </div>
 
-          <div>
-            <HeroArt3D affirmation={randomAffirmation} />
+          <div className="sidebar-flower-art">
+            <svg width="90" height="120" viewBox="0 0 90 120" fill="none">
+              <path d="M45 110 Q42 70 30 30" stroke="#8E6E79" strokeWidth="2.5" strokeLinecap="round" />
+              <path d="M45 110 Q50 65 65 40" stroke="#8E6E79" strokeWidth="2" strokeLinecap="round" />
+              <circle cx="30" cy="30" r="14" fill="#FAD4DE" opacity="0.8" />
+              <circle cx="30" cy="30" r="7" fill="#EC738F" />
+              <circle cx="65" cy="40" r="11" fill="#FAD4DE" opacity="0.8" />
+              <circle cx="65" cy="40" r="5" fill="#EC738F" />
+              <path d="M40 75 Q25 70 20 80 Q35 85 40 75 Z" fill="#A3B899" />
+              <path d="M50 60 Q65 55 70 65 Q55 70 50 60 Z" fill="#A3B899" />
+            </svg>
           </div>
-        </div>
-      </section>
+        </aside>
 
-      {/* DYNAMIC VISUAL CYCLE PHASE CARD */}
-      <section style={{ marginBottom: '40px' }}>
-        <CyclePhaseVisual
-          currentPhase={currentPhase}
-          currentDay={currentCycleDay}
-          onPhaseSelect={() => navigate('/cycle')}
-        />
-      </section>
+        {/* RIGHT MAIN CONTENT AREA */}
+        <main className="right-content-area">
 
-      {/* VISUAL-FIRST FEATURE DISCOVERY GRID */}
-      <section>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.9rem', color: '#38232A', margin: 0 }}>
-            Visual Exploration
-          </h2>
-          <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-            Tap any visual to open
-          </span>
-        </div>
-
-        <div 
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: '20px'
-          }}
-        >
-          {features.map((item) => {
-            const Content = (
-              <>
-                <div>
-                  <FeatureIllustration name={item.key} size={64} style={{ marginBottom: '16px' }} />
-                  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', color: '#38232A', marginTop: '16px', marginBottom: '6px' }}>
-                    {item.title}
-                  </h3>
-                  <p style={{ color: '#7D626C', fontSize: '0.875rem', lineHeight: '1.5' }}>
-                    {item.desc}
-                  </p>
-                </div>
-
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '20px', color: '#EC738F', fontWeight: '600', fontSize: '0.85rem' }}>
-                  <span>Open</span>
-                  <ArrowRight size={14} />
-                </div>
-              </>
-            );
-
-            if (item.link) {
-              return (
-                <Link key={item.key} to={item.link} className="visual-card-item" aria-label={item.title}>
-                  {Content}
-                </Link>
-              );
-            }
-
-            return (
-              <div key={item.key} onClick={item.action} className="visual-card-item" role="button" tabIndex={0} aria-label={item.title}>
-                {Content}
+          {/* 1. HERO BANNER CARD */}
+          <section className="hero-banner-card">
+            <div>
+              <div className="sakhi-companion-pill">
+                <Sparkles size={14} color="#EC738F" />
+                <span>Sakhi Companion</span>
               </div>
-            );
-          })}
-        </div>
-      </section>
 
+              <h1 className="hero-main-title">
+                Your cycle. Your body. Your Sakhi. ✨
+              </h1>
+
+              <p className="hero-sub-text">
+                Track your period, understand your feelings, and care for yourself in your language.
+              </p>
+
+              <div className="hero-buttons-group">
+                <Button 
+                  variant="primary" 
+                  className="btn-setup-cycle"
+                  onClick={() => setIsSetupOpen(true)}
+                >
+                  Set Up My Cycle &rarr;
+                </Button>
+
+                <Button 
+                  variant="outline" 
+                  className="btn-talk-sakhi"
+                  onClick={() => navigate('/chat')}
+                  icon={<MessageCircle size={16} color="#EC738F" />}
+                >
+                  Talk to Sakhi
+                </Button>
+
+                <button
+                  type="button"
+                  className="btn-visual-guide"
+                  onClick={() => setIsOnboardingOpen(true)}
+                >
+                  <PlayCircle size={17} />
+                  <span>Visual Guide</span>
+                </button>
+              </div>
+            </div>
+
+            <div className="hero-woman-illustration">
+              <img 
+                src="/images/cycle/cycle-phase-woman.jpg" 
+                alt="Woman holding heart" 
+                className="hero-woman-img" 
+              />
+            </div>
+
+            <div className="hero-affirmation-card">
+              <span className="affirmation-tag">Today's Affirmation</span>
+              <p className="affirmation-quote-text">
+                “You are strong, kind and enough.”
+              </p>
+              <div style={{ position: 'absolute', bottom: '12px', right: '14px', opacity: 0.35 }}>
+                <Heart size={20} fill="#EC738F" color="#EC738F" />
+              </div>
+            </div>
+          </section>
+
+          {/* 2. MIDDLE TWO CARDS ROW */}
+          <section className="middle-cards-grid">
+            
+            {/* LEFT CARD: PERIOD PHASE */}
+            <div className="period-phase-main-card">
+              <div>
+                <div className="phase-badge-pill">
+                  <span style={{ fontSize: '0.85rem' }}>🩸</span>
+                  <span>DAY {currentCycleDay} OF {cycleLength}</span>
+                </div>
+
+                <h2 className="phase-heading-title">{currentPhase} Phase</h2>
+
+                <div className="phase-progress-track">
+                  <div 
+                    className="phase-progress-fill" 
+                    style={{ width: `${Math.min(100, Math.round((currentCycleDay / cycleLength) * 100))}%` }} 
+                  />
+                </div>
+
+                <p className="next-period-subtext">
+                  Next period in {Math.max(1, cycleLength - currentCycleDay)} days
+                </p>
+
+                <Button 
+                  variant="primary" 
+                  className="btn-view-details"
+                  onClick={() => setIsDetailModalOpen(true)}
+                >
+                  View Details &rarr;
+                </Button>
+              </div>
+
+              {/* Flower accent decoration */}
+              <div style={{ position: 'absolute', bottom: '16px', right: '20px', pointerEvents: 'none' }}>
+                <svg width="70" height="90" viewBox="0 0 70 90" fill="none">
+                  <path d="M35 85 Q30 50 45 20" stroke="#8E6E79" strokeWidth="2" />
+                  <circle cx="45" cy="20" r="10" fill="#FAD4DE" />
+                  <circle cx="45" cy="20" r="5" fill="#EC738F" />
+                  <path d="M35 60 Q20 55 18 65 Q30 68 35 60 Z" fill="#A3B899" />
+                </svg>
+              </div>
+            </div>
+
+            {/* RIGHT CARD: MOTIVATIONAL QUOTE */}
+            <div className="motivational-quote-card">
+              <p className="cursive-quote-large">You're doing great ♡</p>
+              <p className="cursive-quote-small">Small steps make big changes ♡</p>
+              
+              <div style={{ position: 'absolute', bottom: '12px', right: '16px', opacity: 0.8 }}>
+                <svg width="50" height="60" viewBox="0 0 50 60" fill="none">
+                  <path d="M25 55 Q20 30 35 15" stroke="#8E6E79" strokeWidth="1.5" />
+                  <circle cx="35" cy="15" r="7" fill="#FAD4DE" />
+                  <circle cx="35" cy="15" r="3.5" fill="#EC738F" />
+                </svg>
+              </div>
+            </div>
+
+          </section>
+
+          {/* 3. QUICK ACTIONS SECTION */}
+          <section className="quick-actions-container">
+            <h2 className="quick-actions-header-title">Quick Actions ✨</h2>
+            <p className="quick-actions-header-sub">Everything you need, right here.</p>
+
+            <div className="quick-actions-cards-grid">
+              
+              {/* 1. MY CYCLE */}
+              <Link to="/cycle" className="quick-action-card-item">
+                <div className="action-icon-wrapper pink">
+                  <Calendar size={20} />
+                </div>
+                <div>
+                  <h3 className="action-card-title">My Cycle</h3>
+                  <p className="action-card-desc">Track period, dates & phases</p>
+                </div>
+                <span className="action-card-link">Open &rarr;</span>
+              </Link>
+
+              {/* 2. HOW I FEEL */}
+              <div className="quick-action-card-item" onClick={() => setIsLogOpen(true)}>
+                <div className="action-icon-wrapper yellow">
+                  <Smile size={20} />
+                </div>
+                <div>
+                  <h3 className="action-card-title">How I Feel</h3>
+                  <p className="action-card-desc">Log mood, cramps & feelings</p>
+                </div>
+                <span className="action-card-link">Open &rarr;</span>
+              </div>
+
+              {/* 3. TALK TO SAKHI */}
+              <Link to="/chat" className="quick-action-card-item">
+                <div className="action-icon-wrapper purple">
+                  <MessageCircle size={20} />
+                </div>
+                <div>
+                  <h3 className="action-card-title">Talk to Sakhi</h3>
+                  <p className="action-card-desc">Ask anything about your body</p>
+                </div>
+                <span className="action-card-link">Open &rarr;</span>
+              </Link>
+
+              {/* 4. EAT WELL */}
+              <Link to="/lifestyle" className="quick-action-card-item">
+                <div className="action-icon-wrapper green">
+                  <Utensils size={20} />
+                </div>
+                <div>
+                  <h3 className="action-card-title">Eat Well</h3>
+                  <p className="action-card-desc">Healthy food for your phase</p>
+                </div>
+                <span className="action-card-link">Open &rarr;</span>
+              </Link>
+
+              {/* 5. DRINK WATER */}
+              <Link to="/lifestyle" className="quick-action-card-item">
+                <div className="action-icon-wrapper blue">
+                  <Droplet size={20} />
+                </div>
+                <div>
+                  <h3 className="action-card-title">Drink Water</h3>
+                  <p className="action-card-desc">Stay hydrated daily</p>
+                </div>
+                <span className="action-card-link">Open &rarr;</span>
+              </Link>
+
+            </div>
+          </section>
+
+        </main>
+      </div>
+
+      {/* MODALS */}
       <CycleSetupModal isOpen={isSetupOpen} onClose={() => setIsSetupOpen(false)} />
       <DailyLogModal isOpen={isLogOpen} onClose={() => setIsLogOpen(false)} />
       <VisualOnboarding isOpen={isOnboardingOpen} onClose={() => setIsOnboardingOpen(false)} />
+      <PhaseDetailModal isOpen={isDetailModalOpen} onClose={() => setIsDetailModalOpen(false)} phase={currentPhase} />
     </div>
   );
 }
+
