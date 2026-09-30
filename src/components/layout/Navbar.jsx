@@ -55,8 +55,9 @@ export default function Navbar() {
       icon: Gamepad2,
       iconBg: '#FFE5EC',
       iconColor: '#C23B68',
-      path: '/lifestyle'
+      path: '/play'
     },
+
     {
       id: 'videos',
       title: 'Sakhi Videos',

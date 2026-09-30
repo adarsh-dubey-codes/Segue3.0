@@ -20,8 +20,10 @@ import ForumPage from './pages/Forum/ForumPage';
 import BuddyPage from './pages/Buddy/BuddyPage';
 import VibesPage from './pages/Vibes/VibesPage';
 import PayablesPage from './pages/Payables/PayablesPage';
+import SakhiPlayPage from './pages/Play/SakhiPlayPage';
 import LoginPage from './pages/Auth/LoginPage';
 import SignupPage from './pages/Auth/SignupPage';
+
 
 
 function AppLayout({ children }) {
@@ -152,7 +154,18 @@ export default function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/play"
+                element={
+                  <ProtectedRoute allowGuest={true}>
+                    <AppLayout>
+                      <SakhiPlayPage />
+                    </AppLayout>
+                  </ProtectedRoute>
+                }
+              />
               {/* Fallback route */}
+
 
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
