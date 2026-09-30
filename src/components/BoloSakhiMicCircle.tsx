@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mic, X, Volume2, Radio, Sparkles, RefreshCw, AlertCircle, Heart } from 'lucide-react';
 import { useBoloSakhiEngine } from '../hooks/useBoloSakhiEngine';
+import ChatWithSakhiButton from './ai/ChatWithSakhiButton';
 
 export interface VoicePromptChip {
   id: string;
@@ -85,10 +86,12 @@ export const BoloSakhiMicCircle: React.FC = () => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-end',
+        gap: '12px',
         fontFamily: "'Plus Jakarta Sans', -apple-system, sans-serif"
       }}
       className="bolo-sakhi-mic-container"
     >
+      <ChatWithSakhiButton />
       <style>{`
         @media (max-width: 960px) {
           .bolo-sakhi-mic-container {

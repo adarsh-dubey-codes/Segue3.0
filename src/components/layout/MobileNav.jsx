@@ -13,8 +13,8 @@ export default function MobileNav() {
   const mainTabs = [
     { to: '/', label: t('nav.home'), icon: Home },
     { to: '/cycle', label: t('nav.cycle'), icon: Calendar },
-    { to: '/chat', label: t('nav.chat'), icon: Bot },
-    { to: '/lifestyle', label: t('nav.lifestyle'), icon: Sparkles }
+    { to: '/doctors', label: t('nav.doctors'), icon: Stethoscope },
+    { to: '/forum', label: t('nav.forum'), icon: MessageSquare }
   ];
 
   const exploreLinks = [

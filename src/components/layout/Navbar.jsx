@@ -38,8 +38,13 @@ export default function Navbar() {
   const navLinks = [
     { to: '/', label: t('nav.home'), icon: Home },
     { to: '/cycle', label: t('nav.cycle'), icon: Calendar },
-    { to: '/chat', label: t('nav.chat'), icon: MessageCircle },
-    { to: '/lifestyle', label: t('nav.lifestyle'), icon: Utensils }
+    { to: '/lifestyle', label: t('nav.lifestyle'), icon: Utensils },
+    { to: '/products', label: t('nav.products'), icon: ShoppingBag },
+    { to: '/doctors', label: t('nav.doctors'), icon: Stethoscope },
+    { to: '/forum', label: t('nav.forum'), icon: Users },
+    { to: '/buddy', label: t('nav.buddy'), icon: User },
+    { to: '/vibes', label: t('nav.vibes'), icon: Sun }
+>>>>>>> dfee620 (Redesign Chat with Sakhi feature into floating circular pink action button above mic control)
   ];
 
   // Features inside the Explore Dropdown

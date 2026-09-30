@@ -47,7 +47,7 @@ export default function Footer() {
               </h4>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.875rem' }}>
                 <li><a href="/cycle" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>{t('nav.cycle')}</a></li>
-                <li><a href="/chat" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>{t('nav.chat')}</a></li>
+                <li><a href="/doctors" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>{t('nav.doctors')}</a></li>
                 <li><a href="/lifestyle" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>{t('nav.lifestyle')}</a></li>
                 <li><a href="/products" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>{t('nav.products')}</a></li>
               </ul>
