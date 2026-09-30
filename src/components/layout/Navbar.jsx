@@ -1,30 +1,124 @@
-import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import SakhiLogo from '../Brand/SakhiLogo';
 import LanguageSelector from './LanguageSelector';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { 
   Home, Calendar, MessageCircle, Utensils, ShoppingBag, 
-  Stethoscope, Users, User, Sun, LogOut 
+  Stethoscope, Users, User, LogOut, ChevronDown, ChevronUp,
+  Sparkles, Gamepad2, Video, Scale, CreditCard, Award, ArrowRight, MessageSquare
 } from 'lucide-react';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
+  const location = useLocation();
+  const [isExploreOpen, setIsExploreOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
+  // Close dropdown on click outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsExploreOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Close dropdown on route change
+  useEffect(() => {
+    setIsExploreOpen(false);
+  }, [location.pathname]);
+
+  // Main top nav links (Find Doctor, Forum, Products, Buddy, Vibes removed from top bar)
   const navLinks = [
     { to: '/', label: t('nav.home'), icon: Home },
     { to: '/cycle', label: t('nav.cycle'), icon: Calendar },
     { to: '/chat', label: t('nav.chat'), icon: MessageCircle },
-    { to: '/lifestyle', label: t('nav.lifestyle'), icon: Utensils },
-    { to: '/products', label: t('nav.products'), icon: ShoppingBag },
-    { to: '/doctors', label: t('nav.doctors'), icon: Stethoscope },
-    { to: '/forum', label: t('nav.forum'), icon: Users },
-    { to: '/buddy', label: t('nav.buddy'), icon: User },
-    { to: '/vibes', label: t('nav.vibes'), icon: Sun }
+    { to: '/lifestyle', label: t('nav.lifestyle'), icon: Utensils }
   ];
+
+  // Features inside the Explore Dropdown
+  const exploreSanctuaries = [
+    {
+      id: 'play',
+      title: 'Sakhi Play',
+      subtitle: 'Fun quizzes & games',
+      icon: Gamepad2,
+      iconBg: '#FFE5EC',
+      iconColor: '#C23B68',
+      path: '/lifestyle'
+    },
+    {
+      id: 'videos',
+      title: 'Sakhi Videos',
+      subtitle: 'Doctor video guidance',
+      icon: Video,
+      iconBg: '#F0F4FF',
+      iconColor: '#3B82F6',
+      path: '/lifestyle'
+    },
+    {
+      id: 'marketplace',
+      title: 'Marketplace (Products)',
+      subtitle: 'Ethical period care',
+      icon: ShoppingBag,
+      iconBg: '#F3E8FF',
+      iconColor: '#9333EA',
+      path: '/products'
+    },
+    {
+      id: 'compare',
+      title: 'Product Compare',
+      subtitle: 'Pads vs cups vs disks',
+      icon: Scale,
+      iconBg: '#FEF3C7',
+      iconColor: '#D97706',
+      path: '/products'
+    },
+    {
+      id: 'gynac',
+      title: 'Find Gynac',
+      subtitle: 'Verified specialists',
+      icon: Stethoscope,
+      iconBg: '#E0F2FE',
+      iconColor: '#0284C7',
+      path: '/doctors'
+    },
+    {
+      id: 'forum',
+      title: 'Safe Forum',
+      subtitle: 'Anonymous community & support',
+      icon: MessageSquare,
+      iconBg: '#E8F5E9',
+      iconColor: '#2E7D32',
+      path: '/forum'
+    },
+    {
+      id: 'payables',
+      title: 'Payables',
+      subtitle: 'Period care subscription & payments',
+      icon: CreditCard,
+      iconBg: '#FFEBF0',
+      iconColor: '#B9345D',
+      path: '/payables'
+    },
+    {
+      id: 'rewards',
+      title: 'Sakhi Rewards',
+      subtitle: 'Tokens, streaks & badges',
+      icon: Award,
+      iconBg: '#FEF9C3',
+      iconColor: '#CA8A04',
+      path: '/lifestyle'
+    }
+  ];
+
+  const isExploreActive = ['/products', '/doctors', '/forum', '/payables'].includes(location.pathname);
 
   return (
     <header className="sakhi-navbar">
@@ -59,27 +153,21 @@ export default function Navbar() {
         .navbar-links {
           display: flex;
           align-items: center;
-          gap: clamp(2px, 0.4vw, 6px);
+          gap: clamp(4px, 0.6vw, 8px);
           list-style: none;
-          background-color: rgba(255, 255, 255, 0.9);
-          padding: 4px;
+          background-color: rgba(255, 255, 255, 0.95);
+          padding: 4px clamp(6px, 0.8vw, 12px);
           border-radius: var(--radius-full);
           border: 1px solid rgba(250, 212, 222, 0.7);
           backdrop-filter: blur(8px);
           box-shadow: 0 2px 12px rgba(236, 115, 143, 0.06);
-          overflow-x: auto;
-          scrollbar-width: none;
-          max-width: 100%;
-        }
-        .navbar-links::-webkit-scrollbar {
-          display: none;
         }
         .nav-item-link {
           text-decoration: none;
           color: #5C434B;
-          font-size: clamp(0.725rem, 0.82vw, 0.85rem);
+          font-size: clamp(0.8rem, 0.85vw, 0.9rem);
           font-weight: 500;
-          padding: 7px clamp(8px, 0.85vw, 14px);
+          padding: 7px clamp(10px, 1vw, 16px);
           border-radius: var(--radius-full);
           transition: all var(--transition-fast);
           display: flex;
@@ -102,6 +190,70 @@ export default function Navbar() {
           stroke: #FFFFFF !important;
           fill: none !important;
         }
+
+        /* Explore Button Pill */
+        .explore-trigger-btn {
+          background: #FFFFFF;
+          border: 1.5px solid #FAD4DE;
+          color: #B9345D;
+          font-size: clamp(0.8rem, 0.85vw, 0.9rem);
+          font-weight: 600;
+          padding: 7px 16px;
+          border-radius: var(--radius-full);
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          transition: all 0.2s ease;
+          box-shadow: 0 2px 8px rgba(185, 52, 93, 0.08);
+        }
+        .explore-trigger-btn:hover, .explore-trigger-btn.open {
+          border-color: #B9345D;
+          background-color: #FFF0F4;
+          box-shadow: 0 4px 14px rgba(185, 52, 93, 0.18);
+        }
+
+        /* Explore Dropdown Menu Card */
+        .explore-dropdown-card {
+          position: absolute;
+          top: calc(100% + 10px);
+          left: 50%;
+          transform: translateX(-50%);
+          width: 360px;
+          background-color: #FFFFFF;
+          border-radius: 24px;
+          border: 1.5px solid rgba(250, 212, 222, 0.8);
+          box-shadow: 0 20px 50px rgba(62, 36, 43, 0.15);
+          padding: 20px;
+          z-index: 200;
+          animation: slideDownFade 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideDownFade {
+          from {
+            opacity: 0;
+            transform: translate(-50%, -10px);
+          }
+          to {
+            opacity: 1;
+            transform: translate(-50%, 0);
+          }
+        }
+
+        .explore-item-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 10px 12px;
+          border-radius: 14px;
+          text-decoration: none;
+          transition: background-color 0.15s ease;
+          cursor: pointer;
+        }
+        .explore-item-row:hover {
+          background-color: #FFF0F4;
+        }
+
         .navbar-right-actions {
           display: flex;
           align-items: center;
@@ -123,6 +275,7 @@ export default function Navbar() {
           </NavLink>
         </div>
 
+        {/* Main Navbar Links */}
         <nav className="navbar-nav-wrap">
           <ul className="navbar-links">
             {navLinks.map((link) => {
@@ -140,9 +293,99 @@ export default function Navbar() {
                 </li>
               );
             })}
+
+            {/* Explore Dropdown Menu Pill */}
+            <li style={{ position: 'relative' }} ref={dropdownRef}>
+              <button 
+                type="button"
+                onClick={() => setIsExploreOpen(!isExploreOpen)}
+                className={`explore-trigger-btn ${isExploreOpen || isExploreActive ? 'open' : ''}`}
+                aria-expanded={isExploreOpen}
+              >
+                <Sparkles size={16} color="#B9345D" />
+                <span>Explore</span>
+                {isExploreOpen ? <ChevronUp size={15} color="#B9345D" /> : <ChevronDown size={15} color="#B9345D" />}
+              </button>
+
+              {/* Explore Dropdown Card */}
+              {isExploreOpen && (
+                <div className="explore-dropdown-card">
+                  {/* Header */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', paddingBottom: '10px', borderBottom: '1px solid #FAD4DE' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: '700', color: '#B9345D', letterSpacing: '0.04em' }}>
+                      <Sparkles size={15} color="#B9345D" />
+                      <span>EXPLORE SANCTUARIES</span>
+                    </div>
+                    <span style={{ fontSize: '0.9rem' }}>🌸</span>
+                  </div>
+
+                  {/* List of Items */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', maxHeight: '340px', overflowY: 'auto' }}>
+                    {exploreSanctuaries.map((item) => {
+                      const Icon = item.icon;
+                      return (
+                        <NavLink
+                          key={item.id}
+                          to={item.path}
+                          className="explore-item-row"
+                          onClick={() => setIsExploreOpen(false)}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <div 
+                              style={{ 
+                                width: '36px', 
+                                height: '36px', 
+                                borderRadius: '10px', 
+                                backgroundColor: item.iconBg, 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                justifyContent: 'center',
+                                flexShrink: 0
+                              }}
+                            >
+                              <Icon size={18} color={item.iconColor} />
+                            </div>
+                            <div>
+                              <div style={{ fontSize: '0.9rem', fontWeight: '700', color: '#3E242B' }}>
+                                {item.title}
+                              </div>
+                              <div style={{ fontSize: '0.75rem', color: '#7D626C' }}>
+                                {item.subtitle}
+                              </div>
+                            </div>
+                          </div>
+                          <span style={{ color: '#B9345D', fontWeight: '700', fontSize: '1.1rem' }}>›</span>
+                        </NavLink>
+                      );
+                    })}
+                  </div>
+
+                  {/* Footer Link */}
+                  <div style={{ borderTop: '1px solid #FAD4DE', marginTop: '12px', paddingTop: '12px', textAlign: 'center' }}>
+                    <NavLink
+                      to="/lifestyle"
+                      onClick={() => setIsExploreOpen(false)}
+                      style={{ 
+                        color: '#B9345D', 
+                        fontWeight: '700', 
+                        fontSize: '0.85rem', 
+                        textDecoration: 'none',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px'
+                      }}
+                    >
+                      <span>View All Features Hub</span>
+                      <ArrowRight size={14} />
+                    </NavLink>
+                  </div>
+                </div>
+              )}
+            </li>
           </ul>
         </nav>
 
+        {/* Right Actions */}
         <div className="navbar-right-actions">
           <LanguageSelector />
 

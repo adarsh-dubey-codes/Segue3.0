@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
-import { Home, Calendar, Bot, MessageSquare, Menu, X, Sparkles, ShoppingBag, Stethoscope, Users, Music } from 'lucide-react';
+import { 
+  Home, Calendar, Bot, Menu, X, Sparkles, ShoppingBag, 
+  Stethoscope, Users, CreditCard, MessageSquare 
+} from 'lucide-react';
 
 export default function MobileNav() {
   const { t } = useLanguage();
@@ -11,15 +14,14 @@ export default function MobileNav() {
     { to: '/', label: t('nav.home'), icon: Home },
     { to: '/cycle', label: t('nav.cycle'), icon: Calendar },
     { to: '/chat', label: t('nav.chat'), icon: Bot },
-    { to: '/forum', label: t('nav.forum'), icon: MessageSquare }
+    { to: '/lifestyle', label: t('nav.lifestyle'), icon: Sparkles }
   ];
 
-  const moreLinks = [
-    { to: '/lifestyle', label: t('nav.lifestyle'), icon: Sparkles },
-    { to: '/products', label: t('nav.products'), icon: ShoppingBag },
-    { to: '/doctors', label: t('nav.doctors'), icon: Stethoscope },
-    { to: '/buddy', label: t('nav.buddy'), icon: Users },
-    { to: '/vibes', label: t('nav.vibes'), icon: Music }
+  const exploreLinks = [
+    { to: '/doctors', label: 'Find Gynac', icon: Stethoscope },
+    { to: '/forum', label: 'Safe Forum', icon: MessageSquare },
+    { to: '/products', label: 'Products', icon: ShoppingBag },
+    { to: '/payables', label: 'Payables', icon: CreditCard }
   ];
 
   return (
@@ -94,7 +96,7 @@ export default function MobileNav() {
             aria-label={t('accessibility.openMenu')}
           >
             <Menu size={20} />
-            <span>{t('nav.more')}</span>
+            <span>Explore</span>
           </button>
         </div>
       </nav>
@@ -125,8 +127,8 @@ export default function MobileNav() {
             onClick={(e) => e.stopPropagation()}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-              <h3 style={{ fontFamily: 'var(--font-display)', color: 'var(--rose-dark)', fontSize: '1.25rem' }}>
-                Sakhi Cycle
+              <h3 style={{ fontFamily: 'var(--font-display)', color: '#B9345D', fontSize: '1.25rem', fontWeight: '700' }}>
+                ✨ Explore Sanctuaries
               </h3>
               <button
                 type="button"
@@ -139,7 +141,7 @@ export default function MobileNav() {
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
-              {moreLinks.map((item) => {
+              {exploreLinks.map((item) => {
                 const Icon = item.icon;
                 return (
                   <NavLink

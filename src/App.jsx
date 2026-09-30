@@ -19,8 +19,10 @@ import DoctorsPage from './pages/Doctors/DoctorsPage';
 import ForumPage from './pages/Forum/ForumPage';
 import BuddyPage from './pages/Buddy/BuddyPage';
 import VibesPage from './pages/Vibes/VibesPage';
+import PayablesPage from './pages/Payables/PayablesPage';
 import LoginPage from './pages/Auth/LoginPage';
 import SignupPage from './pages/Auth/SignupPage';
+
 
 function AppLayout({ children }) {
   return (
@@ -140,7 +142,18 @@ export default function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/payables"
+                element={
+                  <ProtectedRoute allowGuest={true}>
+                    <AppLayout>
+                      <PayablesPage />
+                    </AppLayout>
+                  </ProtectedRoute>
+                }
+              />
               {/* Fallback route */}
+
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </BrowserRouter>
