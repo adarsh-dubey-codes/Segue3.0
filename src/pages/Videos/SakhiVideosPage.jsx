@@ -396,32 +396,60 @@ export default function SakhiVideosPage() {
                   </p>
                 </div>
 
-                <div style={{ borderTop: '1px solid #FAD4DE', paddingTop: '14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ borderTop: '1px solid #FAD4DE', paddingTop: '14px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', color: '#2E7D32', fontWeight: '600' }}>
                     <ShieldCheck size={16} />
                     <span>{video.expert}</span>
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={() => setActiveVideoModal(video)}
-                    style={{
-                      backgroundColor: '#B9345D',
-                      color: '#FFFFFF',
-                      border: 'none',
-                      borderRadius: '50px',
-                      padding: '8px 16px',
-                      fontSize: '0.8rem',
-                      fontWeight: '700',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px'
-                    }}
-                  >
-                    <span>Watch Now</span>
-                    <Play size={12} fill="#FFFFFF" />
-                  </button>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <button
+                      type="button"
+                      onClick={() => setActiveVideoModal(video)}
+                      style={{
+                        flex: 1,
+                        backgroundColor: '#B9345D',
+                        color: '#FFFFFF',
+                        border: 'none',
+                        borderRadius: '50px',
+                        padding: '10px 14px',
+                        fontSize: '0.8rem',
+                        fontWeight: '700',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '6px',
+                        boxShadow: '0 4px 12px rgba(185, 52, 93, 0.25)'
+                      }}
+                    >
+                      <Play size={14} fill="#FFFFFF" />
+                      <span>Watch Embedded</span>
+                    </button>
+
+                    <a
+                      href={`https://www.youtube.com/watch?v=${video.youtubeId}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{
+                        backgroundColor: '#FFF0F4',
+                        color: '#B9345D',
+                        border: '1px solid #FAD4DE',
+                        borderRadius: '50px',
+                        padding: '10px 14px',
+                        fontSize: '0.8rem',
+                        fontWeight: '700',
+                        textDecoration: 'none',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '4px'
+                      }}
+                    >
+                      <span>YouTube</span>
+                      <ExternalLink size={13} />
+                    </a>
+                  </div>
                 </div>
 
               </div>
@@ -458,7 +486,7 @@ export default function SakhiVideosPage() {
             {/* Responsive YouTube Iframe */}
             <div className="iframe-container">
               <iframe
-                src={`https://www.youtube-nocookie.com/embed/${activeVideoModal.youtubeId}?autoplay=1&rel=0`}
+                src={`https://www.youtube.com/embed/${activeVideoModal.youtubeId}?autoplay=1&rel=0`}
                 title={activeVideoModal.title}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
@@ -466,21 +494,35 @@ export default function SakhiVideosPage() {
             </div>
 
             {/* Modal Footer info */}
-            <div style={{ padding: '20px 24px', backgroundColor: '#FFFFFF', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+            <div style={{ padding: '16px 24px', backgroundColor: '#FFFFFF', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: '#2E7D32', fontWeight: '700' }}>
                 <CheckCircle2 size={18} />
                 <span>Verified Expert: {activeVideoModal.expert}</span>
               </div>
 
-              <a
-                href={`https://www.youtube.com/watch?v=${activeVideoModal.youtubeId}`}
-                target="_blank"
-                rel="noreferrer"
-                style={{ color: '#B9345D', fontSize: '0.85rem', fontWeight: '700', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
-              >
-                <span>Open in YouTube</span>
-                <ExternalLink size={14} />
-              </a>
+              <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                <span style={{ fontSize: '0.8rem', color: '#7D626C' }}>If video doesn't play:</span>
+                <a
+                  href={`https://www.youtube.com/watch?v=${activeVideoModal.youtubeId}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
+                    backgroundColor: '#B9345D',
+                    color: '#FFFFFF',
+                    padding: '8px 16px',
+                    borderRadius: '50px',
+                    fontSize: '0.8rem',
+                    fontWeight: '700',
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    boxShadow: '0 4px 12px rgba(185, 52, 93, 0.25)'
+                  }}
+                >
+                  <span>Open on YouTube App ↗</span>
+                </a>
+              </div>
             </div>
 
           </div>
