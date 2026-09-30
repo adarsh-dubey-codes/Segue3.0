@@ -62,8 +62,9 @@ export default function Navbar() {
       icon: Video,
       iconBg: '#F0F4FF',
       iconColor: '#3B82F6',
-      path: '/lifestyle'
+      path: '/videos'
     },
+
     {
       id: 'marketplace',
       title: 'Marketplace (Products)',

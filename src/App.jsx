@@ -21,8 +21,10 @@ import BuddyPage from './pages/Buddy/BuddyPage';
 import VibesPage from './pages/Vibes/VibesPage';
 import PayablesPage from './pages/Payables/PayablesPage';
 import SakhiPlayPage from './pages/Play/SakhiPlayPage';
+import SakhiVideosPage from './pages/Videos/SakhiVideosPage';
 import LoginPage from './pages/Auth/LoginPage';
 import SignupPage from './pages/Auth/SignupPage';
+
 
 
 
@@ -164,7 +166,18 @@ export default function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/videos"
+                element={
+                  <ProtectedRoute allowGuest={true}>
+                    <AppLayout>
+                      <SakhiVideosPage />
+                    </AppLayout>
+                  </ProtectedRoute>
+                }
+              />
               {/* Fallback route */}
+
 
 
               <Route path="*" element={<Navigate to="/" replace />} />

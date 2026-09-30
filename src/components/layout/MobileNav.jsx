@@ -19,11 +19,13 @@ export default function MobileNav() {
 
   const exploreLinks = [
     { to: '/play', label: 'Sakhi Play', icon: Sparkles },
+    { to: '/videos', label: 'Sakhi Videos', icon: Tv },
     { to: '/doctors', label: 'Find Gynac', icon: Stethoscope },
     { to: '/forum', label: 'Safe Forum', icon: MessageSquare },
     { to: '/products', label: 'Products', icon: ShoppingBag },
     { to: '/payables', label: 'Payables', icon: CreditCard }
   ];
+
 
 
   return (
