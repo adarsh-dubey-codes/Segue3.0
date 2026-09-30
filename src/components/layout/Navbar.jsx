@@ -35,39 +35,57 @@ export default function Navbar() {
           position: sticky;
           top: 0;
           z-index: 100;
-          padding: 12px 0;
+          padding: 8px 0;
         }
         .navbar-container {
-          max-width: 1280px;
+          max-width: 1440px;
           margin: 0 auto;
-          padding: 0 24px;
+          padding: 0 16px;
           display: flex;
           align-items: center;
           justify-content: space-between;
+          gap: 12px;
+        }
+        .navbar-logo-wrap {
+          flex-shrink: 0;
+        }
+        .navbar-nav-wrap {
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          min-width: 0;
+          margin: 0 8px;
         }
         .navbar-links {
           display: flex;
           align-items: center;
-          gap: 4px;
+          gap: clamp(2px, 0.4vw, 6px);
           list-style: none;
-          background-color: rgba(255, 255, 255, 0.7);
+          background-color: rgba(255, 255, 255, 0.85);
           padding: 4px;
           border-radius: var(--radius-full);
-          border: 1px solid rgba(250, 212, 222, 0.5);
+          border: 1px solid rgba(250, 212, 222, 0.6);
           backdrop-filter: blur(8px);
+          overflow-x: auto;
+          scrollbar-width: none;
+          max-width: 100%;
+        }
+        .navbar-links::-webkit-scrollbar {
+          display: none;
         }
         .nav-item-link {
           text-decoration: none;
           color: #5C434B;
-          font-size: 0.85rem;
+          font-size: clamp(0.725rem, 0.82vw, 0.85rem);
           font-weight: 500;
-          padding: 8px 14px;
+          padding: 7px clamp(6px, 0.75vw, 12px);
           border-radius: var(--radius-full);
           transition: all var(--transition-fast);
           display: flex;
           align-items: center;
-          gap: 6px;
+          gap: 5px;
           white-space: nowrap;
+          flex-shrink: 0;
         }
         .nav-item-link:hover {
           color: #E85C7D;
@@ -83,26 +101,28 @@ export default function Navbar() {
           stroke: #FFFFFF !important;
           fill: rgba(255, 255, 255, 0.2);
         }
-
-        @media (max-width: 1280px) {
-          .nav-item-link {
-            padding: 6px 10px;
-            font-size: 0.8rem;
-          }
+        .navbar-right-actions {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          flex-shrink: 0;
         }
+
         @media (max-width: 960px) {
-          .navbar-links {
+          .navbar-nav-wrap {
             display: none;
           }
         }
       `}</style>
 
       <div className="navbar-container">
-        <NavLink to="/" style={{ textDecoration: 'none' }}>
-          <SakhiLogo size="medium" />
-        </NavLink>
+        <div className="navbar-logo-wrap">
+          <NavLink to="/" style={{ textDecoration: 'none' }}>
+            <SakhiLogo size="medium" />
+          </NavLink>
+        </div>
 
-        <nav>
+        <nav className="navbar-nav-wrap">
           <ul className="navbar-links">
             {navLinks.map((link) => {
               const Icon = link.icon;
@@ -122,7 +142,7 @@ export default function Navbar() {
           </ul>
         </nav>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div className="navbar-right-actions">
           <LanguageSelector />
 
           {user ? (
