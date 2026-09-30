@@ -8,7 +8,7 @@ export const periodProductsData = [
     costInfo: '₹80 - ₹350 per box',
     beginnerFriendly: 'Very Easy (10/10)',
     ecoRating: 'Moderate (Organic options available)',
-    image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&auto=format&fit=crop&q=80',
+    image: '/images/products/sanitary-pads.jpg',
     description: 'Absorbent pads attached inside underwear to catch menstrual flow externally. Available in overnight, heavy flow, ultra-thin, and organic cotton varieties.',
     benefits: [
       'Extremely easy to use with zero learning curve.',
@@ -50,7 +50,7 @@ export const periodProductsData = [
     costInfo: '₹250 - ₹1,200 (Lasts 5–10 years)',
     beginnerFriendly: 'Moderate (7/10)',
     ecoRating: 'Highest (Zero Waste)',
-    image: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600&auto=format&fit=crop&q=80',
+    image: '/images/products/menstrual-cup.jpg',
     description: 'A flexible bell-shaped cup made of medical-grade silicone or TPE worn inside the vagina to collect menstrual fluid rather than absorb it.',
     benefits: [
       'Reusable for up to 10 years, saving thousands of rupees.',
@@ -93,7 +93,7 @@ export const periodProductsData = [
     costInfo: '₹150 - ₹450 per box',
     beginnerFriendly: 'Easy-Moderate (8/10)',
     ecoRating: 'Moderate',
-    image: 'https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=600&auto=format&fit=crop&q=80',
+    image: '/images/products/tampons.jpg',
     description: 'Soft cotton absorbent cylinders inserted into the vagina to absorb menstrual blood before it leaves the body.',
     benefits: [
       'Virtually unnoticeable when placed correctly.',
@@ -129,7 +129,7 @@ export const periodProductsData = [
     costInfo: '₹500 - ₹1,800 per pair',
     beginnerFriendly: 'Very Easy (10/10)',
     ecoRating: 'High (Reusable)',
-    image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&auto=format&fit=crop&q=80',
+    image: '/images/products/period-underwear.jpg',
     description: 'Specially engineered underwear with multi-layer absorbent fabric that absorbs menstrual flow, wicks moisture, and prevents leaks.',
     benefits: [
       'Looks and feels just like regular underwear.',
@@ -166,7 +166,7 @@ export const periodProductsData = [
     costInfo: '₹400 - ₹1,500',
     beginnerFriendly: 'Moderate (6/10)',
     ecoRating: 'High',
-    image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&auto=format&fit=crop&q=80',
+    image: '/images/products/menstrual-disc.jpg',
     description: 'A flexible disc that rests higher up in the vaginal fornix directly beneath the cervix, offering high fluid capacity and mess-free intimate comfort.',
     benefits: [
       'Highest fluid capacity among internal options.',
