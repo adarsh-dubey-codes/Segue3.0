@@ -11,7 +11,7 @@ You are Sakhi AI, a warm, empathetic, sisterly health and cycle companion for wo
 
 RULES FOR VOICE INTERACTION (is_voice_widget: true / is_voice_input: true):
 1. Identify Request Source: Treat query as an active spoken voice interaction.
-2. Language Matching: Respond in the exact language mix spoke by user (Hinglish/Hindi/English).
+2. Language Matching: Respond in the exact language mix spoken by user (Hinglish/Hindi/English).
    - If user asks in Hinglish (e.g. "Mujhe bahut cramp ho raha hai"), respond in warm Hinglish.
    - If user asks in Hindi (e.g. "दर्द में क्या करें?"), respond in warm Hindi.
 3. Voice-Optimized Structure:
@@ -67,31 +67,61 @@ export const generateSakhiResponse = async (userPrompt, userContext = {}) => {
   await new Promise((resolve) => setTimeout(resolve, 800));
   incrementQuota();
 
+  const currentLang = userContext.language || localStorage.getItem('sakhi-language') || 'en';
   const isVoice = Boolean(userContext.is_voice_widget || userContext.is_voice_input);
   const promptLower = userPrompt.toLowerCase();
 
   // If Voice interaction mode (Bolo Sakhi) is active
   if (isVoice) {
     if (promptLower.includes('cramp') || promptLower.includes('dard') || promptLower.includes('pain') || promptLower.includes('दर्द')) {
-      return 'Haan behen, dard ke liye ek garam paani ki botal se sek karein aur gunguna paani piyo. Aaram karne se relief milega.';
+      return currentLang === 'hi'
+        ? 'हाँ बहन, दर्द के लिए पेट पर गर्म पानी की बोतल रखें और गुनगुना पानी पिएं। आराम करने से राहत मिलेगी।'
+        : 'Haan behen, dard ke liye ek garam paani ki botal se sek karein aur gunguna paani piyo. Aaram karne se relief milega.';
     }
 
     if (promptLower.includes('date') || promptLower.includes('tariq') || promptLower.includes('period') || promptLower.includes('तारीख')) {
-      return 'Suno behen, aapki meenaari ki agli date lagbhag chauda october hai. Aapka cycle bilkul normal chal raha hai.';
+      return currentLang === 'hi'
+        ? 'सुनो बहन, आपकी माहवारी की अगली तारीख कुछ दिनों में आने वाली है। आपका साइकिल सामान्य चल रहा है।'
+        : 'Suno behen, aapki meenaari ki meenaari date lagbhag normal chal rahi hai.';
     }
 
     if (promptLower.includes('doctor') || promptLower.includes('डाक्टर') || promptLower.includes('डॉक्टर') || promptLower.includes('baat')) {
-      return 'Haan sakhi, humari doctor abhi online hain. Kya aap unse audio par baat karna chahti ho?';
+      return currentLang === 'hi'
+        ? 'हाँ सखी, हमारी महिला डॉक्टर ऑनलाइन उपलब्ध हैं। आप उनसे परामर्श ले सकती हैं।'
+        : 'Haan sakhi, humari doctor abhi online hain. Kya aap unse audio par baat karna chahti ho?';
     }
 
-    if (promptLower.includes('cup') || promptLower.includes('insert')) {
-      return 'Haan behen, cup insert karte waqt punch down fold try karein aur muscles ko relax rakhein. Dheere se karne par aasaani hogi.';
-    }
-
-    return 'Haan behen, main aapki baat sun rahi hoon. Apni sehat ya period cycle ke bare mein bejhiijhak pucho.';
+    return currentLang === 'hi'
+      ? 'हाँ बहन, मैं आपकी बात सुन रही हूँ। अपनी सेहत या माहवारी के बारे में बेझिझक पूछें।'
+      : 'Haan behen, main aapki baat sun rahi hoon. Apni sehat ya period cycle ke bare mein bejhiijhak pucho.';
   }
 
-  // Standard Text Chat Mode responses
+  // Standard Text Chat Mode responses in Hindi if language === 'hi'
+  if (currentLang === 'hi') {
+    if (promptLower.includes('cramp') || promptLower.includes('pain') || promptLower.includes('दर्द')) {
+      return `माहवारी के दर्द से राहत पाने के लिए कुछ आसान और सुरक्षित उपाय 💕:
+
+- पेट के निचले हिस्से पर गर्म पानी की बोतल या हीटिंग पैड से सिकाई करें।
+- अदरक की चाय या गुनगुना पानी पिएं ताकि मांसपेशियों को आराम मिले।
+- हल्का खिंचाव (Stretching) और आराम करें।
+
+*नोट: यदि दर्द बहुत ज्यादा हो या कई दिनों तक बना रहे, तो डॉक्टर से परामर्श लें।*`;
+    }
+
+    if (promptLower.includes('food') || promptLower.includes('eat') || promptLower.includes('diet') || promptLower.includes('खाना')) {
+      return `माहवारी चक्र के दौरान सही आहार 🥑:
+
+- **माहवारी के दिनों में**: हरी पत्तेदार सब्जियां, दालें, हल्का गर्म सूप और फल लें।
+- **विकास चरण में**: ताजे फल, दही और प्रोटीन युक्त खाना।
+- **विश्राम चरण में**: दलिया, ओट्स और भरपूर पानी पिएं।`;
+    }
+
+    return `आपकी बात साझा करने के लिए धन्यवाद। आपके शरीर के संकेत हमेशा महत्वपूर्ण हैं 🌸।
+
+मैं आपकी मदद के लिए हमेशा तैयार हूँ। आप माहवारी, दर्द या आहार से जुड़ा कोई भी सवाल पूछ सकती हैं।`;
+  }
+
+  // Standard Text Chat Mode responses in English
   if (promptLower.includes('cramp') || promptLower.includes('pain')) {
     return `I hear you, and dealing with period cramps can be so draining 💕. 
 

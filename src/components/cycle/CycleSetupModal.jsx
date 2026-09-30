@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useCycle } from '../../context/CycleContext';
+import { useLanguage } from '../../context/LanguageContext';
 import Button from '../Button/Button';
 import { X, Download, Upload, Settings } from 'lucide-react';
 
 export default function CycleSetupModal({ isOpen, onClose }) {
+  const { t } = useLanguage();
   const { cycleSetup, updateCycleSetup, exportCycleData, importCycleData } = useCycle();
 
   const [nickname, setNickname] = useState(cycleSetup.nickname || 'Beautiful');
@@ -35,10 +37,10 @@ export default function CycleSetupModal({ isOpen, onClose }) {
     reader.onload = (event) => {
       const success = importCycleData(event.target.result);
       if (success) {
-        alert('Cycle data imported successfully!');
+        alert(t('common.importSuccess', 'Cycle data imported successfully!'));
         onClose();
       } else {
-        alert('Invalid backup JSON file.');
+        alert(t('common.importError', 'Invalid backup JSON file.'));
       }
     };
     reader.readAsText(file);
@@ -84,17 +86,17 @@ export default function CycleSetupModal({ isOpen, onClose }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
           <Settings size={20} color="var(--rose)" />
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: 'var(--rose-dark)' }}>
-            Cycle Configuration
+            {t('cyclePage.setupModalTitle')}
           </h2>
         </div>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginBottom: '20px' }}>
-          Set your average cycle length and recent period start date.
+          {t('cyclePage.setupModalSub')}
         </p>
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <div>
             <label style={{ fontSize: '0.825rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>
-              Your Preferred Name / Nickname
+              {t('auth.preferredName')}
             </label>
             <input
               type="text"
@@ -107,7 +109,7 @@ export default function CycleSetupModal({ isOpen, onClose }) {
 
           <div>
             <label style={{ fontSize: '0.825rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>
-              First Day of Most Recent Period
+              {t('cyclePage.lastPeriodDate')}
             </label>
             <input
               type="date"
@@ -121,7 +123,7 @@ export default function CycleSetupModal({ isOpen, onClose }) {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
             <div>
               <label style={{ fontSize: '0.825rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>
-                Average Cycle Length (Days)
+                {t('cyclePage.cycleLengthLabel')}
               </label>
               <input
                 type="number"
@@ -136,7 +138,7 @@ export default function CycleSetupModal({ isOpen, onClose }) {
 
             <div>
               <label style={{ fontSize: '0.825rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>
-                Period Length (Days)
+                {t('cyclePage.periodLengthLabel')}
               </label>
               <input
                 type="number"
@@ -152,7 +154,7 @@ export default function CycleSetupModal({ isOpen, onClose }) {
 
           <div>
             <label style={{ fontSize: '0.825rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>
-              City (For Doctor Directory)
+              {t('doctorsPage.location', { city: '' }).replace('Location:', '').trim() || 'City'}
             </label>
             <input
               type="text"
@@ -165,16 +167,16 @@ export default function CycleSetupModal({ isOpen, onClose }) {
           {/* Backup Data Actions */}
           <div style={{ borderTop: '1px solid var(--border)', paddingTop: '16px', marginTop: '6px' }}>
             <span style={{ fontSize: '0.8rem', fontWeight: '600', color: 'var(--text-secondary)', display: 'block', marginBottom: '8px' }}>
-              Data Backup & Privacy
+              {t('auth.guestStoredLocally', 'Data Backup & Privacy')}
             </span>
             <div style={{ display: 'flex', gap: '8px' }}>
               <Button type="button" variant="outline" onClick={exportCycleData} icon={<Download size={14} />} style={{ flex: 1, fontSize: '0.8rem', padding: '6px' }}>
-                Export Data
+                {t('common.exportData', 'Export Data')}
               </Button>
               <label style={{ flex: 1, cursor: 'pointer' }}>
                 <input type="file" accept=".json" onChange={handleFileUpload} style={{ display: 'none' }} />
                 <div className="sakhi-btn sakhi-btn-outline" style={{ fontSize: '0.8rem', padding: '6px 12px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
-                  <Upload size={14} /> Import Data
+                  <Upload size={14} /> {t('common.importData', 'Import Data')}
                 </div>
               </label>
             </div>
@@ -182,10 +184,10 @@ export default function CycleSetupModal({ isOpen, onClose }) {
 
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '12px' }}>
             <Button variant="outline" type="button" onClick={onClose}>
-              Cancel
+              {t('common.cancel')}
             </Button>
             <Button variant="primary" type="submit">
-              Save Configuration
+              {t('cyclePage.saveCycle')}
             </Button>
           </div>
         </form>

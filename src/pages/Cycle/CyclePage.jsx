@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useCycle } from '../../context/CycleContext';
+import { useLanguage } from '../../context/LanguageContext';
 import Calendar from '../../components/Calendar/Calendar';
 import CycleRing from '../../components/CycleRing/CycleRing';
 import CycleGarden from '../../components/cycle/CycleGarden';
@@ -7,10 +8,11 @@ import CycleAnalytics from '../../components/cycle/CycleAnalytics';
 import DailyLogModal from '../../components/cycle/DailyLogModal';
 import CycleSetupModal from '../../components/cycle/CycleSetupModal';
 import Button from '../../components/Button/Button';
-import { Settings, Plus, Calendar as CalendarIcon, Activity } from 'lucide-react';
+import { Settings, Plus } from 'lucide-react';
 
 export default function CyclePage() {
   const { cycleSetup, currentCycleDay, currentPhase, updateCycleSetup } = useCycle();
+  const { t } = useLanguage();
   const [isLogOpen, setIsLogOpen] = useState(false);
   const [isSetupOpen, setIsSetupOpen] = useState(false);
 
@@ -20,19 +22,19 @@ export default function CyclePage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px', flexWrap: 'wrap', gap: '16px' }}>
         <div>
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.5rem', color: 'var(--rose-dark)' }}>
-            Cycle Tracker & Care
+            {t('cyclePage.title')}
           </h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '1rem' }}>
-            Track daily flow, mood, energy, and symptoms with total privacy.
+            {t('cyclePage.sub')}
           </p>
         </div>
 
         <div style={{ display: 'flex', gap: '12px' }}>
           <Button variant="outline" onClick={() => setIsSetupOpen(true)} icon={<Settings size={16} />}>
-            Configure Cycle
+            {t('cyclePage.setupCycle')}
           </Button>
           <Button variant="primary" onClick={() => setIsLogOpen(true)} icon={<Plus size={16} />}>
-            Log Daily Care
+            {t('cyclePage.logToday')}
           </Button>
         </div>
       </div>
@@ -59,7 +61,12 @@ export default function CyclePage() {
             justifyContent: 'center'
           }}
         >
-          <CycleRing dayNumber={currentCycleDay} totalDays={cycleSetup.cycleLength || 28} size={210} label={`${currentPhase.toUpperCase()} PHASE`} />
+          <CycleRing 
+            dayNumber={currentCycleDay} 
+            totalDays={cycleSetup.cycleLength || 28} 
+            size={210} 
+            label={`${t(`phase.${currentPhase}`)}`} 
+          />
         </div>
 
         {/* CALENDAR */}
@@ -79,7 +86,7 @@ export default function CyclePage() {
       {/* ANALYTICS SECTION */}
       <div style={{ marginTop: '32px' }}>
         <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.75rem', color: 'var(--rose-dark)', marginBottom: '20px' }}>
-          Cycle Analytics & Insights
+          {t('feature.cycle.title')} & {t('common.view')}
         </h2>
         <CycleAnalytics />
       </div>

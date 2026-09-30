@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import Button from '../Button/Button';
+import { useLanguage } from '../../context/LanguageContext';
 import { X, Shield, Sparkles } from 'lucide-react';
 
 export default function CreatePostModal({ isOpen, onClose, onCreatePost }) {
+  const { t } = useLanguage();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [category, setCategory] = useState('General');
@@ -78,18 +80,18 @@ export default function CreatePostModal({ isOpen, onClose, onCreatePost }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
           <Shield size={18} color="var(--rose)" />
           <span style={{ fontSize: '0.775rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--rose)' }}>
-            100% Anonymous Posting
+            {t('forumPage.anonymousPosting')}
           </span>
         </div>
 
         <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', color: 'var(--rose-dark)', marginBottom: '16px' }}>
-          Create Anonymous Post
+          {t('forumPage.createPost')}
         </h2>
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <div>
             <label style={{ fontSize: '0.825rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '6px' }}>
-              Select Category
+              {t('forumPage.selectCategory')}
             </label>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
               {categories.map((cat) => (
@@ -116,11 +118,11 @@ export default function CreatePostModal({ isOpen, onClose, onCreatePost }) {
 
           <div>
             <label style={{ fontSize: '0.825rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>
-              Post Title
+              {t('forumPage.postTitle')}
             </label>
             <input
               type="text"
-              placeholder="What's on your mind?"
+              placeholder={t('forumPage.titlePlaceholder')}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               style={{ width: '100%', padding: '10px 14px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', fontSize: '0.9rem' }}
@@ -130,11 +132,11 @@ export default function CreatePostModal({ isOpen, onClose, onCreatePost }) {
 
           <div>
             <label style={{ fontSize: '0.825rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>
-              Content
+              {t('forumPage.postContent')}
             </label>
             <textarea
               rows="4"
-              placeholder="Share your story or ask a question gently without judgment..."
+              placeholder={t('forumPage.contentPlaceholder')}
               value={content}
               onChange={(e) => setContent(e.target.value)}
               style={{ width: '100%', padding: '10px 14px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', fontFamily: 'var(--font-ui)', fontSize: '0.9rem' }}
@@ -144,10 +146,10 @@ export default function CreatePostModal({ isOpen, onClose, onCreatePost }) {
 
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '8px' }}>
             <Button variant="outline" type="button" onClick={onClose}>
-              Cancel
+              {t('common.cancel')}
             </Button>
             <Button variant="primary" type="submit">
-              Post Anonymously
+              {t('forumPage.postAnonymously')}
             </Button>
           </div>
         </form>

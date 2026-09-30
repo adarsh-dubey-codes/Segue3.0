@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLanguage } from '../../context/LanguageContext';
 import { Mail, Lock, User, Eye, EyeOff, ArrowRight, AlertCircle } from 'lucide-react';
 
 export default function SignupForm({
@@ -8,6 +9,7 @@ export default function SignupForm({
   isLoading,
   authError
 }) {
+  const { t } = useLanguage();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,26 +22,26 @@ export default function SignupForm({
     let isValid = true;
 
     if (!email.trim()) {
-      newErrors.email = 'Please enter a valid email address.';
+      newErrors.email = t('errors.invalidEmail');
       isValid = false;
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = 'Please enter a valid email address.';
+      newErrors.email = t('errors.invalidEmail');
       isValid = false;
     }
 
     if (!password) {
-      newErrors.password = 'Password is required.';
+      newErrors.password = t('errors.required');
       isValid = false;
     } else if (password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters.';
+      newErrors.password = t('errors.shortPassword');
       isValid = false;
     }
 
     if (!confirmPassword) {
-      newErrors.confirmPassword = 'Please confirm your password.';
+      newErrors.confirmPassword = t('errors.required');
       isValid = false;
     } else if (password !== confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match.';
+      newErrors.confirmPassword = t('errors.passwordMismatch');
       isValid = false;
     }
 
@@ -65,7 +67,7 @@ export default function SignupForm({
           textAlign: 'left'
         }}
       >
-        Create Account
+        {t('auth.createAccount')}
       </h2>
 
       {authError && (
@@ -107,7 +109,7 @@ export default function SignupForm({
           <input
             id="signup-name"
             type="text"
-            placeholder="Preferred name / nickname"
+            placeholder={t('auth.preferredNamePlaceholder')}
             value={name}
             onChange={(e) => setName(e.target.value)}
             style={{
@@ -117,7 +119,7 @@ export default function SignupForm({
               outline: 'none',
               fontSize: '0.95rem',
               color: '#38232A',
-              fontFamily: "'Plus Jakarta Sans', sans-serif"
+              fontFamily: 'var(--font-ui)'
             }}
           />
         </div>
@@ -140,7 +142,7 @@ export default function SignupForm({
             <input
               id="signup-email"
               type="email"
-              placeholder="Enter your email"
+              placeholder={t('auth.emailPlaceholder')}
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
@@ -153,7 +155,7 @@ export default function SignupForm({
                 outline: 'none',
                 fontSize: '0.95rem',
                 color: '#38232A',
-                fontFamily: "'Plus Jakarta Sans', sans-serif"
+                fontFamily: 'var(--font-ui)'
               }}
               required
             />
@@ -183,7 +185,7 @@ export default function SignupForm({
             <input
               id="signup-password"
               type={showPassword ? 'text' : 'password'}
-              placeholder="Create password (min 8 chars)"
+              placeholder={t('auth.passwordPlaceholder')}
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
@@ -196,7 +198,7 @@ export default function SignupForm({
                 outline: 'none',
                 fontSize: '0.95rem',
                 color: '#38232A',
-                fontFamily: "'Plus Jakarta Sans', sans-serif"
+                fontFamily: 'var(--font-ui)'
               }}
               required
             />
@@ -204,6 +206,7 @@ export default function SignupForm({
               type="button"
               onClick={() => setShowPassword(!showPassword)}
               style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#8C3558' }}
+              aria-label={showPassword ? t('accessibility.hidePassword') : t('accessibility.showPassword')}
             >
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
@@ -233,7 +236,7 @@ export default function SignupForm({
             <input
               id="signup-confirm-password"
               type={showPassword ? 'text' : 'password'}
-              placeholder="Confirm password"
+              placeholder={t('auth.confirmPasswordPlaceholder')}
               value={confirmPassword}
               onChange={(e) => {
                 setConfirmPassword(e.target.value);
@@ -246,7 +249,7 @@ export default function SignupForm({
                 outline: 'none',
                 fontSize: '0.95rem',
                 color: '#38232A',
-                fontFamily: "'Plus Jakarta Sans', sans-serif"
+                fontFamily: 'var(--font-ui)'
               }}
               required
             />
@@ -271,7 +274,7 @@ export default function SignupForm({
             border: 'none',
             fontSize: '1rem',
             fontWeight: '600',
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontFamily: 'var(--font-ui)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -284,10 +287,10 @@ export default function SignupForm({
           className="sakhi-primary-btn"
         >
           {isLoading ? (
-            <span>Creating account...</span>
+            <span>{t('auth.creatingAccount')}</span>
           ) : (
             <>
-              <span>Sign Up</span>
+              <span>{t('auth.signUp')}</span>
               <ArrowRight size={18} color="#FFFFFF" />
             </>
           )}
@@ -305,7 +308,7 @@ export default function SignupForm({
         }}
       >
         <div style={{ flex: 1, height: '1px', backgroundColor: '#F0D5DD' }} />
-        <span style={{ padding: '0 14px', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: '500' }}>OR</span>
+        <span style={{ padding: '0 14px', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: '500' }}>{t('common.or')}</span>
         <div style={{ flex: 1, height: '1px', backgroundColor: '#F0D5DD' }} />
       </div>
 
@@ -323,7 +326,7 @@ export default function SignupForm({
           border: '1px solid #E59BB0',
           fontSize: '0.95rem',
           fontWeight: '600',
-          fontFamily: "'Plus Jakarta Sans', sans-serif",
+          fontFamily: 'var(--font-ui)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -335,13 +338,13 @@ export default function SignupForm({
         className="sakhi-guest-btn"
       >
         <User size={18} color="#8C3558" />
-        <span>Continue as Guest</span>
+        <span>{t('auth.continueAsGuest')}</span>
         <ArrowRight size={18} color="#8C3558" />
       </button>
 
       {/* Switch to Login */}
       <p style={{ marginTop: '20px', textAlign: 'center', fontSize: '0.875rem', color: '#7D626C' }}>
-        Already have an account?{' '}
+        {t('auth.alreadyHaveAccount')}{' '}
         <button
           type="button"
           onClick={onSwitchToLogin}
@@ -354,7 +357,7 @@ export default function SignupForm({
             padding: 0
           }}
         >
-          Sign in
+          {t('auth.signIn')}
         </button>
       </p>
     </div>

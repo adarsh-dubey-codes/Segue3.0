@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useLanguage } from '../../context/LanguageContext';
 import { Mail, CheckCircle2, X } from 'lucide-react';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 
 export default function ForgotPasswordModal({ isOpen, onClose, initialEmail = '' }) {
+  const { t } = useLanguage();
   const [email, setEmail] = useState(initialEmail);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -14,7 +16,7 @@ export default function ForgotPasswordModal({ isOpen, onClose, initialEmail = ''
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
-      setError('Please enter a valid email address.');
+      setError(t('errors.invalidEmail'));
       return;
     }
 
@@ -75,7 +77,7 @@ export default function ForgotPasswordModal({ isOpen, onClose, initialEmail = ''
             cursor: 'pointer',
             padding: '4px'
           }}
-          aria-label="Close dialog"
+          aria-label={t('accessibility.closeMenu')}
         >
           <X size={20} />
         </button>
@@ -108,10 +110,10 @@ export default function ForgotPasswordModal({ isOpen, onClose, initialEmail = ''
                   marginBottom: '6px'
                 }}
               >
-                Reset Password
+                {t('auth.resetPassword')}
               </h3>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-                Enter your account email to receive a password reset link.
+                {t('auth.resetPasswordDesc')}
               </p>
             </div>
 
@@ -119,8 +121,8 @@ export default function ForgotPasswordModal({ isOpen, onClose, initialEmail = ''
               <Input
                 id="reset-email"
                 type="email"
-                label="Account Email"
-                placeholder="name@domain.com"
+                label={t('auth.email')}
+                placeholder={t('auth.emailPlaceholder')}
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
@@ -132,7 +134,7 @@ export default function ForgotPasswordModal({ isOpen, onClose, initialEmail = ''
               />
 
               <Button type="submit" variant="primary" fullWidth loading={loading}>
-                Send Password Reset Link
+                {t('auth.sendResetLink')}
               </Button>
             </form>
           </>
@@ -162,13 +164,13 @@ export default function ForgotPasswordModal({ isOpen, onClose, initialEmail = ''
                 marginBottom: '8px'
               }}
             >
-              Check your inbox
+              {t('auth.resetSentTitle')}
             </h3>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.5, marginBottom: '24px' }}>
-              We've sent a password reset link to <strong>{email}</strong> if an account exists.
+              {t('auth.resetSentDesc')}
             </p>
             <Button variant="primary" fullWidth onClick={handleReset}>
-              Return to Login
+              {t('auth.backToSignIn')}
             </Button>
           </div>
         )}

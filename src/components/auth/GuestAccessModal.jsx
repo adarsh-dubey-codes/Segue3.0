@@ -1,8 +1,10 @@
 import React from 'react';
+import { useLanguage } from '../../context/LanguageContext';
 import { ShieldCheck, Laptop, HelpCircle, X, ArrowRight } from 'lucide-react';
 import Button from '../Button/Button';
 
 export default function GuestAccessModal({ isOpen, onClose, onConfirm, isLoading }) {
+  const { t } = useLanguage();
   if (!isOpen) return null;
 
   return (
@@ -59,7 +61,7 @@ export default function GuestAccessModal({ isOpen, onClose, onConfirm, isLoading
             alignItems: 'center',
             justifyContent: 'center'
           }}
-          aria-label="Close dialog"
+          aria-label={t('accessibility.closeMenu')}
         >
           <X size={20} />
         </button>
@@ -90,16 +92,16 @@ export default function GuestAccessModal({ isOpen, onClose, onConfirm, isLoading
                 lineHeight: 1.2
               }}
             >
-              Continue as Guest
+              {t('auth.guestModalTitle')}
             </h3>
             <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: '500' }}>
-              Device-Local Mode
+              {t('auth.guestModalSub')}
             </span>
           </div>
         </div>
 
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.925rem', lineHeight: 1.6, marginBottom: '20px' }}>
-          Guest mode allows you to explore Sakhi Cycle immediately without creating an account or providing an email address.
+          {t('auth.guestModalDesc')}
         </p>
 
         <div
@@ -117,20 +119,20 @@ export default function GuestAccessModal({ isOpen, onClose, onConfirm, isLoading
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
             <Laptop size={18} color="var(--rose)" style={{ marginTop: '2px', flexShrink: 0 }} />
             <p style={{ fontSize: '0.85rem', color: 'var(--text-primary)', lineHeight: 1.5 }}>
-              <strong>Stored locally:</strong> Your cycle logs and preferences are saved directly in your browser on this device.
+              {t('auth.guestStoredLocally')}
             </p>
           </div>
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
             <HelpCircle size={18} color="var(--text-muted)" style={{ marginTop: '2px', flexShrink: 0 }} />
             <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-              <strong>No cross-device sync:</strong> Switching browsers or clearing your device data will reset guest history. You can create an account anytime later to sync your data securely.
+              {t('auth.guestNoSync')}
             </p>
           </div>
         </div>
 
         <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', flexWrap: 'wrap' }}>
           <Button variant="outline" onClick={onClose} disabled={isLoading}>
-            Back
+            {t('common.back')}
           </Button>
           <Button
             variant="primary"
@@ -138,7 +140,7 @@ export default function GuestAccessModal({ isOpen, onClose, onConfirm, isLoading
             loading={isLoading}
             icon={<ArrowRight size={16} />}
           >
-            Enter Guest Mode
+            {t('auth.enterGuestMode')}
           </Button>
         </div>
       </div>

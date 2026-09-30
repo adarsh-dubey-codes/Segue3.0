@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import Button from '../Button/Button';
+import { useLanguage } from '../../context/LanguageContext';
 import { X, Calendar, Clock, CheckCircle2, User, Phone } from 'lucide-react';
 
 export default function AppointmentModal({ doctor, onClose }) {
+  const { t } = useLanguage();
   const [step, setStep] = useState(1); // 1: Date & Time, 2: Patient Info, 3: Confirmation
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [selectedTime, setSelectedTime] = useState('11:00 AM');
@@ -59,16 +61,16 @@ export default function AppointmentModal({ doctor, onClose }) {
           <div style={{ textAlign: 'center', padding: '20px 0' }}>
             <CheckCircle2 size={56} color="var(--success)" style={{ margin: '0 auto 16px auto' }} />
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.8rem', color: 'var(--rose-dark)', marginBottom: '8px' }}>
-              Appointment Requested!
+              {t('doctorsPage.appointmentRequested')}
             </h2>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.925rem', marginBottom: '20px', lineHeight: '1.6' }}>
-              Your appointment request with <strong>{doctor.name}</strong> for <strong>{selectedDate} at {selectedTime}</strong> has been logged.
+              {t('doctorsPage.appointmentConfirmation', { name: doctor.name, date: selectedDate, time: selectedTime })}
             </p>
             <div style={{ backgroundColor: 'var(--surface-soft)', padding: '14px', borderRadius: 'var(--radius-md)', fontSize: '0.825rem', color: 'var(--text-secondary)', marginBottom: '24px' }}>
-              *Demo record created. In production, SMS/WhatsApp confirmation will be sent directly from {doctor.hospital}.
+              {t('doctorsPage.demoNote', { hospital: doctor.hospital })}
             </div>
             <Button variant="primary" onClick={onClose} fullWidth>
-              Done
+              {t('doctorsPage.done')}
             </Button>
           </div>
         ) : (
@@ -88,7 +90,7 @@ export default function AppointmentModal({ doctor, onClose }) {
             <form onSubmit={handleConfirm} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
               <div>
                 <label style={{ fontSize: '0.825rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '6px' }}>
-                  Select Date
+                  {t('doctorsPage.selectDate')}
                 </label>
                 <input
                   type="date"
@@ -101,7 +103,7 @@ export default function AppointmentModal({ doctor, onClose }) {
 
               <div>
                 <label style={{ fontSize: '0.825rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '6px' }}>
-                  Select Available Time Slot
+                  {t('doctorsPage.selectTimeSlot')}
                 </label>
                 <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                   {times.map((t) => (
@@ -128,7 +130,7 @@ export default function AppointmentModal({ doctor, onClose }) {
 
               <div>
                 <label style={{ fontSize: '0.825rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>
-                  Patient Full Name
+                  {t('doctorsPage.patientName')}
                 </label>
                 <input
                   type="text"
@@ -141,7 +143,7 @@ export default function AppointmentModal({ doctor, onClose }) {
 
               <div>
                 <label style={{ fontSize: '0.825rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>
-                  Contact Phone Number
+                  {t('doctorsPage.patientPhone')}
                 </label>
                 <input
                   type="tel"
@@ -154,10 +156,10 @@ export default function AppointmentModal({ doctor, onClose }) {
 
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '12px' }}>
                 <Button variant="outline" type="button" onClick={onClose}>
-                  Cancel
+                  {t('common.cancel')}
                 </Button>
                 <Button variant="primary" type="submit">
-                  Confirm Appointment
+                  {t('doctorsPage.confirmAppointment')}
                 </Button>
               </div>
             </form>

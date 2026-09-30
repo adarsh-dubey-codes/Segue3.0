@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { playlistsData, dailyAffirmations } from '../../data/affirmationsData';
 import BreathingWidget from '../../components/vibes/BreathingWidget';
 import Button from '../../components/Button/Button';
+import { useLanguage } from '../../context/LanguageContext';
 import { Music, Heart, Sparkles, Smile, RefreshCw, Volume2 } from 'lucide-react';
 
 export default function VibesPage() {
+  const { t } = useLanguage();
   const [affirmationIdx, setAffirmationIdx] = useState(0);
   const [selectedMood, setSelectedMood] = useState('Restful');
 
@@ -20,10 +22,10 @@ export default function VibesPage() {
     <div style={{ maxWidth: '1140px', margin: '0 auto', padding: '40px 24px 80px 24px' }}>
       <div style={{ marginBottom: '32px' }}>
         <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.5rem', color: 'var(--rose-dark)' }}>
-          Good Vibes & Mindful Care
+          {t('vibesPage.title')}
         </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '1rem' }}>
-          Phase-oriented playlists, daily affirmations, and guided breathing.
+          {t('vibesPage.sub')}
         </p>
       </div>
 
@@ -55,7 +57,7 @@ export default function VibesPage() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
               <Heart size={20} color="var(--rose)" fill="var(--rose)" />
               <span style={{ fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--rose)', letterSpacing: '0.08em' }}>
-                Daily Affirmation Card
+                {t('vibesPage.dailyAffirmation')}
               </span>
             </div>
 
@@ -66,7 +68,7 @@ export default function VibesPage() {
 
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button variant="secondary" onClick={nextAffirmation} icon={<RefreshCw size={14} />}>
-              New Affirmation
+              {t('vibesPage.newAffirmation')}
             </Button>
           </div>
         </div>
@@ -85,10 +87,10 @@ export default function VibesPage() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
           <div>
             <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: 'var(--rose-dark)' }}>
-              Mood Match Playlists
+              {t('vibesPage.moodMatch')}
             </h3>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-              Select how you feel to get custom curated soundscapes.
+              {t('vibesPage.moodSub')}
             </p>
           </div>
 
@@ -133,7 +135,7 @@ export default function VibesPage() {
             >
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                  <span className="badge-tag">{pl.phase} Phase</span>
+                  <span className="badge-tag">{t('vibesPage.phaseTag', { phase: pl.phase })}</span>
                   <Volume2 size={16} color="var(--rose)" />
                 </div>
                 <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.3rem', color: 'var(--rose-dark)', marginBottom: '4px' }}>

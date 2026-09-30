@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import Button from '../../components/Button/Button';
+import { useLanguage } from '../../context/LanguageContext';
 import { Users, Heart, Send, MessageCircle, Sparkles, CheckCircle2 } from 'lucide-react';
 
 export default function BuddyPage() {
+  const { t } = useLanguage();
   const [matched, setMatched] = useState(true);
   const [buddyInfo, setBuddyInfo] = useState({
     name: 'Gentle Moon',
@@ -52,14 +54,14 @@ export default function BuddyPage() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
           <Users size={18} color="var(--rose)" />
           <span style={{ fontSize: '0.775rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--rose)', letterSpacing: '0.08em' }}>
-            Pseudonymous Cycle Pen-Pal
+            {t('buddyPage.tagline')}
           </span>
         </div>
         <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.5rem', color: 'var(--rose-dark)' }}>
-          Cycle Buddy System
+          {t('buddyPage.title')}
         </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '1rem' }}>
-          Connect with a supportive cycle partner to check in, share wins, and vent without exposing your real identity.
+          {t('buddyPage.sub')}
         </p>
       </div>
 
@@ -98,7 +100,7 @@ export default function BuddyPage() {
 
           <div style={{ width: '100%', borderTop: '1px solid var(--border)', paddingTop: '16px', marginBottom: '20px' }}>
             <span style={{ fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--text-secondary)', display: 'block', marginBottom: '8px' }}>
-              Interests
+              {t('buddyPage.interests')}
             </span>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', justifyContent: 'center' }}>
               {buddyInfo.interests.map((int) => (
@@ -127,7 +129,7 @@ export default function BuddyPage() {
               gap: '6px'
             }}
           >
-            <MessageCircle size={16} /> Optional WhatsApp Chat
+            <MessageCircle size={16} /> {t('buddyPage.optionalWhatsapp')}
           </a>
         </div>
 
@@ -149,7 +151,7 @@ export default function BuddyPage() {
             <span style={{ fontSize: '1.5rem' }}>{buddyInfo.avatar}</span>
             <div>
               <strong style={{ color: 'var(--rose-dark)', fontSize: '1.05rem' }}>{buddyInfo.name}</strong>
-              <span style={{ fontSize: '0.75rem', color: 'var(--success)', display: 'block' }}>● Active Buddy</span>
+              <span style={{ fontSize: '0.75rem', color: 'var(--success)', display: 'block' }}>{t('buddyPage.activeBuddy')}</span>
             </div>
           </div>
 
@@ -211,7 +213,7 @@ export default function BuddyPage() {
           >
             <input
               type="text"
-              placeholder="Type a message to your buddy..."
+              placeholder={t('buddyPage.typeMessage')}
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               style={{ flex: 1, padding: '10px 16px', borderRadius: 'var(--radius-full)', border: '1px solid var(--border)', fontSize: '0.9rem', outline: 'none' }}

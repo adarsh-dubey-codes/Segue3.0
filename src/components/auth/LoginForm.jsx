@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLanguage } from '../../context/LanguageContext';
 import { Mail, Lock, Eye, EyeOff, User, ArrowRight, AlertCircle } from 'lucide-react';
 
 export default function LoginForm({ 
@@ -9,6 +10,7 @@ export default function LoginForm({
   isLoading,
   authError 
 }) {
+  const { t } = useLanguage();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -19,18 +21,18 @@ export default function LoginForm({
     let isValid = true;
 
     if (!email.trim()) {
-      newErrors.email = 'Please enter your email address.';
+      newErrors.email = t('errors.invalidEmail');
       isValid = false;
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = 'Please enter a valid email address.';
+      newErrors.email = t('errors.invalidEmail');
       isValid = false;
     }
 
     if (!password) {
-      newErrors.password = 'Password is required.';
+      newErrors.password = t('errors.required');
       isValid = false;
     } else if (password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters.';
+      newErrors.password = t('errors.shortPassword');
       isValid = false;
     }
 
@@ -46,7 +48,6 @@ export default function LoginForm({
 
   return (
     <div style={{ width: '100%', maxWidth: '380px', margin: '0 auto' }}>
-      {/* Section Title matching screenshot */}
       <h2 
         style={{ 
           fontFamily: "'Playfair Display', Georgia, serif", 
@@ -57,7 +58,7 @@ export default function LoginForm({
           textAlign: 'left'
         }}
       >
-        Sign In
+        {t('auth.signIn')}
       </h2>
 
       {authError && (
@@ -82,7 +83,7 @@ export default function LoginForm({
       )}
 
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }} noValidate>
-        {/* Email Field Container */}
+        {/* Email Field */}
         <div>
           <div 
             style={{
@@ -103,7 +104,7 @@ export default function LoginForm({
             <input
               id="login-email"
               type="email"
-              placeholder="Enter your email"
+              placeholder={t('auth.emailPlaceholder')}
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
@@ -116,7 +117,7 @@ export default function LoginForm({
                 outline: 'none',
                 fontSize: '0.95rem',
                 color: '#38232A',
-                fontFamily: "'Plus Jakarta Sans', sans-serif"
+                fontFamily: 'var(--font-ui)'
               }}
               required
               autoComplete="email"
@@ -129,7 +130,7 @@ export default function LoginForm({
           )}
         </div>
 
-        {/* Password Field Container */}
+        {/* Password Field */}
         <div>
           <div 
             style={{
@@ -150,7 +151,7 @@ export default function LoginForm({
             <input
               id="login-password"
               type={showPassword ? 'text' : 'password'}
-              placeholder="Enter your password"
+              placeholder={t('auth.passwordPlaceholder')}
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
@@ -163,7 +164,7 @@ export default function LoginForm({
                 outline: 'none',
                 fontSize: '0.95rem',
                 color: '#38232A',
-                fontFamily: "'Plus Jakarta Sans', sans-serif"
+                fontFamily: 'var(--font-ui)'
               }}
               required
               autoComplete="current-password"
@@ -181,7 +182,7 @@ export default function LoginForm({
                 color: '#8C3558',
                 opacity: 0.85
               }}
-              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              aria-label={showPassword ? t('accessibility.hidePassword') : t('accessibility.showPassword')}
             >
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
@@ -210,12 +211,12 @@ export default function LoginForm({
               onMouseEnter={(e) => (e.target.style.color = '#D9486D')}
               onMouseLeave={(e) => (e.target.style.color = '#EC738F')}
             >
-              Forgot password?
+              {t('auth.forgotPassword')}
             </button>
           </div>
         </div>
 
-        {/* Primary Action Button: "Sign In →" */}
+        {/* Primary Action Button */}
         <button
           type="submit"
           disabled={isLoading}
@@ -228,7 +229,7 @@ export default function LoginForm({
             border: 'none',
             fontSize: '1rem',
             fontWeight: '600',
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontFamily: 'var(--font-ui)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -241,10 +242,10 @@ export default function LoginForm({
           className="sakhi-primary-btn"
         >
           {isLoading ? (
-            <span>Signing in...</span>
+            <span>{t('auth.signingIn')}</span>
           ) : (
             <>
-              <span>Sign In</span>
+              <span>{t('auth.signIn')}</span>
               <ArrowRight size={18} color="#FFFFFF" />
             </>
           )}
@@ -262,11 +263,11 @@ export default function LoginForm({
         }}
       >
         <div style={{ flex: 1, height: '1px', backgroundColor: '#F0D5DD' }} />
-        <span style={{ padding: '0 14px', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: '500' }}>OR</span>
+        <span style={{ padding: '0 14px', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: '500' }}>{t('common.or')}</span>
         <div style={{ flex: 1, height: '1px', backgroundColor: '#F0D5DD' }} />
       </div>
 
-      {/* Guest Mode Button: "Continue as Guest →" */}
+      {/* Guest Mode Button */}
       <button
         type="button"
         disabled={isLoading}
@@ -280,7 +281,7 @@ export default function LoginForm({
           border: '1px solid #E59BB0',
           fontSize: '0.95rem',
           fontWeight: '600',
-          fontFamily: "'Plus Jakarta Sans', sans-serif",
+          fontFamily: 'var(--font-ui)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -292,13 +293,13 @@ export default function LoginForm({
         className="sakhi-guest-btn"
       >
         <User size={18} color="#8C3558" />
-        <span>Continue as Guest</span>
+        <span>{t('auth.continueAsGuest')}</span>
         <ArrowRight size={18} color="#8C3558" />
       </button>
 
       {/* Switch to Signup */}
       <p style={{ marginTop: '24px', textAlign: 'center', fontSize: '0.875rem', color: '#7D626C' }}>
-        New to Sakhi?{' '}
+        {t('auth.newToSakhi')}{' '}
         <button
           type="button"
           onClick={onSwitchToSignup}
@@ -314,7 +315,7 @@ export default function LoginForm({
           onMouseEnter={(e) => (e.target.style.color = '#D9486D')}
           onMouseLeave={(e) => (e.target.style.color = '#EC738F')}
         >
-          Sign up
+          {t('auth.signUp')}
         </button>
       </p>
     </div>

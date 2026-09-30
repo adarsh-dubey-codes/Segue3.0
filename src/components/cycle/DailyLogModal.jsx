@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useCycle } from '../../context/CycleContext';
+import { useLanguage } from '../../context/LanguageContext';
 import Button from '../Button/Button';
 import VisualMoodSelector from './VisualMoodSelector';
 import VisualFlowSelector from './VisualFlowSelector';
@@ -7,6 +8,7 @@ import VisualEnergySelector from './VisualEnergySelector';
 import { X, Check } from 'lucide-react';
 
 export default function DailyLogModal({ isOpen, onClose }) {
+  const { t } = useLanguage();
   const { addDailyLog } = useCycle();
 
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
@@ -92,17 +94,17 @@ export default function DailyLogModal({ isOpen, onClose }) {
             cursor: 'pointer',
             padding: '4px'
           }}
-          aria-label="Close dialog"
+          aria-label={t('accessibility.closeMenu')}
         >
           <X size={22} />
         </button>
 
         <div style={{ marginBottom: '24px' }}>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.75rem', color: 'var(--rose-dark)', marginBottom: '4px' }}>
-            Log Today's Care
+            {t('cyclePage.logModalTitle')}
           </h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-            Tap simple faces and icons to record your day.
+            {t('onboarding.feelSub')}
           </p>
         </div>
 
@@ -110,7 +112,7 @@ export default function DailyLogModal({ isOpen, onClose }) {
           {/* Date Picker */}
           <div>
             <label style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '6px' }}>
-              Date
+              {t('doctorsPage.selectDate')}
             </label>
             <input
               type="date"
@@ -139,7 +141,7 @@ export default function DailyLogModal({ isOpen, onClose }) {
           {/* Symptoms */}
           <div>
             <label style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '8px' }}>
-              Symptoms
+              {t('feature.mood.title')}
             </label>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
               {symptomList.map((sym) => {
@@ -175,7 +177,7 @@ export default function DailyLogModal({ isOpen, onClose }) {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
             <div>
               <label style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '6px' }}>
-                😴 Sleep (Hours)
+                😴 {t('lifestylePage.sleepTitle')}
               </label>
               <input
                 type="number"
@@ -195,7 +197,7 @@ export default function DailyLogModal({ isOpen, onClose }) {
 
             <div>
               <label style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '6px' }}>
-                💧 Water (Glasses)
+                💧 {t('feature.water.title')}
               </label>
               <input
                 type="number"
@@ -217,11 +219,11 @@ export default function DailyLogModal({ isOpen, onClose }) {
           {/* Notes */}
           <div>
             <label style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-primary)', display: 'block', marginBottom: '6px' }}>
-              Personal Notes
+              {t('forumPage.postContent')}
             </label>
             <textarea
               rows="3"
-              placeholder="Any special thoughts or notes..."
+              placeholder={t('forumPage.contentPlaceholder')}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               style={{
@@ -238,10 +240,10 @@ export default function DailyLogModal({ isOpen, onClose }) {
           {/* Submit */}
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '10px' }}>
             <Button variant="outline" onClick={onClose}>
-              Cancel
+              {t('common.cancel')}
             </Button>
             <Button variant="primary" type="submit">
-              Save Log
+              {t('cyclePage.saveLog')}
             </Button>
           </div>
         </form>

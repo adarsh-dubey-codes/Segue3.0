@@ -22,9 +22,9 @@
   --danger: #D32F2F;
 
   /* Typography System */
-  --font-display: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
-  --font-ui: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-micro: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Playfair Display', 'Noto Sans Devanagari', 'Cormorant Garamond', Georgia, serif;
+  --font-ui: 'Plus Jakarta Sans', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-micro: 'Plus Jakarta Sans', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, sans-serif;
 
   /* Shadows & Glows */
   --shadow-sm: 0 2px 10px rgba(236, 115, 143, 0.06);

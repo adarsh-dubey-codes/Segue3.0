@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { doctorsDirectoryData } from '../../data/doctorsData';
 import AppointmentModal from '../../components/doctors/AppointmentModal';
 import Button from '../../components/Button/Button';
+import { useLanguage } from '../../context/LanguageContext';
 import { Search, Stethoscope, Star, Phone, MessageCircle, MapPin, Calendar, CheckCircle2 } from 'lucide-react';
 
 export default function DoctorsPage() {
+  const { t } = useLanguage();
   const [search, setSearch] = useState('');
   const [selectedCity, setSelectedCity] = useState('All');
   const [onlineOnly, setOnlineOnly] = useState(false);
@@ -27,10 +29,10 @@ export default function DoctorsPage() {
     <div style={{ maxWidth: '1240px', margin: '0 auto', padding: '40px 24px 80px 24px' }}>
       <div style={{ marginBottom: '32px' }}>
         <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.5rem', color: 'var(--rose-dark)' }}>
-          24/7 Gynaecologist Directory
+          {t('doctorsPage.directoryTitle')}
         </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '1rem' }}>
-          Find trusted, non-judgmental gynaecologists and reproductive specialists.
+          {t('doctorsPage.directorySub')}
         </p>
       </div>
 
@@ -62,7 +64,7 @@ export default function DoctorsPage() {
                 cursor: 'pointer'
               }}
             >
-              {c}
+              {c === 'All' ? t('common.all', 'All') : c}
             </button>
           ))}
 
@@ -73,7 +75,7 @@ export default function DoctorsPage() {
               onChange={(e) => setOnlineOnly(e.target.checked)}
               style={{ accentColor: 'var(--rose)' }}
             />
-            <span>Online Consult Available</span>
+            <span>{t('doctorsPage.onlineConsultAvailable')}</span>
           </label>
         </div>
 
@@ -82,7 +84,7 @@ export default function DoctorsPage() {
           <Search size={18} color="var(--text-secondary)" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
           <input
             type="text"
-            placeholder="Search by doctor name or specialty..."
+            placeholder={t('doctorsPage.searchPlaceholder')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             style={{
@@ -146,17 +148,17 @@ export default function DoctorsPage() {
               </p>
 
               <div style={{ display: 'flex', gap: '16px', fontSize: '0.8rem', color: 'var(--text-secondary)', flexWrap: 'wrap' }}>
-                <span>Languages: <strong>{doc.languages.join(', ')}</strong></span>
-                <span>Fee: <strong>{doc.price}</strong></span>
+                <span>{t('doctorsPage.languagesLabel')} <strong>{doc.languages.join(', ')}</strong></span>
+                <span>{t('doctorsPage.feeLabel')} <strong>{doc.price}</strong></span>
                 {doc.onlineConsultation && (
-                  <span style={{ color: 'var(--success)', fontWeight: '600' }}>✓ Online Consult Ready</span>
+                  <span style={{ color: 'var(--success)', fontWeight: '600' }}>{t('doctorsPage.onlineReady')}</span>
                 )}
               </div>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '160px' }}>
               <Button variant="primary" onClick={() => setSelectedDoctor(doc)} icon={<Calendar size={16} />}>
-                Book Appointment
+                {t('doctorsPage.bookAppointment')}
               </Button>
               <a
                 href={`https://wa.me/${doc.whatsapp}?text=Hello%20${encodeURIComponent(doc.name)},%20I%20found%20your%20profile%20on%20Sakhi%20Cycle.`}
@@ -177,7 +179,7 @@ export default function DoctorsPage() {
                   fontWeight: '600'
                 }}
               >
-                <MessageCircle size={16} /> WhatsApp Inquiry
+                <MessageCircle size={16} /> {t('doctorsPage.whatsappInquiry')}
               </a>
             </div>
           </div>

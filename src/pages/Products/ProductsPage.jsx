@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useLanguage } from '../../context/LanguageContext';
 import { periodProductsData } from '../../data/productsData';
 import ProductModal from '../../components/products/ProductModal';
-import { Search, ShoppingBag, ArrowRight } from 'lucide-react';
+import { Search, ArrowRight } from 'lucide-react';
 
 export default function ProductsPage() {
+  const { t } = useLanguage();
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -28,10 +30,10 @@ export default function ProductsPage() {
     <div style={{ maxWidth: '1240px', margin: '0 auto', padding: '40px 24px 80px 24px' }}>
       <div style={{ marginBottom: '32px' }}>
         <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.5rem', color: 'var(--rose-dark)' }}>
-          Period Products & How-To Guides
+          {t('productsPage.title')}
         </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '1rem' }}>
-          Compare menstrual cups, discs, period undies, tampons, and pads with beginner tutorials.
+          {t('productsPage.sub')}
         </p>
       </div>
 
@@ -65,7 +67,7 @@ export default function ProductsPage() {
                 textTransform: 'capitalize'
               }}
             >
-              {cat === 'reusable' ? 'Reusable & Eco' : cat}
+              {cat === 'All' ? t('common.open') : cat === 'reusable' ? t('productsPage.cups') : cat}
             </button>
           ))}
         </div>
@@ -75,7 +77,7 @@ export default function ProductsPage() {
           <Search size={18} color="var(--text-secondary)" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
           <input
             type="text"
-            placeholder="Search products or tutorials..."
+            placeholder={t('common.search')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             style={{
@@ -147,7 +149,7 @@ export default function ProductsPage() {
                   gap: '6px'
                 }}
               >
-                <span>View Details & Tutorials</span>
+                <span>{t('common.view')}</span>
                 <ArrowRight size={14} />
               </button>
             </div>

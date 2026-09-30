@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useLanguage } from '../../context/LanguageContext';
 import { generateSakhiResponse, getRemainingQuota } from '../../utils/aiClient';
 import Button from '../Button/Button';
-import { Bot, Send, RotateCcw, Trash2, ShieldAlert, Sparkles } from 'lucide-react';
+import { Bot, Send, Trash2, ShieldAlert, Sparkles } from 'lucide-react';
 
 export default function SakhiChat() {
+  const { t, language } = useLanguage();
+
   const [messages, setMessages] = useState([
     {
       id: 'welcome',
       sender: 'sakhi',
-      text: "Hi, I'm Sakhi. Ask me anything about your cycle, body, or how you're feeling.",
+      text: t('aiPage.sub'),
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
@@ -19,12 +22,9 @@ export default function SakhiChat() {
   const chatEndRef = useRef(null);
 
   const suggestedPrompts = [
-    'How do I soothe severe Day 1 cramps naturally?',
-    'What foods are best during the luteal phase?',
-    'How do I choose between a cup and period underwear?',
-    'Why is my energy low right before my period?',
-    'What are early signs of PCOS?',
-    'How to track irregular cycles?'
+    t('aiPage.q1'),
+    t('aiPage.q2'),
+    t('aiPage.q3')
   ];
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export default function SakhiChat() {
     setLoading(true);
 
     try {
-      const sakhiText = await generateSakhiResponse(text);
+      const sakhiText = await generateSakhiResponse(text, { language });
       const sakhiMsg = {
         id: (Date.now() + 1).toString(),
         sender: 'sakhi',
@@ -68,7 +68,7 @@ export default function SakhiChat() {
       {
         id: 'welcome',
         sender: 'sakhi',
-        text: "Hi, I'm Sakhi. Ask me anything about your cycle, body, or how you're feeling.",
+        text: t('aiPage.sub'),
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       }
     ]);
@@ -119,7 +119,7 @@ export default function SakhiChat() {
               Sakhi AI
             </h3>
             <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-              Your gentle AI companion • {remainingQuota} messages remaining today
+              {remainingQuota} {t('common.days')}
             </span>
           </div>
         </div>
@@ -127,7 +127,7 @@ export default function SakhiChat() {
         <button
           type="button"
           onClick={handleClear}
-          title="Clear conversation"
+          title={t('common.clear')}
           style={{
             background: 'none',
             border: 'none',
@@ -155,7 +155,7 @@ export default function SakhiChat() {
       >
         <ShieldAlert size={16} style={{ flexShrink: 0 }} />
         <span>
-          Sakhi is an AI companion, not a doctor. For serious symptoms, please consult a healthcare professional.
+          {t('aiPage.disclaimer')}
         </span>
       </div>
 
@@ -198,7 +198,7 @@ export default function SakhiChat() {
         {loading && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
             <Sparkles size={16} color="var(--rose)" style={{ animation: 'spin 1.5s linear infinite' }} />
-            <span>Sakhi is thinking...</span>
+            <span>{t('aiPage.thinking')}</span>
           </div>
         )}
 
@@ -256,7 +256,7 @@ export default function SakhiChat() {
       >
         <input
           type="text"
-          placeholder="Ask Sakhi about your cycle, body, or feelings..."
+          placeholder={t('aiPage.askPlaceholder')}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           disabled={loading || remainingQuota <= 0}

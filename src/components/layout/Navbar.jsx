@@ -135,7 +135,7 @@ export default function Navbar() {
                   }}
                   title="Guest mode data is saved locally on this browser."
                 >
-                  Guest (Local)
+                  {t('nav.guestMode')}
                 </span>
               ) : (
                 <span style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-primary)' }}>
@@ -163,7 +163,7 @@ export default function Navbar() {
                 }}
               >
                 <LogOut size={14} />
-                Sign out
+                {t('nav.signOut')}
               </button>
             </div>
           ) : (
@@ -182,7 +182,7 @@ export default function Navbar() {
                 boxShadow: '0 4px 12px rgba(236, 115, 143, 0.3)'
               }}
             >
-              Sign in
+              {t('nav.signIn')}
             </button>
           )}
         </div>

@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { initialForumPosts } from '../../data/forumSeedData';
 import CreatePostModal from '../../components/forum/CreatePostModal';
 import Button from '../../components/Button/Button';
+import { useLanguage } from '../../context/LanguageContext';
 import { Heart, MessageSquare, Shield, Plus, Flag } from 'lucide-react';
 
 export default function ForumPage() {
+  const { t } = useLanguage();
   const [posts, setPosts] = useState(initialForumPosts);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [isCreateOpen, setIsCreateOpen] = useState(false);
@@ -56,16 +58,16 @@ export default function ForumPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
             <Shield size={18} color="var(--rose)" />
             <span style={{ fontSize: '0.775rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--rose)', letterSpacing: '0.08em' }}>
-              Safe Room • No Names • No Judgment
+              {t('forumPage.safeRoom')}
             </span>
           </div>
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.5rem', color: 'var(--rose-dark)' }}>
-            Anonymous Community Forum
+            {t('forumPage.title')}
           </h1>
         </div>
 
         <Button variant="primary" onClick={() => setIsCreateOpen(true)} icon={<Plus size={16} />}>
-          Create Anonymous Post
+          {t('forumPage.createPost')}
         </Button>
       </div>
 
@@ -87,7 +89,7 @@ export default function ForumPage() {
               cursor: 'pointer'
             }}
           >
-            {cat}
+            {cat === 'All' ? t('common.all', 'All') : cat}
           </button>
         ))}
       </div>
@@ -142,11 +144,11 @@ export default function ForumPage() {
                 }}
               >
                 <Heart size={18} fill="var(--rose)" color="var(--rose)" />
-                <span>{post.likesCount} Support</span>
+                <span>{post.likesCount} {t('forumPage.support')}</span>
               </button>
 
               <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <MessageSquare size={16} /> {post.comments.length} Comments
+                <MessageSquare size={16} /> {t('forumPage.commentsCount', { count: post.comments.length })}
               </span>
             </div>
 
@@ -166,13 +168,13 @@ export default function ForumPage() {
             <div style={{ display: 'flex', gap: '8px' }}>
               <input
                 type="text"
-                placeholder="Write a supportive anonymous comment..."
+                placeholder={t('forumPage.commentPlaceholder')}
                 value={commentText[post.id] || ''}
                 onChange={(e) => setCommentText({ ...commentText, [post.id]: e.target.value })}
                 style={{ flex: 1, padding: '8px 14px', borderRadius: 'var(--radius-full)', border: '1px solid var(--border)', fontSize: '0.85rem' }}
               />
               <Button variant="secondary" onClick={() => handleAddComment(post.id)} style={{ fontSize: '0.8rem', padding: '6px 14px' }}>
-                Reply
+                {t('forumPage.reply')}
               </Button>
             </div>
           </div>

@@ -1,23 +1,25 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useLanguage } from '../../context/LanguageContext';
 import { Home, Calendar, Bot, MessageSquare, Menu, X, Sparkles, ShoppingBag, Stethoscope, Users, Music } from 'lucide-react';
 
 export default function MobileNav() {
+  const { t } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const mainTabs = [
-    { to: '/', label: 'Home', icon: Home },
-    { to: '/cycle', label: 'Cycle', icon: Calendar },
-    { to: '/chat', label: 'Sakhi AI', icon: Bot },
-    { to: '/forum', label: 'Forum', icon: MessageSquare }
+    { to: '/', label: t('nav.home'), icon: Home },
+    { to: '/cycle', label: t('nav.cycle'), icon: Calendar },
+    { to: '/chat', label: t('nav.chat'), icon: Bot },
+    { to: '/forum', label: t('nav.forum'), icon: MessageSquare }
   ];
 
   const moreLinks = [
-    { to: '/lifestyle', label: 'Lifestyle & Diet', icon: Sparkles },
-    { to: '/products', label: 'Period Products', icon: ShoppingBag },
-    { to: '/doctors', label: 'Find Doctors', icon: Stethoscope },
-    { to: '/buddy', label: 'Cycle Buddy', icon: Users },
-    { to: '/vibes', label: 'Good Vibes', icon: Music }
+    { to: '/lifestyle', label: t('nav.lifestyle'), icon: Sparkles },
+    { to: '/products', label: t('nav.products'), icon: ShoppingBag },
+    { to: '/doctors', label: t('nav.doctors'), icon: Stethoscope },
+    { to: '/buddy', label: t('nav.buddy'), icon: Users },
+    { to: '/vibes', label: t('nav.vibes'), icon: Music }
   ];
 
   return (
@@ -89,9 +91,10 @@ export default function MobileNav() {
             type="button"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className={`mobile-tab ${isMenuOpen ? 'active' : ''}`}
+            aria-label={t('accessibility.openMenu')}
           >
             <Menu size={20} />
-            <span>More</span>
+            <span>{t('nav.more')}</span>
           </button>
         </div>
       </nav>
@@ -123,12 +126,13 @@ export default function MobileNav() {
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
               <h3 style={{ fontFamily: 'var(--font-display)', color: 'var(--rose-dark)', fontSize: '1.25rem' }}>
-                Explore Sakhi Cycle
+                Sakhi Cycle
               </h3>
               <button
                 type="button"
                 onClick={() => setIsMenuOpen(false)}
                 style={{ background: 'none', border: 'none', color: 'var(--text-secondary)' }}
+                aria-label={t('accessibility.closeMenu')}
               >
                 <X size={20} />
               </button>
