@@ -360,7 +360,7 @@ export default function SakhiVideosPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '24px' }}>
           {filteredVideos.map((video) => {
             const isPlayingInline = inlinePlayingId === video.id;
-            const isStreamMode = playerMode[video.id] === 'stream';
+            const isYouTubeMode = playerMode[video.id] === 'youtube';
 
             return (
               <div key={video.id} className="video-card">
@@ -370,20 +370,20 @@ export default function SakhiVideosPage() {
                   
                   {isPlayingInline ? (
                     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-                      {isStreamMode ? (
-                        <video
-                          src={video.streamUrl}
-                          controls
-                          autoPlay
-                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                        />
-                      ) : (
+                      {isYouTubeMode ? (
                         <iframe
                           src={`https://www.youtube.com/embed/${video.youtubeId}?autoplay=1&enablejsapi=1&rel=0`}
                           title={video.title}
                           style={{ width: '100%', height: '100%', border: 0 }}
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
                           allowFullScreen
+                        />
+                      ) : (
+                        <video
+                          src={video.streamUrl}
+                          controls
+                          autoPlay
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         />
                       )}
 
