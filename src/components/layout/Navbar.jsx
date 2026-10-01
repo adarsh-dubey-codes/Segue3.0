@@ -117,9 +117,9 @@ export default function Navbar() {
           padding: 10px 0;
         }
         .navbar-container {
-          max-width: 1440px;
-          margin: 0 auto;
-          padding: 0 20px;
+          max-width: 100%;
+          margin: 0;
+          padding: 0 clamp(16px, 2.5vw, 40px);
           display: flex;
           align-items: center;
           justify-content: space-between;

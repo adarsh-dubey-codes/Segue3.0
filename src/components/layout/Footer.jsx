@@ -17,8 +17,8 @@ export default function Footer() {
     >
       <div 
         style={{
-          maxWidth: '1240px',
-          margin: '0 auto',
+          maxWidth: '100%',
+          padding: '0 clamp(16px, 2.5vw, 40px)',
           display: 'flex',
           flexDirection: 'column',
           gap: '32px'

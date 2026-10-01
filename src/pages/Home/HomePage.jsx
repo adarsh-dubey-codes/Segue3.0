@@ -28,7 +28,7 @@ export default function HomePage() {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
   return (
-    <div className="home-wrapper" style={{ maxWidth: '1360px', margin: '0 auto', padding: '24px 20px 80px 20px', position: 'relative' }}>
+    <div className="home-wrapper" style={{ maxWidth: '100%', padding: '24px clamp(16px, 2.5vw, 40px) 80px', position: 'relative' }}>
       <AmbientBackground intensity="delightful" />
       <style>{`
         .home-main-grid {

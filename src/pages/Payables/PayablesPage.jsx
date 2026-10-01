@@ -41,8 +41,8 @@ export default function PayablesPage() {
   ];
 
   return (
-    <div style={{ backgroundColor: '#FFF7F9', minHeight: '100vh', padding: '32px 20px 80px' }}>
-      <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+    <div style={{ backgroundColor: '#FFF7F9', minHeight: '100vh', padding: '32px clamp(16px, 2.5vw, 40px) 80px' }}>
+      <div style={{ maxWidth: '100%' }}>
         
         {/* Page Banner */}
         <div 

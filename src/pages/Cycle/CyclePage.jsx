@@ -35,7 +35,7 @@ export default function CyclePage() {
   };
 
   return (
-    <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '36px 24px 80px 24px', position: 'relative' }}>
+    <div style={{ maxWidth: '100%', padding: '36px clamp(16px, 2.5vw, 40px) 80px', position: 'relative' }}>
       <AmbientBackground intensity="soft" />
 
       {/* HEADER BAR */}

@@ -49,7 +49,7 @@ export default function DoctorsPage() {
   });
 
   return (
-    <div style={{ maxWidth: '1240px', margin: '0 auto', padding: '32px 20px 80px 20px', fontFamily: 'var(--font-sans)' }}>
+    <div style={{ maxWidth: '100%', padding: '32px clamp(16px, 2.5vw, 40px) 80px', fontFamily: 'var(--font-sans)' }}>
       
       {/* TOP SEARCH AND FILTER CARD */}
       <div 

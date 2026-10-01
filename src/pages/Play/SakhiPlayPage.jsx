@@ -11,11 +11,11 @@ export default function SakhiPlayPage() {
   const [activeTab, setActiveTab] = useState('daily'); // 'affirmation', 'mood', 'bloom', 'bubble', 'wheel', 'myth', 'daily'
 
   return (
-    <div style={{ backgroundColor: '#FFF5F7', minHeight: 'calc(100vh - 80px)', padding: '28px 16px 80px' }}>
+    <div style={{ backgroundColor: '#FFF5F7', minHeight: 'calc(100vh - 80px)', padding: '28px clamp(16px, 2.5vw, 40px) 80px' }}>
       <style>{`
         .sakhi-play-container {
-          max-width: 1100px;
-          margin: 0 auto;
+          max-width: 100%;
+          margin: 0;
         }
 
         /* Top Ribbon Bar */

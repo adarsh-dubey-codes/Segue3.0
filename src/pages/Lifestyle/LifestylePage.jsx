@@ -15,7 +15,7 @@ export default function LifestylePage() {
         padding: '32px 24px 80px 24px'
       }}
     >
-      <div style={{ maxWidth: '1360px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '32px' }}>
+      <div style={{ maxWidth: '100%', padding: '0 clamp(12px, 2vw, 32px)', display: 'flex', flexDirection: 'column', gap: '32px' }}>
         
         {/* Top Page Header with Girl Stretching Illustration */}
         <div

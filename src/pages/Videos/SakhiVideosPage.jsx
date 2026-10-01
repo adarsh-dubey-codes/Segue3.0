@@ -159,11 +159,11 @@ export default function SakhiVideosPage() {
   };
 
   return (
-    <div style={{ backgroundColor: '#FFF7F9', minHeight: '100vh', padding: '32px 20px 80px' }}>
+    <div style={{ backgroundColor: '#FFF7F9', minHeight: '100vh', padding: '32px clamp(16px, 2.5vw, 40px) 80px' }}>
       <style>{`
         .sakhi-videos-container {
-          max-width: 1200px;
-          margin: 0 auto;
+          max-width: 100%;
+          margin: 0;
         }
 
         .video-card {

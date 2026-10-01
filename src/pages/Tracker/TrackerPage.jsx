@@ -56,8 +56,7 @@ export default function TrackerPage({ onLogout }) {
         </Button>
       </header>
 
-      {/* MAIN TRACKER CONTAINER */}
-      <main style={{ flex: 1, maxWidth: '1040px', width: '100%', margin: '0 auto', padding: '40px 24px 80px 24px' }}>
+      <main style={{ flex: 1, maxWidth: '100%', width: '100%', padding: '32px clamp(16px, 2.5vw, 40px) 80px' }}>
         {/* PAGE HEADER */}
         <div style={{ marginBottom: '40px', textAlign: 'left' }}>
           <h1 

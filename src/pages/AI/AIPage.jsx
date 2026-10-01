@@ -142,7 +142,7 @@ export default function AIPage() {
         padding: '24px 24px 60px 24px'
       }}
     >
-      <div style={{ maxWidth: '1360px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '28px' }}>
+      <div style={{ maxWidth: '100%', padding: '0 clamp(12px, 2vw, 32px)', display: 'flex', flexDirection: 'column', gap: '28px' }}>
         
         {/* Main 3-Column Grid Layout */}
         <div
