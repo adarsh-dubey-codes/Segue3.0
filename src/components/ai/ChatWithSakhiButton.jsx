@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, X, Sparkles } from 'lucide-react';
+import { MessageCircle, X, Sparkles, Edit3 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import SakhiChat from './SakhiChat';
 
@@ -9,62 +9,76 @@ export default function ChatWithSakhiButton() {
   const [isOpen, setIsOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  const localizedChatLabel = t('nav.chat', { defaultValue: 'Chat with Sakhi' });
+  const localizedChatLabel = t('nav.likhoSakhi', { defaultValue: 'Likho Sakhi (लिखो सखी)' });
 
   const toggleChat = () => {
     setIsOpen((prev) => !prev);
   };
 
   return (
-    <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-      {/* Desktop Hover Tooltip */}
-      <AnimatePresence>
-        {isHovered && !isOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: 10, scale: 0.95 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            exit={{ opacity: 0, x: 10, scale: 0.95 }}
-            transition={{ duration: 0.18 }}
-            style={{
-              position: 'absolute',
-              right: '76px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              backgroundColor: '#3E242B',
-              color: '#FFFFFF',
-              padding: '6px 14px',
-              borderRadius: '20px',
-              boxShadow: '0 4px 14px rgba(62, 36, 43, 0.25)',
-              fontSize: '0.8rem',
-              fontWeight: '600',
-              whiteSpace: 'nowrap',
-              pointerEvents: 'none',
-              userSelect: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              zIndex: 10001
-            }}
-          >
-            <span>💬 {localizedChatLabel}</span>
-          </motion.div>
-        )}
-      </AnimatePresence>
+    <div 
+      style={{ 
+        position: 'fixed', 
+        left: '24px', 
+        bottom: '24px', 
+        zIndex: 9999,
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'flex-start',
+        gap: '8px'
+      }}
+      className="likho-sakhi-container"
+    >
+      <style>{`
+        @media (max-width: 960px) {
+          .likho-sakhi-container {
+            left: 16px !important;
+            bottom: 76px !important;
+          }
+        }
+      `}</style>
 
-      {/* Floating Circular Chat Icon Button with Breathing Scale (Section #12 of Prompt) */}
+      {/* Persistent / Hover Badge Pill - Likho Sakhi */}
+      {!isOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          style={{
+            backgroundColor: '#FFFFFF',
+            color: '#3E242B',
+            padding: '5px 14px',
+            borderRadius: '9999px',
+            border: '1.5px solid #FAD4DE',
+            boxShadow: '0 4px 14px rgba(236, 115, 143, 0.25)',
+            fontSize: '0.825rem',
+            fontWeight: '700',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
+            whiteSpace: 'nowrap',
+            cursor: 'pointer'
+          }}
+          onClick={toggleChat}
+        >
+          <span style={{ fontSize: '14px' }}>✍️</span>
+          <span>लिखो सखी (Likho Sakhi)</span>
+        </motion.div>
+      )}
+
+      {/* Floating Circular Chat Button on Left */}
       <motion.button
         type="button"
         onClick={toggleChat}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        animate={!isOpen ? { scale: [1, 1.03, 1] } : { scale: 1 }}
-        transition={!isOpen ? { duration: 5, repeat: Infinity, ease: 'easeInOut' } : {}}
+        animate={!isOpen ? { scale: [1, 1.04, 1] } : { scale: 1 }}
+        transition={!isOpen ? { duration: 4, repeat: Infinity, ease: 'easeInOut' } : {}}
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.95 }}
         style={{
           position: 'relative',
-          width: '64px',
-          height: '64px',
+          width: '60px',
+          height: '60px',
           borderRadius: '50%',
           display: 'flex',
           alignItems: 'center',
@@ -72,12 +86,12 @@ export default function ChatWithSakhiButton() {
           background: 'linear-gradient(135deg, #EC738F 0%, #D9486D 50%, #B83256 100%)',
           boxShadow: '0 10px 30px rgba(236, 115, 143, 0.45), 0 4px 12px rgba(110, 44, 75, 0.3)',
           color: '#FFFFFF',
-          border: '2px solid rgba(255, 255, 255, 0.8)',
+          border: '2px solid rgba(255, 255, 255, 0.9)',
           cursor: 'pointer',
           transition: 'all 0.25s ease'
         }}
-        aria-label={localizedChatLabel}
-        title={localizedChatLabel}
+        aria-label="Likho Sakhi - Text Chat"
+        title="Likho Sakhi (लिखो सखी)"
       >
         {isHovered && !isOpen && (
           <Sparkles
@@ -92,13 +106,13 @@ export default function ChatWithSakhiButton() {
           />
         )}
         {isOpen ? (
-          <X size={26} color="#FFFFFF" strokeWidth={2.5} />
+          <X size={24} color="#FFFFFF" strokeWidth={2.5} />
         ) : (
-          <MessageCircle size={26} color="#FFFFFF" strokeWidth={2.2} />
+          <Edit3 size={24} color="#FFFFFF" strokeWidth={2.2} />
         )}
       </motion.button>
 
-      {/* Floating Sakhi Chat Window Drawer Overlay */}
+      {/* Floating Sakhi Chat Window Drawer Overlay (Anchored to Left) */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -121,29 +135,29 @@ export default function ChatWithSakhiButton() {
           >
             <style>{`
               .sakhi-chat-overlay-container {
-                right: 24px;
-                bottom: 172px;
+                left: 24px;
+                bottom: 96px;
                 width: 440px;
                 height: 640px;
-                max-height: calc(100vh - 200px);
+                max-height: calc(100vh - 120px);
                 max-width: calc(100vw - 32px);
               }
               @media (max-width: 960px) {
                 .sakhi-chat-overlay-container {
-                  right: 12px !important;
                   left: 12px !important;
-                  bottom: 224px !important;
+                  right: 12px !important;
+                  bottom: 148px !important;
                   width: auto !important;
-                  height: min(580px, calc(100vh - 240px)) !important;
+                  height: min(580px, calc(100vh - 160px)) !important;
                   max-width: 100% !important;
                 }
               }
               @media (max-width: 480px) {
                 .sakhi-chat-overlay-container {
-                  right: 8px !important;
                   left: 8px !important;
-                  bottom: 216px !important;
-                  height: min(540px, calc(100vh - 230px)) !important;
+                  right: 8px !important;
+                  bottom: 140px !important;
+                  height: min(540px, calc(100vh - 150px)) !important;
                 }
               }
             `}</style>
@@ -192,4 +206,3 @@ export default function ChatWithSakhiButton() {
     </div>
   );
 }
-

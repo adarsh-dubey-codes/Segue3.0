@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mic, X, Volume2, Radio, Sparkles, RefreshCw, AlertCircle, Heart } from 'lucide-react';
 import { useBoloSakhiEngine } from '../hooks/useBoloSakhiEngine';
-import ChatWithSakhiButton from './ai/ChatWithSakhiButton';
 
 export interface VoicePromptChip {
   id: string;
@@ -86,12 +85,11 @@ export const BoloSakhiMicCircle: React.FC = () => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-end',
-        gap: '12px',
+        gap: '8px',
         fontFamily: "'Plus Jakarta Sans', -apple-system, sans-serif"
       }}
       className="bolo-sakhi-mic-container"
     >
-      <ChatWithSakhiButton />
       <style>{`
         @media (max-width: 960px) {
           .bolo-sakhi-mic-container {
@@ -335,33 +333,33 @@ export const BoloSakhiMicCircle: React.FC = () => {
       </AnimatePresence>
 
       {/* Floating Action Circle Button Container */}
-      <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px' }}>
         {/* "Bolo Sakhi" Pill Badge Overlay */}
-        <motion.div
-          initial={{ opacity: 0, y: 5 }}
-          animate={{ opacity: 1, y: 0 }}
-          style={{
-            position: 'absolute',
-            top: '-14px',
-            zIndex: 10,
-            backgroundColor: '#FFFFFF',
-            color: '#6E2C4B',
-            border: '1px solid #FAD4DE',
-            fontWeight: '700',
-            padding: '2px 10px',
-            borderRadius: '9999px',
-            boxShadow: '0 4px 12px rgba(236, 115, 143, 0.25)',
-            fontSize: '0.725rem',
-            whiteSpace: 'nowrap',
-            pointerEvents: 'none',
-            userSelect: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '4px'
-          }}
-        >
-          <span>🗣️ बोलो सखी</span>
-        </motion.div>
+        {!isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            style={{
+              backgroundColor: '#FFFFFF',
+              color: '#3E242B',
+              padding: '5px 14px',
+              borderRadius: '9999px',
+              border: '1.5px solid #FAD4DE',
+              boxShadow: '0 4px 14px rgba(236, 115, 143, 0.25)',
+              fontSize: '0.825rem',
+              fontWeight: '700',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              whiteSpace: 'nowrap',
+              cursor: 'pointer'
+            }}
+            onClick={handleCircleClick}
+          >
+            <span style={{ fontSize: '14px' }}>🎙️</span>
+            <span>बोलो सखी (Bolo Sakhi)</span>
+          </motion.div>
+        )}
 
         {/* Floating Circular Mic Button */}
         <motion.button
