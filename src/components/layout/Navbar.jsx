@@ -57,7 +57,6 @@ export default function Navbar() {
   const navLinks = [
     { to: '/', label: t('nav.home', 'Home'), icon: Home },
     { to: '/cycle', label: t('nav.cycle', 'My Cycle'), icon: Calendar },
-    { to: '/ai', label: t('nav.chat', 'Talk to Sakhi'), icon: MessageCircle },
     { to: '/lifestyle', label: t('nav.lifestyle', 'Eat & Move'), icon: Utensils }
   ];
 
