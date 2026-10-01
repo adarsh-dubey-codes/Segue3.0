@@ -116,6 +116,15 @@ export default function Navbar() {
       iconBg: '#FFEBF0',
       iconColor: '#B9345D',
       path: '/payables'
+    },
+    {
+      id: 'partner',
+      title: 'Partner Portal',
+      subtitle: 'NGO, SHG & Rural Program Portal',
+      icon: Users,
+      iconBg: '#E0F2FE',
+      iconColor: '#0284C7',
+      path: '/partner'
     }
   ];
 

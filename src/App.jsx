@@ -27,8 +27,10 @@ import SakhiVideosPage from './pages/Videos/SakhiVideosPage';
 import LoginPage from './pages/Auth/LoginPage';
 import SignupPage from './pages/Auth/SignupPage';
 
-
-
+import PartnerPortalPage from './pages/Partner/PartnerPortalPage';
+import FieldWorkerTrainingPage from './pages/Partner/FieldWorkerTrainingPage';
+import EmbedWidgetPage from './pages/Partner/EmbedWidgetPage';
+import PartnerApiDocPage from './pages/Partner/PartnerApiDocPage';
 
 function AppLayout({ children }) {
   return (
@@ -50,143 +52,178 @@ export default function App() {
         <CycleProvider>
           <RewardsProvider>
             <BrowserRouter>
-            <Routes>
-              {/* Auth Experience Routes */}
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/signup" element={<SignupPage />} />
+              <Routes>
+                {/* Auth Experience Routes */}
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/signup" element={<SignupPage />} />
 
-              {/* Protected Main Application Shell Routes */}
-              <Route
-                path="/"
-                element={
-                  <ProtectedRoute allowGuest={true}>
-                    <AppLayout>
-                      <HomePage />
-                    </AppLayout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/cycle"
-                element={
-                  <ProtectedRoute allowGuest={true}>
-                    <AppLayout>
-                      <CyclePage />
-                    </AppLayout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/track"
-                element={<Navigate to="/cycle" replace />}
-              />
-              <Route
-                path="/chat"
-                element={
-                  <ProtectedRoute allowGuest={true}>
-                    <AppLayout>
-                      <AIPage />
-                    </AppLayout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/lifestyle"
-                element={
-                  <ProtectedRoute allowGuest={true}>
-                    <AppLayout>
-                      <LifestylePage />
-                    </AppLayout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/products"
-                element={
-                  <ProtectedRoute allowGuest={true}>
-                    <AppLayout>
-                      <ProductsPage />
-                    </AppLayout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/doctors"
-                element={
-                  <ProtectedRoute allowGuest={true}>
-                    <AppLayout>
-                      <DoctorsPage />
-                    </AppLayout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/forum"
-                element={
-                  <ProtectedRoute allowGuest={true}>
-                    <AppLayout>
-                      <ForumPage />
-                    </AppLayout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/buddy"
-                element={
-                  <ProtectedRoute allowGuest={true}>
-                    <AppLayout>
-                      <BuddyPage />
-                    </AppLayout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/vibes"
-                element={
-                  <ProtectedRoute allowGuest={true}>
-                    <AppLayout>
-                      <VibesPage />
-                    </AppLayout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/payables"
-                element={
-                  <ProtectedRoute allowGuest={true}>
-                    <AppLayout>
-                      <PayablesPage />
-                    </AppLayout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/play"
-                element={
-                  <ProtectedRoute allowGuest={true}>
-                    <AppLayout>
-                      <SakhiPlayPage />
-                    </AppLayout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/videos"
-                element={
-                  <ProtectedRoute allowGuest={true}>
-                    <AppLayout>
-                      <SakhiVideosPage />
-                    </AppLayout>
-                  </ProtectedRoute>
-                }
-              />
-              {/* Fallback route */}
+                {/* Protected Main Application Shell Routes */}
+                <Route
+                  path="/"
+                  element={
+                    <ProtectedRoute allowGuest={true}>
+                      <AppLayout>
+                        <HomePage />
+                      </AppLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/cycle"
+                  element={
+                    <ProtectedRoute allowGuest={true}>
+                      <AppLayout>
+                        <CyclePage />
+                      </AppLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/track"
+                  element={<Navigate to="/cycle" replace />}
+                />
+                <Route
+                  path="/chat"
+                  element={
+                    <ProtectedRoute allowGuest={true}>
+                      <AppLayout>
+                        <AIPage />
+                      </AppLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/lifestyle"
+                  element={
+                    <ProtectedRoute allowGuest={true}>
+                      <AppLayout>
+                        <LifestylePage />
+                      </AppLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/products"
+                  element={
+                    <ProtectedRoute allowGuest={true}>
+                      <AppLayout>
+                        <ProductsPage />
+                      </AppLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/doctors"
+                  element={
+                    <ProtectedRoute allowGuest={true}>
+                      <AppLayout>
+                        <DoctorsPage />
+                      </AppLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/forum"
+                  element={
+                    <ProtectedRoute allowGuest={true}>
+                      <AppLayout>
+                        <ForumPage />
+                      </AppLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/buddy"
+                  element={
+                    <ProtectedRoute allowGuest={true}>
+                      <AppLayout>
+                        <BuddyPage />
+                      </AppLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/vibes"
+                  element={
+                    <ProtectedRoute allowGuest={true}>
+                      <AppLayout>
+                        <VibesPage />
+                      </AppLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/payables"
+                  element={
+                    <ProtectedRoute allowGuest={true}>
+                      <AppLayout>
+                        <PayablesPage />
+                      </AppLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/play"
+                  element={
+                    <ProtectedRoute allowGuest={true}>
+                      <AppLayout>
+                        <SakhiPlayPage />
+                      </AppLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/videos"
+                  element={
+                    <ProtectedRoute allowGuest={true}>
+                      <AppLayout>
+                        <SakhiVideosPage />
+                      </AppLayout>
+                    </ProtectedRoute>
+                  }
+                />
 
+                {/* Partner Layer Routes */}
+                <Route
+                  path="/partner"
+                  element={
+                    <ProtectedRoute allowGuest={true}>
+                      <AppLayout>
+                        <PartnerPortalPage />
+                      </AppLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/partner/training"
+                  element={
+                    <ProtectedRoute allowGuest={true}>
+                      <AppLayout>
+                        <FieldWorkerTrainingPage />
+                      </AppLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/partner/api-docs"
+                  element={
+                    <ProtectedRoute allowGuest={true}>
+                      <AppLayout>
+                        <PartnerApiDocPage />
+                      </AppLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                {/* Embeddable Educational Widget (Standalone, no header/footer layout) */}
+                <Route
+                  path="/partner/embed"
+                  element={<EmbedWidgetPage />}
+                />
 
-
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </BrowserRouter>
+                {/* Fallback route */}
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </BrowserRouter>
           </RewardsProvider>
         </CycleProvider>
       </AuthProvider>
