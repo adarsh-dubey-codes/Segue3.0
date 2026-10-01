@@ -383,6 +383,8 @@ export default function SakhiVideosPage() {
                           src={video.streamUrl}
                           controls
                           autoPlay
+                          playsInline
+                          preload="auto"
                           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         />
                       )}
@@ -618,19 +620,21 @@ export default function SakhiVideosPage() {
 
             {/* Responsive Video Container */}
             <div className="iframe-container">
-              {playerMode[activeVideoModal.id] === 'stream' ? (
-                <video
-                  src={activeVideoModal.streamUrl}
-                  controls
-                  autoPlay
-                  style={{ width: '100%', height: '100%' }}
-                />
-              ) : (
+              {playerMode[activeVideoModal.id] === 'youtube' ? (
                 <iframe
                   src={`https://www.youtube.com/embed/${activeVideoModal.youtubeId}?autoplay=1&enablejsapi=1&rel=0`}
                   title={activeVideoModal.title}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
                   allowFullScreen
+                />
+              ) : (
+                <video
+                  src={activeVideoModal.streamUrl}
+                  controls
+                  autoPlay
+                  playsInline
+                  preload="auto"
+                  style={{ width: '100%', height: '100%' }}
                 />
               )}
             </div>
@@ -661,7 +665,7 @@ export default function SakhiVideosPage() {
                   }}
                 >
                   <RefreshCw size={13} />
-                  <span>Switch to {playerMode[activeVideoModal.id] === 'stream' ? 'YouTube' : 'Direct HD Stream'}</span>
+                  <span>Switch to {playerMode[activeVideoModal.id] === 'youtube' ? 'Direct HD Stream' : 'YouTube'}</span>
                 </button>
 
                 <a
