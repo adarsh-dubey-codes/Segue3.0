@@ -304,6 +304,104 @@ export default function Navbar() {
           flex-shrink: 0;
         }
 
+        /* Explore Dropdown Card & Scrollbar */
+        .explore-dropdown-card {
+          position: absolute;
+          top: calc(100% + 10px);
+          left: 50%;
+          transform: translateX(-50%);
+          width: 320px;
+          background: #FFFFFF;
+          border: 1.5px solid #FAD4DE;
+          border-radius: 20px;
+          padding: 16px 12px 16px 16px;
+          box-shadow: 0 12px 36px rgba(185, 52, 93, 0.16);
+          z-index: 1000;
+          animation: exploreFadeInDown 0.2s ease-out;
+        }
+
+        @keyframes exploreFadeInDown {
+          from {
+            opacity: 0;
+            transform: translate(-50%, -8px);
+          }
+          to {
+            opacity: 1;
+            transform: translate(-50%, 0);
+          }
+        }
+
+        .explore-scroll-container {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          max-height: 250px;
+          overflow-y: auto;
+          padding-right: 6px;
+          scrollbar-width: thin;
+          scrollbar-color: #71717A #F4F4F5;
+        }
+
+        /* Custom Scrollbar (Exact match to prompt mockup) */
+        .explore-scroll-container::-webkit-scrollbar {
+          width: 10px;
+        }
+
+        .explore-scroll-container::-webkit-scrollbar-track {
+          background: #F4F4F5;
+          border-radius: 10px;
+        }
+
+        .explore-scroll-container::-webkit-scrollbar-thumb {
+          background: #71717A;
+          border-radius: 10px;
+          border: 2px solid #F4F4F5;
+        }
+
+        .explore-scroll-container::-webkit-scrollbar-thumb:hover {
+          background: #52525B;
+        }
+
+        /* Top and Bottom Scrollbar Arrows (▲ and ▼) */
+        .explore-scroll-container::-webkit-scrollbar-button:single-button:vertical:decrement {
+          background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='%2352525B'><polygon points='12,4 2,20 22,20'/></svg>") no-repeat center;
+          background-size: 8px 8px;
+          height: 12px;
+          display: block;
+        }
+
+        .explore-scroll-container::-webkit-scrollbar-button:single-button:vertical:increment {
+          background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='%2352525B'><polygon points='12,20 2,4 22,4'/></svg>") no-repeat center;
+          background-size: 8px 8px;
+          height: 12px;
+          display: block;
+        }
+
+        .explore-item-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 8px 10px;
+          border-radius: 12px;
+          text-decoration: none;
+          transition: all 0.15s ease;
+        }
+
+        .explore-item-row:hover {
+          background-color: #FFF0F4;
+        }
+
+        .explore-item-arrow {
+          color: #B9345D;
+          font-weight: 700;
+          font-size: 1.1rem;
+          transition: transform 0.15s ease;
+        }
+
+        .explore-item-row:hover .explore-item-arrow {
+          transform: translateX(3px);
+        }
+
         @media (max-width: 960px) {
           .navbar-nav-wrap {
             display: none;
@@ -363,7 +461,7 @@ export default function Navbar() {
                   </div>
 
                   {/* List of Items */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', maxHeight: '340px', overflowY: 'auto' }}>
+                  <div className="explore-scroll-container">
                     {exploreSanctuaries.map((item) => {
                       const Icon = item.icon;
                       return (
@@ -397,7 +495,7 @@ export default function Navbar() {
                               </div>
                             </div>
                           </div>
-                          <span style={{ color: '#B9345D', fontWeight: '700', fontSize: '1.1rem' }}>›</span>
+                          <span className="explore-item-arrow">›</span>
                         </NavLink>
                       );
                     })}
