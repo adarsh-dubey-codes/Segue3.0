@@ -7,7 +7,7 @@ import { useLanguage } from '../../context/LanguageContext';
 import { 
   Home, Calendar, MessageCircle, Utensils, ShoppingBag, 
   Stethoscope, Users, User, Sun, LogOut, ChevronDown, ChevronUp,
-  Sparkles, Gamepad2, Video, Scale, CreditCard, Award, ArrowRight, MessageSquare
+  Sparkles, Gamepad2, Video, Scale, CreditCard, ArrowRight, MessageSquare
 } from 'lucide-react';
 
 export default function Navbar() {
@@ -100,15 +100,6 @@ export default function Navbar() {
       iconBg: '#FFEBF0',
       iconColor: '#B9345D',
       path: '/payables'
-    },
-    {
-      id: 'rewards',
-      title: 'Sakhi Rewards',
-      subtitle: 'Tokens, streaks & badges',
-      icon: Award,
-      iconBg: '#FEF9C3',
-      iconColor: '#CA8A04',
-      path: '/lifestyle'
     }
   ];
 
