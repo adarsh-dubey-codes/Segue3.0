@@ -1,167 +1,324 @@
 import React, { useState } from 'react';
 import { doctorsDirectoryData } from '../../data/doctorsData';
 import AppointmentModal from '../../components/doctors/AppointmentModal';
-import Button from '../../components/Button/Button';
 import { useTranslation } from 'react-i18next';
-import { Search, Stethoscope, Star, Phone, MessageCircle, MapPin, Calendar, CheckCircle2 } from 'lucide-react';
+import { 
+  Search, Filter, Star, Phone, Navigation, Calendar, Video, 
+  Building2, MapPin, Sparkles, CheckCircle2 
+} from 'lucide-react';
 
 export default function DoctorsPage() {
   const { t } = useTranslation();
   const [search, setSearch] = useState('');
-  const [selectedCity, setSelectedCity] = useState('All');
-  const [onlineOnly, setOnlineOnly] = useState(false);
+  const [activeFilter, setActiveFilter] = useState('in_clinic'); // 'all', 'nearby', 'top_rated', 'female', 'online', 'in_clinic'
   const [selectedDoctor, setSelectedDoctor] = useState(null);
 
-  const cities = ['All', 'Mumbai', 'Bengaluru', 'Delhi NCR', 'Pune'];
+  const filtersList = [
+    { id: 'all', label: 'All Doctors', icon: null },
+    { id: 'nearby', label: '📍 Nearby (≤3km)', icon: null },
+    { id: 'top_rated', label: '⭐ Top Rated (4.9+)', icon: null },
+    { id: 'female', label: '👩‍⚕️ Female Doctors', icon: null },
+    { id: 'online', label: '💻 Online Consult', icon: null },
+    { id: 'in_clinic', label: '🏥 In-Clinic', icon: null },
+  ];
 
   const filteredDoctors = doctorsDirectoryData.filter((doc) => {
-    const matchesCity = selectedCity === 'All' || doc.city.toLowerCase() === selectedCity.toLowerCase();
-    const matchesOnline = !onlineOnly || doc.onlineConsultation;
-    const matchesSearch =
-      doc.name.toLowerCase().includes(search.toLowerCase()) ||
-      doc.specialty.toLowerCase().includes(search.toLowerCase()) ||
-      doc.languages.some((l) => l.toLowerCase().includes(search.toLowerCase()));
+    // Filter matching
+    if (activeFilter === 'nearby') {
+      const distNum = parseFloat(doc.distance);
+      if (isNaN(distNum) || distNum > 3.0) return false;
+    }
+    if (activeFilter === 'top_rated' && doc.rating < 4.9) return false;
+    if (activeFilter === 'female' && doc.gender !== 'female') return false;
+    if (activeFilter === 'online' && !doc.onlineConsultation) return false;
+    if (activeFilter === 'in_clinic' && !doc.inClinic) return false;
 
-    return matchesCity && matchesOnline && matchesSearch;
+    // Search query matching
+    if (search.trim()) {
+      const q = search.toLowerCase();
+      const matchName = doc.name.toLowerCase().includes(q);
+      const matchSpecialty = doc.specialty.toLowerCase().includes(q);
+      const matchHospital = doc.hospital.toLowerCase().includes(q);
+      const matchTags = doc.tags?.some(tag => tag.toLowerCase().includes(q));
+      if (!matchName && !matchSpecialty && !matchHospital && !matchTags) {
+        return false;
+      }
+    }
+
+    return true;
   });
 
   return (
-    <div style={{ maxWidth: '1240px', margin: '0 auto', padding: '40px 24px 80px 24px' }}>
-      <div style={{ marginBottom: '32px' }}>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.5rem', color: 'var(--rose-dark)' }}>
-          {t('doctorsPage.directoryTitle')}
-        </h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '1rem' }}>
-          {t('doctorsPage.directorySub')}
-        </p>
-      </div>
-
-      {/* SEARCH AND FILTERS BAR */}
+    <div style={{ maxWidth: '1240px', margin: '0 auto', padding: '32px 20px 80px 20px', fontFamily: 'var(--font-sans)' }}>
+      
+      {/* TOP SEARCH AND FILTER CARD */}
       <div 
         style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: '16px',
-          marginBottom: '32px',
-          flexWrap: 'wrap'
+          backgroundColor: '#FFFFFF',
+          borderRadius: '24px',
+          border: '1.5px solid #FDE8ED',
+          padding: '24px 28px',
+          boxShadow: '0 4px 25px rgba(244, 63, 94, 0.04)',
+          marginBottom: '32px'
         }}
       >
-        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
-          {cities.map((c) => (
-            <button
-              key={c}
-              type="button"
-              onClick={() => setSelectedCity(c)}
-              style={{
-                padding: '8px 16px',
-                borderRadius: 'var(--radius-full)',
-                border: `1px solid ${selectedCity === c ? 'var(--rose)' : 'var(--border)'}`,
-                backgroundColor: selectedCity === c ? 'var(--rose-dark)' : '#FFFFFF',
-                color: selectedCity === c ? '#FFFFFF' : 'var(--text-primary)',
-                fontWeight: selectedCity === c ? '700' : '500',
-                fontSize: '0.85rem',
-                cursor: 'pointer'
-              }}
-            >
-              {c === 'All' ? t('common.all', 'All') : c}
-            </button>
-          ))}
-
-          <label style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', color: 'var(--text-primary)', cursor: 'pointer', marginLeft: '12px' }}>
-            <input
-              type="checkbox"
-              checked={onlineOnly}
-              onChange={(e) => setOnlineOnly(e.target.checked)}
-              style={{ accentColor: 'var(--rose)' }}
-            />
-            <span>{t('doctorsPage.onlineConsultAvailable')}</span>
-          </label>
-        </div>
-
-        {/* Search Input */}
-        <div style={{ position: 'relative', width: '280px' }}>
-          <Search size={18} color="var(--text-secondary)" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
+        {/* Search Bar Input */}
+        <div style={{ position: 'relative', width: '100%', marginBottom: '20px' }}>
+          <Search size={20} color="#9CA3AF" style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)' }} />
           <input
             type="text"
-            placeholder={t('doctorsPage.searchPlaceholder')}
+            placeholder="Search by doctor name, specialty, clinic, or symptom (e.g. PCOS, cramps)..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             style={{
               width: '100%',
-              padding: '10px 14px 10px 38px',
-              borderRadius: 'var(--radius-full)',
-              border: '1px solid var(--border)',
-              fontSize: '0.875rem',
-              outline: 'none'
+              padding: '14px 20px 14px 52px',
+              borderRadius: '9999px',
+              border: '1.5px solid #FDE8ED',
+              backgroundColor: '#FFFFFF',
+              fontSize: '0.925rem',
+              color: '#374151',
+              outline: 'none',
+              boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.02)'
             }}
           />
         </div>
+
+        {/* Filters Row */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginRight: '6px' }}>
+            <Filter size={15} color="#9CA3AF" />
+            <span style={{ fontSize: '0.75rem', fontWeight: '800', color: '#9CA3AF', letterSpacing: '0.05em' }}>
+              FILTERS:
+            </span>
+          </div>
+
+          {filtersList.map((f) => {
+            const isActive = activeFilter === f.id;
+            return (
+              <button
+                key={f.id}
+                type="button"
+                onClick={() => setActiveFilter(f.id)}
+                style={{
+                  padding: '8px 18px',
+                  borderRadius: '9999px',
+                  border: isActive ? '1.5px solid #E11D48' : '1.5px solid #E5E7EB',
+                  backgroundColor: isActive ? '#E11D48' : '#FFFFFF',
+                  color: isActive ? '#FFFFFF' : '#374151',
+                  fontWeight: isActive ? '700' : '500',
+                  fontSize: '0.85rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease-in-out',
+                  boxShadow: isActive ? '0 4px 12px rgba(225, 29, 72, 0.3)' : 'none',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px'
+                }}
+              >
+                {f.label}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      {/* DOCTORS LIST */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      {/* DOCTORS GRID */}
+      <div 
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(520px, 1fr))',
+          gap: '24px'
+        }}
+      >
         {filteredDoctors.map((doc) => (
           <div
             key={doc.id}
             style={{
               backgroundColor: '#FFFFFF',
-              borderRadius: 'var(--radius-lg)',
+              borderRadius: '24px',
+              border: '1.5px solid #FDE8ED',
               padding: '24px',
-              border: '1px solid var(--border)',
-              boxShadow: 'var(--shadow-sm)',
+              boxShadow: '0 4px 20px rgba(244, 63, 94, 0.04)',
               display: 'flex',
-              gap: '24px',
-              alignItems: 'flex-start',
-              flexWrap: 'wrap'
+              flexDirection: 'column',
+              gap: '16px',
+              position: 'relative'
             }}
           >
-            <img 
-              src={doc.image} 
-              alt={doc.name} 
-              style={{ width: '90px', height: '90px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--rose)' }}
-            />
-
-            <div style={{ flex: 1, minWidth: '280px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                <div>
-                  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: 'var(--rose-dark)' }}>
-                    {doc.name}
-                  </h3>
-                  <span style={{ fontSize: '0.875rem', fontWeight: '600', color: 'var(--rose)' }}>
-                    {t(`doctorsData.${doc.id}.specialty`, doc.specialty)} • {t(`doctorsData.${doc.id}.experience`, doc.experience)}
-                  </span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '4px', backgroundColor: '#FFF9E6', padding: '4px 10px', borderRadius: 'var(--radius-full)', border: '1px solid #FFEAA7' }}>
-                  <Star size={14} fill="#FDCB6E" color="#FDCB6E" />
-                  <span style={{ fontSize: '0.85rem', fontWeight: '700', color: '#D63031' }}>{doc.rating}</span>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>({doc.reviewsCount})</span>
-                </div>
+            {/* Row 1: Avatar, Name, Rating & Info */}
+            <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+              {/* Doctor Avatar with Active Pink Indicator */}
+              <div style={{ position: 'relative', flexShrink: 0 }}>
+                <img 
+                  src={doc.image} 
+                  alt={doc.name} 
+                  style={{ 
+                    width: '84px', 
+                    height: '84px', 
+                    borderRadius: '22px', 
+                    objectFit: 'cover', 
+                    border: '2px solid #FFE4E6' 
+                  }}
+                />
+                <span 
+                  style={{
+                    position: 'absolute',
+                    bottom: '-2px',
+                    right: '-2px',
+                    width: '14px',
+                    height: '14px',
+                    backgroundColor: '#E11D48',
+                    borderRadius: '50%',
+                    border: '2.5px solid #FFFFFF'
+                  }}
+                />
               </div>
 
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', margin: '8px 0', lineHeight: '1.5' }}>
-                {t(`doctorsData.${doc.id}.qualifications`, doc.qualifications)} — {t(`doctorsData.${doc.id}.hospital`, doc.hospital)}, {t(`cities.${doc.city.toLowerCase().replace(' ', '')}`, doc.city)}
-              </p>
+              {/* Doctor Details */}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
+                  <h3 
+                    style={{ 
+                      fontFamily: 'Georgia, "Times New Roman", serif', 
+                      fontSize: '1.4rem', 
+                      fontWeight: '700', 
+                      color: '#271724', 
+                      margin: 0,
+                      lineHeight: '1.25'
+                    }}
+                  >
+                    {doc.name}
+                  </h3>
 
-              <p style={{ color: 'var(--text-primary)', fontSize: '0.9rem', marginBottom: '12px' }}>
-                {t(`doctorsData.${doc.id}.bio`, doc.bio)}
-              </p>
+                  {/* Rating Badge */}
+                  <div 
+                    style={{ 
+                      display: 'inline-flex', 
+                      alignItems: 'center', 
+                      gap: '4px', 
+                      backgroundColor: '#FEF9C3', 
+                      padding: '4px 10px', 
+                      borderRadius: '9999px', 
+                      border: '1px solid #FEF08A',
+                      flexShrink: 0
+                    }}
+                  >
+                    <Star size={13} fill="#CA8A04" color="#CA8A04" />
+                    <span style={{ fontSize: '0.825rem', fontWeight: '800', color: '#854D0E' }}>{doc.rating}</span>
+                    <span style={{ fontSize: '0.75rem', color: '#A16207' }}>({doc.reviewsCount})</span>
+                  </div>
+                </div>
 
-              <div style={{ display: 'flex', gap: '16px', fontSize: '0.8rem', color: 'var(--text-secondary)', flexWrap: 'wrap' }}>
-                <span>{t('doctorsPage.languagesLabel')} <strong>{doc.languages.map((l) => t(`languages.${l.toLowerCase()}`, l)).join(', ')}</strong></span>
-                <span>{t('doctorsPage.feeLabel')} <strong>{doc.price}</strong></span>
-                {doc.onlineConsultation && (
-                  <span style={{ color: 'var(--success)', fontWeight: '600' }}>{t('doctorsPage.onlineReady')}</span>
-                )}
+                <p style={{ fontSize: '0.875rem', fontWeight: '700', color: '#E11D48', margin: '4px 0 6px 0' }}>
+                  {doc.specialty}
+                </p>
+
+                <p style={{ fontSize: '0.825rem', color: '#6B7280', margin: '0 0 4px 0', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Building2 size={14} color="#9CA3AF" />
+                  <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    {doc.hospital}
+                  </span>
+                </p>
+
+                <p style={{ fontSize: '0.825rem', color: '#6B7280', margin: 0, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <MapPin size={14} color="#E11D48" />
+                  <span>
+                    <strong>{doc.distance}</strong> &nbsp;·&nbsp; Fee: <strong style={{ color: '#1F2937' }}>{doc.price}</strong>
+                  </span>
+                </p>
               </div>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '160px' }}>
-              <Button variant="primary" onClick={() => setSelectedDoctor(doc)} icon={<Calendar size={16} />}>
-                {t('doctorsPage.bookAppointment')}
-              </Button>
+            {/* Row 2: Availability Banner Box */}
+            <div 
+              style={{
+                backgroundColor: '#FFF5F7',
+                border: '1px solid #FFE4E6',
+                borderRadius: '16px',
+                padding: '10px 16px',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: '8px'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Video size={16} color="#701A75" />
+                <span style={{ fontSize: '0.85rem', fontWeight: '700', color: '#701A75' }}>
+                  {doc.consultationType || 'Online & Clinic'}
+                </span>
+              </div>
+
+              <div 
+                style={{
+                  backgroundColor: '#DCFCE7',
+                  color: '#15803D',
+                  borderRadius: '9999px',
+                  padding: '4px 14px',
+                  fontSize: '0.775rem',
+                  fontWeight: '700'
+                }}
+              >
+                Next: {doc.nextSlot || 'Today, 4:30 PM'}
+              </div>
+            </div>
+
+            {/* Row 3: Specialty Tag Badges */}
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              {doc.tags?.map((tag, idx) => (
+                <span
+                  key={idx}
+                  style={{
+                    backgroundColor: '#FFF1F2',
+                    border: '1px solid #FFE4E6',
+                    color: '#BE123C',
+                    borderRadius: '9999px',
+                    padding: '4px 14px',
+                    fontSize: '0.775rem',
+                    fontWeight: '600',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px'
+                  }}
+                >
+                  <span style={{ fontSize: '10px' }}>🌸</span> {tag}
+                </span>
+              ))}
+            </div>
+
+            {/* Row 4: Action Buttons (Call, Directions, Book) */}
+            <div 
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr 1.2fr',
+                gap: '10px',
+                marginTop: '4px'
+              }}
+            >
               <a
-                href={`https://wa.me/${doc.whatsapp}?text=Hello%20${encodeURIComponent(doc.name)},%20I%20found%20your%20profile%20on%20Sakhi%20Cycle.`}
+                href={`tel:${doc.phone}`}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px',
+                  padding: '10px 16px',
+                  borderRadius: '9999px',
+                  backgroundColor: '#FFF1F2',
+                  color: '#BE123C',
+                  border: '1px solid #FFE4E6',
+                  textDecoration: 'none',
+                  fontSize: '0.875rem',
+                  fontWeight: '700'
+                }}
+              >
+                <Phone size={15} /> Call
+              </a>
+
+              <a
+                href={doc.mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
@@ -169,23 +326,70 @@ export default function DoctorsPage() {
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '6px',
-                  padding: '8px 14px',
-                  borderRadius: 'var(--radius-md)',
-                  backgroundColor: '#E8F5E9',
-                  color: '#2E7D32',
-                  border: '1px solid #C8E6C9',
+                  padding: '10px 16px',
+                  borderRadius: '9999px',
+                  backgroundColor: '#FFF1F2',
+                  color: '#BE123C',
+                  border: '1px solid #FFE4E6',
                   textDecoration: 'none',
-                  fontSize: '0.825rem',
-                  fontWeight: '600'
+                  fontSize: '0.875rem',
+                  fontWeight: '700'
                 }}
               >
-                <MessageCircle size={16} /> {t('doctorsPage.whatsappInquiry')}
+                <Navigation size={15} /> Directions
               </a>
+
+              <button
+                type="button"
+                onClick={() => setSelectedDoctor(doc)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px',
+                  padding: '10px 20px',
+                  borderRadius: '9999px',
+                  backgroundColor: '#E11D48',
+                  color: '#FFFFFF',
+                  border: 'none',
+                  fontSize: '0.875rem',
+                  fontWeight: '700',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 14px rgba(225, 29, 72, 0.35)',
+                  transition: 'transform 0.15s ease'
+                }}
+              >
+                <Calendar size={15} /> Book
+              </button>
             </div>
           </div>
         ))}
       </div>
 
+      {filteredDoctors.length === 0 && (
+        <div style={{ textAlign: 'center', padding: '60px 20px', backgroundColor: '#FFFFFF', borderRadius: '24px', border: '1.5px solid #FDE8ED' }}>
+          <p style={{ color: '#6B7280', fontSize: '1.1rem', marginBottom: '16px' }}>
+            No gynecologists match your filter or search query.
+          </p>
+          <button
+            type="button"
+            onClick={() => { setActiveFilter('all'); setSearch(''); }}
+            style={{
+              padding: '10px 24px',
+              borderRadius: '9999px',
+              backgroundColor: '#E11D48',
+              color: '#FFFFFF',
+              border: 'none',
+              fontWeight: '700',
+              cursor: 'pointer'
+            }}
+          >
+            Reset Filters
+          </button>
+        </div>
+      )}
+
+      {/* Appointment Modal */}
       <AppointmentModal doctor={selectedDoctor} onClose={() => setSelectedDoctor(null)} />
     </div>
   );
