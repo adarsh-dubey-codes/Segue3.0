@@ -9,8 +9,6 @@ export default function ChatWithSakhiButton() {
   const [isOpen, setIsOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  const localizedChatLabel = t('nav.likhoSakhi', { defaultValue: 'Likho Sakhi (लिखो सखी)' });
-
   const toggleChat = () => {
     setIsOpen((prev) => !prev);
   };
@@ -24,8 +22,7 @@ export default function ChatWithSakhiButton() {
         zIndex: 9999,
         display: 'flex', 
         flexDirection: 'column', 
-        alignItems: 'flex-start',
-        gap: '8px'
+        alignItems: 'center'
       }}
       className="likho-sakhi-container"
     >
@@ -36,83 +33,115 @@ export default function ChatWithSakhiButton() {
             bottom: 76px !important;
           }
         }
+        @keyframes spinText {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
       `}</style>
 
-      {/* Persistent / Hover Badge Pill - Likho Sakhi */}
+      {/* Floating Circular Container wrapping Icon & Circular Text */}
+      <div style={{ position: 'relative', width: '84px', height: '84px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        
+        {/* Fascinating Circular SVG Curved Text Ring wrapping around the Icon */}
+        {!isOpen && (
+          <svg 
+            viewBox="0 0 100 100" 
+            style={{ 
+              position: 'absolute', 
+              inset: 0, 
+              width: '100%', 
+              height: '100%', 
+              pointerEvents: 'none',
+              animation: 'spinText 20s linear infinite'
+            }}
+          >
+            <path id="circlePathLikho" d="M 50, 50 m -36, 0 a 36,36 0 1,1 72,0 a 36,36 0 1,1 -72,0" fill="none" />
+            <text fill="#B9345D" fontSize="9" fontWeight="800" letterSpacing="0.8px">
+              <textPath href="#circlePathLikho" startOffset="0%">
+                ✦ LIKHO SAKHI ✦ लिखो सखी ✦
+              </textPath>
+            </text>
+          </svg>
+        )}
+
+        {/* Circular Floating Action Button */}
+        <motion.button
+          type="button"
+          onClick={toggleChat}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          animate={!isOpen ? { scale: [1, 1.04, 1] } : { scale: 1 }}
+          transition={!isOpen ? { duration: 4, repeat: Infinity, ease: 'easeInOut' } : {}}
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.95 }}
+          style={{
+            position: 'relative',
+            width: '58px',
+            height: '58px',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'linear-gradient(135deg, #EC738F 0%, #D9486D 50%, #B83256 100%)',
+            boxShadow: '0 10px 25px rgba(236, 115, 143, 0.45), 0 4px 12px rgba(110, 44, 75, 0.25)',
+            color: '#FFFFFF',
+            border: '2px solid #FFFFFF',
+            cursor: 'pointer',
+            transition: 'all 0.25s ease',
+            zIndex: 2
+          }}
+          aria-label="Likho Sakhi - Text Chat"
+          title="Likho Sakhi (लिखो सखी)"
+        >
+          {isHovered && !isOpen && (
+            <Sparkles
+              size={13}
+              color="#FFD1DC"
+              style={{
+                position: 'absolute',
+                top: '5px',
+                right: '5px',
+                animation: 'sparklePulse 2s ease-in-out infinite'
+              }}
+            />
+          )}
+          {isOpen ? (
+            <X size={24} color="#FFFFFF" strokeWidth={2.5} />
+          ) : (
+            <Edit3 size={24} color="#FFFFFF" strokeWidth={2.2} />
+          )}
+        </motion.button>
+      </div>
+
+      {/* Hugging Compact Rounded Badge beneath button */}
       {!isOpen && (
         <motion.div
-          initial={{ opacity: 0, y: 5 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
           style={{
+            marginTop: '-6px',
             backgroundColor: '#FFFFFF',
             color: '#3E242B',
-            padding: '5px 14px',
+            padding: '3px 10px',
             borderRadius: '9999px',
             border: '1.5px solid #FAD4DE',
-            boxShadow: '0 4px 14px rgba(236, 115, 143, 0.25)',
-            fontSize: '0.825rem',
-            fontWeight: '700',
+            boxShadow: '0 4px 12px rgba(236, 115, 143, 0.2)',
+            fontSize: '0.75rem',
+            fontWeight: '800',
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '6px',
+            gap: '4px',
             whiteSpace: 'nowrap',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            zIndex: 3
           }}
           onClick={toggleChat}
         >
-          <span style={{ fontSize: '14px' }}>✍️</span>
-          <span>लिखो सखी (Likho Sakhi)</span>
+          <span>✍️ लिखो सखी</span>
         </motion.div>
       )}
 
-      {/* Floating Circular Chat Button on Left */}
-      <motion.button
-        type="button"
-        onClick={toggleChat}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        animate={!isOpen ? { scale: [1, 1.04, 1] } : { scale: 1 }}
-        transition={!isOpen ? { duration: 4, repeat: Infinity, ease: 'easeInOut' } : {}}
-        whileHover={{ scale: 1.08 }}
-        whileTap={{ scale: 0.95 }}
-        style={{
-          position: 'relative',
-          width: '60px',
-          height: '60px',
-          borderRadius: '50%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: 'linear-gradient(135deg, #EC738F 0%, #D9486D 50%, #B83256 100%)',
-          boxShadow: '0 10px 30px rgba(236, 115, 143, 0.45), 0 4px 12px rgba(110, 44, 75, 0.3)',
-          color: '#FFFFFF',
-          border: '2px solid rgba(255, 255, 255, 0.9)',
-          cursor: 'pointer',
-          transition: 'all 0.25s ease'
-        }}
-        aria-label="Likho Sakhi - Text Chat"
-        title="Likho Sakhi (लिखो सखी)"
-      >
-        {isHovered && !isOpen && (
-          <Sparkles
-            size={14}
-            color="#FFD1DC"
-            style={{
-              position: 'absolute',
-              top: '6px',
-              right: '6px',
-              animation: 'sparklePulse 2s ease-in-out infinite'
-            }}
-          />
-        )}
-        {isOpen ? (
-          <X size={24} color="#FFFFFF" strokeWidth={2.5} />
-        ) : (
-          <Edit3 size={24} color="#FFFFFF" strokeWidth={2.2} />
-        )}
-      </motion.button>
-
-      {/* Floating Sakhi Chat Window Drawer Overlay (Anchored to Left) */}
+      {/* Floating Sakhi Chat Window Drawer Overlay */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -136,19 +165,19 @@ export default function ChatWithSakhiButton() {
             <style>{`
               .sakhi-chat-overlay-container {
                 left: 24px;
-                bottom: 96px;
+                bottom: 100px;
                 width: 440px;
                 height: 640px;
-                max-height: calc(100vh - 120px);
+                max-height: calc(100vh - 130px);
                 max-width: calc(100vw - 32px);
               }
               @media (max-width: 960px) {
                 .sakhi-chat-overlay-container {
                   left: 12px !important;
                   right: 12px !important;
-                  bottom: 148px !important;
+                  bottom: 150px !important;
                   width: auto !important;
-                  height: min(580px, calc(100vh - 160px)) !important;
+                  height: min(580px, calc(100vh - 170px)) !important;
                   max-width: 100% !important;
                 }
               }

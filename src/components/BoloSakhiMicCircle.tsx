@@ -333,69 +333,98 @@ export const BoloSakhiMicCircle: React.FC = () => {
       </AnimatePresence>
 
       {/* Floating Action Circle Button Container */}
-      <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px' }}>
-        {/* "Bolo Sakhi" Pill Badge Overlay */}
+      <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        
+        {/* Floating Circular Container wrapping Mic Icon & Circular Text */}
+        <div style={{ position: 'relative', width: '84px', height: '84px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          
+          {/* Fascinating Circular SVG Curved Text Ring wrapping around the Mic Icon */}
+          {!isOpen && (
+            <svg 
+              viewBox="0 0 100 100" 
+              style={{ 
+                position: 'absolute', 
+                inset: 0, 
+                width: '100%', 
+                height: '100%', 
+                pointerEvents: 'none',
+                animation: 'spinText 20s linear infinite'
+              }}
+            >
+              <path id="circlePathBolo" d="M 50, 50 m -36, 0 a 36,36 0 1,1 72,0 a 36,36 0 1,1 -72,0" fill="none" />
+              <text fill="#BE123C" fontSize="9" fontWeight="800" letterSpacing="0.8px">
+                <textPath href="#circlePathBolo" startOffset="0%">
+                  ✦ BOLO SAKHI ✦ बोलो सखी ✦
+                </textPath>
+              </text>
+            </svg>
+          )}
+
+          {/* Floating Circular Mic Button */}
+          <motion.button
+            type="button"
+            onClick={handleCircleClick}
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.95 }}
+            style={{
+              position: 'relative',
+              width: '58px',
+              height: '58px',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'linear-gradient(135deg, #EC738F 0%, #D9486D 50%, #6E2C4B 100%)',
+              boxShadow: '0 10px 25px rgba(236, 115, 143, 0.45), 0 4px 12px rgba(110, 44, 75, 0.25)',
+              color: '#FFFFFF',
+              border: '2px solid #FFFFFF',
+              cursor: 'pointer',
+              transition: 'all 0.25s ease',
+              zIndex: 2
+            }}
+            aria-label="Bolo Sakhi Voice Assistant"
+          >
+            {isProcessing ? (
+              <RefreshCw size={24} color="#FFFFFF" style={{ animation: 'spin 1s linear infinite' }} />
+            ) : isSpeaking ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '3px', height: '20px' }}>
+                <span style={{ width: '3px', height: '100%', backgroundColor: '#FFFFFF', borderRadius: '4px', animation: 'pulse 0.6s infinite' }} />
+                <span style={{ width: '3px', height: '100%', backgroundColor: '#FFE5EC', borderRadius: '4px', animation: 'pulse 0.8s infinite' }} />
+                <span style={{ width: '3px', height: '100%', backgroundColor: '#FFFFFF', borderRadius: '4px', animation: 'pulse 0.6s infinite' }} />
+              </div>
+            ) : (
+              <Mic size={24} color="#FFFFFF" />
+            )}
+          </motion.button>
+        </div>
+
+        {/* Hugging Compact Rounded Badge beneath button */}
         {!isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 5 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
             style={{
+              marginTop: '-6px',
               backgroundColor: '#FFFFFF',
               color: '#3E242B',
-              padding: '5px 14px',
+              padding: '3px 10px',
               borderRadius: '9999px',
               border: '1.5px solid #FAD4DE',
-              boxShadow: '0 4px 14px rgba(236, 115, 143, 0.25)',
-              fontSize: '0.825rem',
-              fontWeight: '700',
+              boxShadow: '0 4px 12px rgba(236, 115, 143, 0.2)',
+              fontSize: '0.75rem',
+              fontWeight: '800',
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '6px',
+              gap: '4px',
               whiteSpace: 'nowrap',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              zIndex: 3
             }}
             onClick={handleCircleClick}
           >
-            <span style={{ fontSize: '14px' }}>🎙️</span>
-            <span>बोलो सखी (Bolo Sakhi)</span>
+            <span>🎙️ बोलो सखी</span>
           </motion.div>
         )}
-
-        {/* Floating Circular Mic Button */}
-        <motion.button
-          type="button"
-          onClick={handleCircleClick}
-          whileHover={{ scale: 1.08 }}
-          whileTap={{ scale: 0.95 }}
-          style={{
-            position: 'relative',
-            width: '64px',
-            height: '64px',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: 'linear-gradient(135deg, #EC738F 0%, #D9486D 50%, #6E2C4B 100%)',
-            boxShadow: '0 10px 30px rgba(236, 115, 143, 0.45), 0 4px 12px rgba(110, 44, 75, 0.3)',
-            color: '#FFFFFF',
-            border: '2px solid rgba(255, 255, 255, 0.8)',
-            cursor: 'pointer',
-            transition: 'all 0.25s ease'
-          }}
-          aria-label="Bolo Sakhi Voice Assistant"
-        >
-          {isProcessing ? (
-            <RefreshCw size={26} color="#FFFFFF" style={{ animation: 'spin 1s linear infinite' }} />
-          ) : isSpeaking ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '3px', height: '22px' }}>
-              <span style={{ width: '3px', height: '100%', backgroundColor: '#FFFFFF', borderRadius: '4px', animation: 'pulse 0.6s infinite' }} />
-              <span style={{ width: '3px', height: '100%', backgroundColor: '#FFE5EC', borderRadius: '4px', animation: 'pulse 0.8s infinite' }} />
-              <span style={{ width: '3px', height: '100%', backgroundColor: '#FFFFFF', borderRadius: '4px', animation: 'pulse 0.6s infinite' }} />
-            </div>
-          ) : (
-            <Mic size={26} color="#FFFFFF" />
-          )}
-        </motion.button>
       </div>
     </div>
   );
