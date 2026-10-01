@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { LanguageProvider } from './context/LanguageContext';
 import { AuthProvider } from './context/AuthContext';
 import { CycleProvider } from './context/CycleContext';
+import { RewardsProvider } from './context/RewardsContext';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 
 import Navbar from './components/layout/Navbar';
@@ -47,7 +48,8 @@ export default function App() {
     <LanguageProvider>
       <AuthProvider>
         <CycleProvider>
-          <BrowserRouter>
+          <RewardsProvider>
+            <BrowserRouter>
             <Routes>
               {/* Auth Experience Routes */}
               <Route path="/login" element={<LoginPage />} />
@@ -185,6 +187,7 @@ export default function App() {
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </BrowserRouter>
+          </RewardsProvider>
         </CycleProvider>
       </AuthProvider>
     </LanguageProvider>

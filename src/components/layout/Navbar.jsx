@@ -4,25 +4,43 @@ import SakhiLogo from '../Brand/SakhiLogo';
 import LanguageSelector from './LanguageSelector';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
+import { useRewards } from '../../context/RewardsContext';
+
+import EmergencySOSModal from '../modals/EmergencySOSModal';
+import UserProfileModal from '../modals/UserProfileModal';
+import StreakRewardsModal from '../modals/StreakRewardsModal';
+import NotificationsPopover from './NotificationsPopover';
+
 import { 
-  Home, Calendar, MessageCircle, Utensils, ShoppingBag, 
-  Stethoscope, Users, User, Sun, LogOut, ChevronDown, ChevronUp,
-  Sparkles, Gamepad2, Video, Scale, CreditCard, ArrowRight, MessageSquare
+  Home, Calendar, ShoppingBag, Stethoscope, User, LogOut, 
+  ChevronDown, ChevronUp, Sparkles, Gamepad2, Video, CreditCard, 
+  ArrowRight, MessageSquare, Bell, Flame, ShieldAlert
 } from 'lucide-react';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
   const { t } = useLanguage();
+  const { streak, coins, unreadCount } = useRewards();
   const navigate = useNavigate();
   const location = useLocation();
-  const [isExploreOpen, setIsExploreOpen] = useState(false);
-  const dropdownRef = useRef(null);
 
-  // Close dropdown on click outside
+  const [isExploreOpen, setIsExploreOpen] = useState(false);
+  const [isSOSOpen, setIsSOSOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isStreakOpen, setIsStreakOpen] = useState(false);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+
+  const dropdownRef = useRef(null);
+  const notifRef = useRef(null);
+
+  // Close dropdowns on click outside
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsExploreOpen(false);
+      }
+      if (notifRef.current && !notifRef.current.contains(event.target)) {
+        setIsNotificationsOpen(false);
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
@@ -32,18 +50,17 @@ export default function Navbar() {
   // Close dropdown on route change
   useEffect(() => {
     setIsExploreOpen(false);
+    setIsNotificationsOpen(false);
   }, [location.pathname]);
 
-  // Main top nav links (Find Doctor, Forum, Products, Buddy, Vibes moved to Explore)
+  // Main top nav links
   const navLinks = [
-    { to: '/', label: t('nav.home'), icon: Home },
-    { to: '/cycle', label: t('nav.cycle'), icon: Calendar },
-    { to: '/chat', label: t('nav.chat'), icon: MessageCircle },
-    { to: '/lifestyle', label: t('nav.lifestyle'), icon: Utensils }
+    { to: '/', label: t('nav.home', 'Home'), icon: Home },
+    { to: '/cycle', label: t('nav.cycle', 'My Cycle'), icon: Calendar },
+    { to: '/play', label: t('nav.play', 'Play & Games'), icon: Gamepad2 }
   ];
 
-
-  // Features inside the Explore Dropdown
+  // Explore Dropdown Sanctuaries
   const exploreSanctuaries = [
     {
       id: 'play',
@@ -54,7 +71,6 @@ export default function Navbar() {
       iconColor: '#C23B68',
       path: '/play'
     },
-
     {
       id: 'videos',
       title: 'Sakhi Videos',
@@ -64,7 +80,6 @@ export default function Navbar() {
       iconColor: '#3B82F6',
       path: '/videos'
     },
-
     {
       id: 'marketplace',
       title: 'Marketplace (Products)',
@@ -103,7 +118,7 @@ export default function Navbar() {
     }
   ];
 
-  const isExploreActive = ['/products', '/doctors', '/forum', '/payables'].includes(location.pathname);
+  const isExploreActive = ['/products', '/doctors', '/forum', '/payables', '/videos'].includes(location.pathname);
 
   return (
     <header className="sakhi-navbar">
@@ -198,45 +213,87 @@ export default function Navbar() {
           box-shadow: 0 4px 14px rgba(185, 52, 93, 0.18);
         }
 
-        /* Explore Dropdown Menu Card */
-        .explore-dropdown-card {
-          position: absolute;
-          top: calc(100% + 10px);
-          left: 50%;
-          transform: translateX(-50%);
-          width: 360px;
-          background-color: #FFFFFF;
-          border-radius: 24px;
-          border: 1.5px solid rgba(250, 212, 222, 0.8);
-          box-shadow: 0 20px 50px rgba(62, 36, 43, 0.15);
-          padding: 20px;
-          z-index: 200;
-          animation: slideDownFade 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        @keyframes slideDownFade {
-          from {
-            opacity: 0;
-            transform: translate(-50%, -10px);
-          }
-          to {
-            opacity: 1;
-            transform: translate(-50%, 0);
-          }
-        }
-
-        .explore-item-row {
+        /* SOS Red Alert Button Pill */
+        .sos-btn {
+          background: #FFF1F2;
+          border: 1.5px solid #FECDD3;
+          color: #BE123C;
+          font-size: clamp(0.8rem, 0.85vw, 0.9rem);
+          font-weight: 800;
+          padding: 7px 16px;
+          border-radius: var(--radius-full);
+          cursor: pointer;
           display: flex;
           align-items: center;
-          justify-content: space-between;
-          padding: 10px 12px;
-          border-radius: 14px;
-          text-decoration: none;
-          transition: background-color 0.15s ease;
-          cursor: pointer;
+          gap: 6px;
+          transition: all 0.2s ease;
+          box-shadow: 0 2px 8px rgba(225, 29, 72, 0.12);
         }
-        .explore-item-row:hover {
-          background-color: #FFF0F4;
+        .sos-btn:hover {
+          background: #FFE4E6;
+          border-color: #E11D48;
+          transform: translateY(-1px);
+        }
+
+        /* Profile Button Pill */
+        .profile-btn {
+          background: #FFFFFF;
+          border: 1.5px solid #FAD4DE;
+          color: #3E242B;
+          font-size: clamp(0.8rem, 0.85vw, 0.9rem);
+          font-weight: 700;
+          padding: 7px 16px;
+          border-radius: var(--radius-full);
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          transition: all 0.2s ease;
+        }
+        .profile-btn:hover {
+          background: #FFF0F4;
+          border-color: #B9345D;
+        }
+
+        /* Streak & Coins Pill */
+        .streak-coins-pill {
+          background: linear-gradient(135deg, #FFFDF0 0%, #FFF7F9 100%);
+          border: 1.5px solid #FEF08A;
+          color: #3E242B;
+          font-size: 0.85rem;
+          font-weight: 800;
+          padding: 5px 14px;
+          border-radius: var(--radius-full);
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          box-shadow: 0 2px 10px rgba(224, 159, 62, 0.12);
+          transition: all 0.2s ease;
+        }
+        .streak-coins-pill:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 4px 14px rgba(224, 159, 62, 0.22);
+        }
+
+        /* Notification Bell Button */
+        .notif-bell-btn {
+          width: 38px;
+          height: 38px;
+          border-radius: 50%;
+          background: #FFFFFF;
+          border: 1.5px solid #FAD4DE;
+          color: #5C434B;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          position: relative;
+          transition: all 0.2s ease;
+        }
+        .notif-bell-btn:hover {
+          background: #FFF0F4;
+          color: #B9345D;
         }
 
         .navbar-right-actions {
@@ -260,7 +317,7 @@ export default function Navbar() {
           </NavLink>
         </div>
 
-        {/* Main Navbar Links */}
+        {/* Main Navbar Links + SOS + Profile */}
         <nav className="navbar-nav-wrap">
           <ul className="navbar-links">
             {navLinks.map((link) => {
@@ -344,108 +401,119 @@ export default function Navbar() {
                       );
                     })}
                   </div>
-
-                  {/* Footer Link */}
-                  <div style={{ borderTop: '1px solid #FAD4DE', marginTop: '12px', paddingTop: '12px', textAlign: 'center' }}>
-                    <NavLink
-                      to="/lifestyle"
-                      onClick={() => setIsExploreOpen(false)}
-                      style={{ 
-                        color: '#B9345D', 
-                        fontWeight: '700', 
-                        fontSize: '0.85rem', 
-                        textDecoration: 'none',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '6px'
-                      }}
-                    >
-                      <span>View All Features Hub</span>
-                      <ArrowRight size={14} />
-                    </NavLink>
-                  </div>
                 </div>
               )}
+            </li>
+
+            {/* 🚨 Emergency SOS Pill Button */}
+            <li>
+              <button
+                type="button"
+                className="sos-btn"
+                onClick={() => setIsSOSOpen(true)}
+                title="Emergency Helpline & SOS Care"
+              >
+                <span>🚨</span>
+                <span>SOS</span>
+              </button>
+            </li>
+
+            {/* 👤 My Profile Pill Button */}
+            <li>
+              <button
+                type="button"
+                className="profile-btn"
+                onClick={() => setIsProfileOpen(true)}
+                title="My Sakhi Profile"
+              >
+                <User size={15} color="#3E242B" />
+                <span>Profile</span>
+              </button>
             </li>
           </ul>
         </nav>
 
-        {/* Right Actions */}
+        {/* Right Actions: Coins & Streak Pill + Bell + Language */}
         <div className="navbar-right-actions">
-          <LanguageSelector />
+          {/* Sakhi Coins & Streak Counter Pill (✨ 1,250 🔥 7d) */}
+          <button
+            type="button"
+            className="streak-coins-pill"
+            onClick={() => setIsStreakOpen(true)}
+            title="Daily Streak & Sakhi Coins"
+          >
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+              <Sparkles size={15} color="#CA8A04" />
+              <span>{coins.toLocaleString()}</span>
+            </span>
 
-          {user ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              {user.isGuest ? (
-                <span 
-                  style={{ 
-                    fontSize: '0.75rem', 
-                    fontWeight: '600', 
-                    padding: '4px 12px', 
-                    borderRadius: 'var(--radius-full)', 
-                    backgroundColor: '#FFEBF0', 
-                    color: '#C23B68',
-                    border: '1px solid #FAD4DE',
-                    letterSpacing: '0.02em',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '4px'
-                  }}
-                  title={t('nav.guestModeTooltip')}
-                >
-                  <User size={13} color="#C23B68" />
-                  {t('nav.guestMode')}
-                </span>
-              ) : (
-                <span style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-primary)' }}>
-                  {user.name}
-                </span>
-              )}
-
-              <button
-                type="button"
-                onClick={() => {
-                  logout();
-                  navigate('/login');
-                }}
-                style={{
-                  background: 'none',
-                  border: '1px solid var(--border)',
-                  borderRadius: 'var(--radius-full)',
-                  padding: '7px 14px',
-                  fontSize: '0.825rem',
-                  color: 'var(--text-secondary)',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px'
-                }}
-              >
-                <LogOut size={14} />
-                {t('nav.signOut')}
-              </button>
-            </div>
-          ) : (
-            <button
-              type="button"
-              onClick={() => navigate('/login')}
-              style={{
-                backgroundColor: '#B9345D',
-                color: '#FFFFFF',
-                border: 'none',
-                borderRadius: 'var(--radius-full)',
-                padding: '8px 20px',
-                fontSize: '0.875rem',
-                fontWeight: '600',
-                cursor: 'pointer',
-                boxShadow: '0 4px 12px rgba(185, 52, 93, 0.3)'
+            <span 
+              style={{ 
+                backgroundColor: '#FFE5EC', 
+                color: '#BE123C', 
+                borderRadius: '9999px', 
+                padding: '2px 8px', 
+                fontSize: '0.775rem',
+                fontWeight: '800',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '2px'
               }}
             >
-              {t('nav.signIn')}
+              🔥 {streak}d
+            </span>
+          </button>
+
+          {/* Notifications Bell Icon with Badge Counter */}
+          <div style={{ position: 'relative' }} ref={notifRef}>
+            <button
+              type="button"
+              className="notif-bell-btn"
+              onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
+              title="Notifications"
+            >
+              <Bell size={18} />
+              {unreadCount > 0 && (
+                <span
+                  style={{
+                    position: 'absolute',
+                    top: '-3px',
+                    right: '-3px',
+                    backgroundColor: '#E11D48',
+                    color: '#FFFFFF',
+                    borderRadius: '50%',
+                    width: '18px',
+                    height: '18px',
+                    fontSize: '0.7rem',
+                    fontWeight: '800',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '2px solid #FFFFFF'
+                  }}
+                >
+                  {unreadCount}
+                </span>
+              )}
             </button>
-          )}
+
+            {/* Notifications Popover Menu */}
+            <NotificationsPopover isOpen={isNotificationsOpen} onClose={() => setIsNotificationsOpen(false)} />
+          </div>
+
+          {/* Language Selector */}
+          <LanguageSelector />
         </div>
       </div>
+
+      {/* Emergency SOS Modal */}
+      <EmergencySOSModal isOpen={isSOSOpen} onClose={() => setIsSOSOpen(false)} />
+
+      {/* User Profile Modal */}
+      <UserProfileModal isOpen={isProfileOpen} onClose={() => setIsProfileOpen(false)} />
+
+      {/* Daily Streak & Coins Modal */}
+      <StreakRewardsModal isOpen={isStreakOpen} onClose={() => setIsStreakOpen(false)} />
     </header>
   );
 }
