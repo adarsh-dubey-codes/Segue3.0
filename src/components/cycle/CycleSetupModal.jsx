@@ -182,12 +182,12 @@ export default function CycleSetupModal({ isOpen, onClose }) {
             </div>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '12px' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '12px', marginTop: '16px' }}>
             <Button variant="outline" type="button" onClick={onClose}>
-              {t('common.cancel')}
+              {t('common.cancel', { defaultValue: 'Cancel' })}
             </Button>
             <Button variant="primary" type="submit">
-              {t('cyclePage.saveCycle')}
+              {t('common.submit', { defaultValue: 'Submit' })}
             </Button>
           </div>
         </form>

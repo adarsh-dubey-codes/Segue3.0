@@ -2,6 +2,8 @@
 :root {
   /* Color Palette Tokens - Matched to Screenshot */
   --background: #FFF5F7;
+  --bg-primary: #FFF5F7;
+  --bg-secondary: #FFFFFF;
   --surface: #FFFFFF;
   --surface-gradient: linear-gradient(135deg, #FFFFFF 0%, #FFF0F3 50%, #FFE3EA 100%);
   --surface-soft: #FFF0F3;
@@ -11,6 +13,10 @@
   --pink-vivid-hover: #D95B78;
   --rose: #EC738F;
   --rose-dark: #3E242B;
+  --deep-plum: #B9345D;
+  --soft-pink: #FFE5EC;
+  --rose-accent: #EC738F;
+  --border-color: #FAD4DE;
   --text-primary: #38232A;
   --text-secondary: #7D626C;
   --text-muted: #9E828C;

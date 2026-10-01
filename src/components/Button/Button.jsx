@@ -38,27 +38,32 @@ export default function Button({
   let variantStyle = {};
   if (isPrimary) {
     variantStyle = {
-      backgroundColor: 'var(--deep-plum)',
+      backgroundColor: '#B9345D',
       color: '#FFFFFF',
-      boxShadow: 'var(--shadow-sm)'
+      fontWeight: '700',
+      border: '1.5px solid #B9345D',
+      boxShadow: '0 4px 14px rgba(185, 52, 93, 0.35)'
     };
   } else if (isSecondary) {
     variantStyle = {
-      backgroundColor: 'var(--soft-pink)',
-      color: 'var(--deep-plum)',
-      borderColor: 'var(--border-color)'
+      backgroundColor: '#FFE5EC',
+      color: '#B9345D',
+      borderColor: '#FAD4DE',
+      fontWeight: '700'
     };
   } else if (isOutline) {
     variantStyle = {
-      backgroundColor: 'transparent',
-      color: 'var(--text-primary)',
-      borderColor: 'var(--border-color)'
+      backgroundColor: '#FFFFFF',
+      color: '#7D626C',
+      borderColor: '#FAD4DE',
+      fontWeight: '600'
     };
   } else if (isText) {
     variantStyle = {
       backgroundColor: 'transparent',
-      color: 'var(--rose-accent)',
-      padding: '6px 12px'
+      color: '#B9345D',
+      padding: '6px 12px',
+      fontWeight: '600'
     };
   }
 

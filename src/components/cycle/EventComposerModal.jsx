@@ -396,7 +396,7 @@ export default function EventComposerModal({ isOpen, onClose, initialDate, initi
           </div>
 
           {/* Form Actions */}
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '8px' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '12px', marginTop: '16px' }}>
             <Button variant="outline" type="button" onClick={onClose}>
               {t('common.cancel', { defaultValue: 'Cancel' })}
             </Button>
@@ -405,7 +405,7 @@ export default function EventComposerModal({ isOpen, onClose, initialDate, initi
               type="submit"
               style={{ backgroundColor: currentCategoryObj.color, borderColor: currentCategoryObj.color }}
             >
-              {initialData ? t('common.save', { defaultValue: 'Save Changes' }) : t('events.saveToTimeline', { defaultValue: 'Save to timeline' })}
+              {t('common.submit', { defaultValue: 'Submit' })}
             </Button>
           </div>
         </form>

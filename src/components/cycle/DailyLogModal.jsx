@@ -238,12 +238,12 @@ export default function DailyLogModal({ isOpen, onClose }) {
           </div>
 
           {/* Submit */}
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '10px' }}>
-            <Button variant="outline" onClick={onClose}>
-              {t('common.cancel')}
+          <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '12px', marginTop: '16px' }}>
+            <Button variant="outline" type="button" onClick={onClose}>
+              {t('common.cancel', { defaultValue: 'Cancel' })}
             </Button>
             <Button variant="primary" type="submit">
-              {t('cyclePage.saveLog')}
+              {t('common.submit', { defaultValue: 'Submit' })}
             </Button>
           </div>
         </form>
