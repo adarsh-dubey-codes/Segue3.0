@@ -408,7 +408,7 @@ export default function SakhiVideosPage() {
                           title="Switch between YouTube & Direct HD Stream player"
                         >
                           <RefreshCw size={11} />
-                          <span>{isStreamMode ? 'Use YouTube' : 'Use Direct HD'}</span>
+                          <span>{isYouTubeMode ? 'Use Direct HD' : 'Use YouTube'}</span>
                         </button>
 
                         <button
