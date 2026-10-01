@@ -1,55 +1,198 @@
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
+import { useRewards } from '../../context/RewardsContext';
 import { 
   Heart, Brain, Flower2, Sparkles, HelpCircle, CheckCircle2, 
-  RotateCcw, Trophy, Volume2, VolumeX, Flame, RefreshCw, Smile, Award
+  RotateCcw, Trophy, Volume2, VolumeX, Flame, RefreshCw, Smile, Award,
+  Check, Droplets, Sun, Utensils
 } from 'lucide-react';
-import Button from '../../components/Button/Button';
 
 export default function SakhiPlayPage() {
   const { t } = useLanguage();
-  const [activeTab, setActiveTab] = useState('daily'); // 'affirmation', 'mood', 'bloom', 'bubble', 'wheel', 'myth', 'daily'
+  const { addCoins, streak } = useRewards();
+  const [activeTab, setActiveTab] = useState('daily'); // 'daily', 'affirmation', 'mood', 'bloom', 'bubble', 'wheel', 'myth'
 
   return (
-    <div style={{ backgroundColor: '#FFF5F7', minHeight: 'calc(100vh - 80px)', padding: '28px clamp(16px, 2.5vw, 40px) 80px' }}>
+    <div style={{ backgroundColor: '#FFF5F8', minHeight: 'calc(100vh - 70px)', padding: '24px clamp(16px, 3vw, 48px) 80px' }}>
       <style>{`
-        .sakhi-play-container {
-          max-width: 100%;
-          margin: 0;
+        .sakhi-play-wrapper {
+          max-width: 1200px;
+          margin: 0 auto;
         }
 
-        /* Top Ribbon Bar */
-        .ribbon-bar-wrapper {
-          display: flex;
-          justify-content: center;
-          margin-bottom: 32px;
-        }
-
-        .ribbon-bar {
+        /* Hero Banner */
+        .hero-banner-container {
+          position: relative;
           display: flex;
           align-items: center;
-          gap: clamp(6px, 1.2vw, 12px);
-          background: rgba(255, 255, 255, 0.95);
-          padding: 8px 16px;
-          border-radius: 50px;
+          justify-content: space-between;
+          padding: 24px 20px 32px;
+          background: linear-gradient(180deg, rgba(255, 240, 244, 0.6) 0%, rgba(255, 255, 255, 0.9) 100%);
+          border-radius: 28px;
+          margin-bottom: 24px;
+          overflow: hidden;
+        }
+
+        .hero-center-content {
+          text-align: center;
+          flex: 1;
+          z-index: 2;
+          padding: 0 16px;
+        }
+
+        .hero-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 0.825rem;
+          font-weight: 800;
+          color: #B9345D;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          margin-bottom: 10px;
+        }
+
+        .hero-title {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: clamp(2rem, 3.2vw, 2.8rem);
+          font-weight: 800;
+          color: #3E242B;
+          margin: 0 0 10px;
+          line-height: 1.15;
+          letter-spacing: -0.01em;
+        }
+
+        .hero-subtitle {
+          color: #7D626C;
+          font-size: clamp(0.9rem, 1.1vw, 1.05rem);
+          max-width: 620px;
+          margin: 0 auto;
+          line-height: 1.5;
+        }
+
+        .hero-side-illustration {
+          width: 180px;
+          height: 160px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          z-index: 1;
+          flex-shrink: 0;
+        }
+
+        .handwritten-note {
+          font-family: 'Caveat', 'Dancing Script', cursive;
+          font-size: 1.35rem;
+          color: #C23B68;
+          font-weight: 600;
+          text-align: center;
+          line-height: 1.2;
+          white-space: nowrap;
+          pointer-events: none;
+        }
+
+        /* Main White Card Container */
+        .play-main-card {
+          background: #FFFFFF;
+          border-radius: 28px;
           border: 1.5px solid #FAD4DE;
-          box-shadow: 0 4px 20px rgba(236, 115, 143, 0.12);
+          box-shadow: 0 12px 36px rgba(185, 52, 93, 0.07);
+          padding: clamp(20px, 2.5vw, 36px);
+        }
+
+        /* Streak Bar */
+        .streak-progress-bar {
+          background-color: #FFF0F4;
+          border-radius: 9999px;
+          border: 1px solid #FAD4DE;
+          padding: 12px 24px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 24px;
+          flex-wrap: wrap;
+          gap: 12px;
+        }
+
+        .streak-title-wrap {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          font-size: 0.95rem;
+          font-weight: 800;
+          color: #B9345D;
+        }
+
+        .streak-flame-circle {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          background: #FFE5EC;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 2px 8px rgba(185, 52, 93, 0.15);
+        }
+
+        .streak-flower-track {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          background: #FFFFFF;
+          padding: 6px 16px;
+          border-radius: 9999px;
+          border: 1px solid #FAD4DE;
+        }
+
+        .flower-node {
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.85rem;
+          transition: all 0.25s ease;
+        }
+        .flower-node.completed {
+          background: #FFE5EC;
+          box-shadow: 0 0 8px rgba(185, 52, 93, 0.3);
+        }
+
+        /* Category Tabs Ribbon Bar */
+        .category-ribbon-wrapper {
+          display: flex;
+          justify-content: center;
+          margin-bottom: 28px;
+        }
+
+        .category-ribbon {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          background: #FFFFFF;
+          padding: 6px 10px;
+          border-radius: 9999px;
+          border: 1.5px solid #FAD4DE;
+          box-shadow: 0 4px 18px rgba(185, 52, 93, 0.06);
           overflow-x: auto;
           scrollbar-width: none;
           max-width: 100%;
         }
-        .ribbon-bar::-webkit-scrollbar {
+        .category-ribbon::-webkit-scrollbar {
           display: none;
         }
 
-        .ribbon-btn {
+        .category-tab-btn {
           background: none;
           border: none;
           padding: 8px 16px;
-          border-radius: 50px;
-          font-size: clamp(0.8rem, 0.9vw, 0.95rem);
+          border-radius: 9999px;
+          font-size: clamp(0.8rem, 0.85vw, 0.9rem);
           font-weight: 600;
-          color: #7D626C;
+          color: #5C434B;
           cursor: pointer;
           display: flex;
           align-items: center;
@@ -57,101 +200,307 @@ export default function SakhiPlayPage() {
           white-space: nowrap;
           transition: all 0.2s ease;
         }
-        .ribbon-btn:hover {
-          color: #C23B68;
-          background-color: #FFEBF0;
-        }
-        .ribbon-btn.active {
+        .category-tab-btn:hover {
           color: #B9345D;
-          background-color: #FFE5EC;
-          box-shadow: 0 2px 8px rgba(185, 52, 93, 0.15);
+          background-color: #FFF0F4;
         }
-
-        .ribbon-btn-highlight {
-          background: linear-gradient(135deg, #B9345D 0%, #E05282 100%);
+        .category-tab-btn.active {
           color: #FFFFFF !important;
-          padding: 8px 20px;
-          border-radius: 50px;
+          background-color: #B9345D !important;
           font-weight: 700;
           box-shadow: 0 4px 14px rgba(185, 52, 93, 0.35);
         }
-        .ribbon-btn-highlight:hover {
+
+        .category-tab-btn-highlight {
+          background: linear-gradient(135deg, #B9345D 0%, #D84371 100%);
+          color: #FFFFFF !important;
+          padding: 8px 18px;
+          border-radius: 9999px;
+          font-weight: 700;
+          box-shadow: 0 4px 14px rgba(185, 52, 93, 0.3);
+        }
+        .category-tab-btn-highlight:hover {
           transform: translateY(-1px);
-          box-shadow: 0 6px 18px rgba(185, 52, 93, 0.45);
+          box-shadow: 0 6px 18px rgba(185, 52, 93, 0.4);
+        }
+
+        /* Challenge List Item Row (Matching exact user screenshot) */
+        .challenge-item-card {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 16px 20px;
+          border-radius: 20px;
+          border: 1.5px solid #FAD4DE;
+          background-color: #FFFFFF;
+          box-shadow: 0 3px 12px rgba(185, 52, 93, 0.04);
+          transition: all 0.2s ease;
+          gap: 16px;
+          margin-bottom: 14px;
+        }
+        .challenge-item-card:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 6px 20px rgba(185, 52, 93, 0.09);
+        }
+        .challenge-item-card.completed {
+          background-color: #F8FAF7;
+          border-color: #A3D9A5;
+        }
+
+        .challenge-left-info {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          flex: 1;
+        }
+
+        .challenge-number-badge {
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          background-color: #FFE5EC;
+          color: #B9345D;
+          font-weight: 800;
+          font-size: 0.85rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+        .challenge-number-badge.done {
+          background-color: #E8F5E9;
+          color: #2E7D32;
+        }
+
+        .challenge-icon-box {
+          width: 52px;
+          height: 52px;
+          border-radius: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.6rem;
+          flex-shrink: 0;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .challenge-title-text {
+          font-size: 1rem;
+          font-weight: 700;
+          color: #3E242B;
+          margin-bottom: 3px;
+        }
+
+        .challenge-sub-text {
+          font-size: 0.825rem;
+          color: #7D626C;
+          margin: 0;
+          line-height: 1.35;
+        }
+
+        .challenge-action-btn {
+          background-color: #FFFFFF;
+          color: #B9345D;
+          border: 1.5px solid #B9345D;
+          border-radius: 9999px;
+          padding: 9px 20px;
+          font-size: 0.85rem;
+          font-weight: 700;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          white-space: nowrap;
+          transition: all 0.2s ease;
+          flex-shrink: 0;
+        }
+        .challenge-action-btn:hover {
+          background-color: #FFF0F4;
+          transform: translateY(-1px);
+        }
+        .challenge-action-btn.done-btn {
+          background-color: #2E7D32;
+          color: #FFFFFF;
+          border-color: #2E7D32;
+          box-shadow: 0 4px 12px rgba(46, 125, 50, 0.25);
+        }
+
+        @media (max-width: 768px) {
+          .hero-side-illustration {
+            display: none;
+          }
+          .challenge-item-card {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+          .challenge-action-btn {
+            width: 100%;
+            justify-content: center;
+          }
         }
       `}</style>
 
-      <div className="sakhi-play-container">
+      <div className="sakhi-play-wrapper">
         
-        {/* Top Feature Ribbon Bar (Matching user screenshot) */}
-        <div className="ribbon-bar-wrapper">
-          <div className="ribbon-bar">
-            <button 
-              className={`ribbon-btn ${activeTab === 'affirmation' ? 'active' : ''}`}
-              onClick={() => setActiveTab('affirmation')}
-            >
-              <Heart size={16} color="#E05282" fill={activeTab === 'affirmation' ? '#E05282' : 'none'} />
-              <span>Affirmation</span>
-            </button>
-
-            <button 
-              className={`ribbon-btn ${activeTab === 'mood' ? 'active' : ''}`}
-              onClick={() => setActiveTab('mood')}
-            >
-              <Brain size={16} color="#9333EA" />
-              <span>Mood Match</span>
-            </button>
-
-            <button 
-              className={`ribbon-btn ${activeTab === 'bloom' ? 'active' : ''}`}
-              onClick={() => setActiveTab('bloom')}
-            >
-              <Flower2 size={16} color="#E05282" />
-              <span>Memory Bloom</span>
-            </button>
-
-            <button 
-              className={`ribbon-btn ${activeTab === 'bubble' ? 'active' : ''}`}
-              onClick={() => setActiveTab('bubble')}
-            >
-              <span style={{ fontSize: '1rem' }}>🫧</span>
-              <span>Bubble Calm</span>
-            </button>
-
-            <button 
-              className={`ribbon-btn ${activeTab === 'wheel' ? 'active' : ''}`}
-              onClick={() => setActiveTab('wheel')}
-            >
-              <span style={{ fontSize: '1rem' }}>🌷</span>
-              <span>Care Wheel</span>
-            </button>
-
-            <button 
-              className={`ribbon-btn ${activeTab === 'myth' ? 'active' : ''}`}
-              onClick={() => setActiveTab('myth')}
-            >
-              <span style={{ fontSize: '1rem' }}>🎀</span>
-              <span>Myth or Fact</span>
-            </button>
-
-            <button 
-              className={`ribbon-btn ribbon-btn-highlight ${activeTab === 'daily' ? 'active' : ''}`}
-              onClick={() => setActiveTab('daily')}
-            >
-              <Sparkles size={16} color="#FFFFFF" />
-              <span>Daily Challenge</span>
-            </button>
+        {/* Hero Header Section (Matching exact user screenshot with cute illustrations & notes) */}
+        <div className="hero-banner-container">
+          
+          {/* Left Side: Cute Avatar Illustration + Note */}
+          <div className="hero-side-illustration">
+            <span className="handwritten-note" style={{ marginBottom: '6px' }}>
+              Small habits...<br />Big changes .♡
+            </span>
+            <svg width="90" height="90" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="45" fill="#FFE5EC" />
+              {/* Hair */}
+              <path d="M25 45C25 25 35 15 50 15C65 15 75 25 75 45C75 55 72 65 72 75H28C28 65 25 55 25 45Z" fill="#3E242B" />
+              {/* Face */}
+              <circle cx="50" cy="45" r="20" fill="#FFD4C4" />
+              {/* Blushes */}
+              <circle cx="42" cy="48" r="3" fill="#FF8DA1" opacity="0.6" />
+              <circle cx="58" cy="48" r="3" fill="#FF8DA1" opacity="0.6" />
+              {/* Closed Eyes */}
+              <path d="M41 43C42 45 44 45 45 43" stroke="#3E242B" strokeWidth="2" strokeLinecap="round" />
+              <path d="M55 43C56 45 58 45 59 43" stroke="#3E242B" strokeWidth="2" strokeLinecap="round" />
+              {/* Gentle Smile */}
+              <path d="M47 52C49 54 51 54 53 52" stroke="#B9345D" strokeWidth="2" strokeLinecap="round" />
+              {/* Dress / Top */}
+              <path d="M30 75C30 65 40 62 50 62C60 62 70 65 70 75V95H30V75Z" fill="#B9345D" />
+              {/* Hands folded over heart */}
+              <ellipse cx="50" cy="72" rx="10" ry="6" fill="#FFD4C4" />
+              {/* Flowers around */}
+              <circle cx="22" cy="30" r="5" fill="#FF8DA1" />
+              <circle cx="78" cy="30" r="5" fill="#FF8DA1" />
+              <circle cx="82" cy="65" r="4" fill="#FAD4DE" />
+            </svg>
           </div>
+
+          {/* Center Banner Content */}
+          <div className="hero-center-content">
+            <div className="hero-badge">
+              <Sparkles size={15} color="#B9345D" />
+              <span>DAILY SAKHI CHALLENGES</span>
+              <span>🌸</span>
+            </div>
+            <h1 className="hero-title">
+              Small Daily Wins
+            </h1>
+            <p className="hero-subtitle">
+              Tiny self-care commitments to show up for your mind and body today.
+            </p>
+          </div>
+
+          {/* Right Side: Floral Bouquet Illustration + Note */}
+          <div className="hero-side-illustration">
+            <span className="handwritten-note" style={{ marginBottom: '6px' }}>
+              A healthier<br />you, every day .♡
+            </span>
+            <svg width="90" height="90" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="45" fill="#FFF0F4" />
+              {/* Main Center Rose */}
+              <circle cx="50" cy="45" r="16" fill="#C23B68" />
+              <circle cx="50" cy="45" r="10" fill="#E05282" />
+              <circle cx="50" cy="45" r="5" fill="#FFE5EC" />
+              {/* Side Flowers */}
+              <circle cx="32" cy="58" r="12" fill="#FF8DA1" />
+              <circle cx="68" cy="58" r="12" fill="#FF8DA1" />
+              {/* Leaves */}
+              <path d="M20 40C20 40 30 30 40 40C30 50 20 40 20 40Z" fill="#4CAF50" />
+              <path d="M80 40C80 40 70 30 60 40C70 50 80 40 80 40Z" fill="#4CAF50" />
+              <path d="M45 75C45 75 50 85 55 75C50 65 45 75 45 75Z" fill="#81C784" />
+            </svg>
+          </div>
+
         </div>
 
-        {/* Dynamic Game Component Render */}
-        {activeTab === 'daily' && <DailyChallengeGame />}
-        {activeTab === 'affirmation' && <AffirmationGame />}
-        {activeTab === 'mood' && <MoodMatchGame />}
-        {activeTab === 'bloom' && <MemoryBloomGame />}
-        {activeTab === 'bubble' && <BubbleCalmGame />}
-        {activeTab === 'wheel' && <CareWheelGame />}
-        {activeTab === 'myth' && <MythOrFactGame />}
+        {/* Main Card Container */}
+        <div className="play-main-card">
+          
+          {/* 1. Streak Progress Bar (Matching user screenshot) */}
+          <DailyStreakProgressBar />
+
+          {/* 2. Category Ribbon Tabs */}
+          <div className="category-ribbon-wrapper">
+            <div className="category-ribbon">
+              
+              <button 
+                type="button"
+                className={`category-tab-btn ${activeTab === 'affirmation' ? 'active' : ''}`}
+                onClick={() => setActiveTab('affirmation')}
+              >
+                <Heart size={15} color={activeTab === 'affirmation' ? '#FFFFFF' : '#B9345D'} fill={activeTab === 'affirmation' ? '#FFFFFF' : 'none'} />
+                <span>Affirmation</span>
+              </button>
+
+              <button 
+                type="button"
+                className={`category-tab-btn ${activeTab === 'mood' ? 'active' : ''}`}
+                onClick={() => setActiveTab('mood')}
+              >
+                <Brain size={15} color={activeTab === 'mood' ? '#FFFFFF' : '#9333EA'} />
+                <span>Mood Match</span>
+                <Sparkles size={12} color={activeTab === 'mood' ? '#FFFFFF' : '#9333EA'} />
+              </button>
+
+              <button 
+                type="button"
+                className={`category-tab-btn ${activeTab === 'bloom' ? 'active' : ''}`}
+                onClick={() => setActiveTab('bloom')}
+              >
+                <Flower2 size={15} color={activeTab === 'bloom' ? '#FFFFFF' : '#B9345D'} />
+                <span>Memory Bloom</span>
+              </button>
+
+              <button 
+                type="button"
+                className={`category-tab-btn ${activeTab === 'bubble' ? 'active' : ''}`}
+                onClick={() => setActiveTab('bubble')}
+              >
+                <span>🫧</span>
+                <span>Bubble Calm</span>
+              </button>
+
+              <button 
+                type="button"
+                className={`category-tab-btn ${activeTab === 'wheel' ? 'active' : ''}`}
+                onClick={() => setActiveTab('wheel')}
+              >
+                <span>🌿</span>
+                <span>Care Wheel</span>
+              </button>
+
+              <button 
+                type="button"
+                className={`category-tab-btn ${activeTab === 'myth' ? 'active' : ''}`}
+                onClick={() => setActiveTab('myth')}
+              >
+                <span>🥊</span>
+                <span>Myth or Fact</span>
+              </button>
+
+              <button 
+                type="button"
+                className={`category-tab-btn category-tab-btn-highlight ${activeTab === 'daily' ? 'active' : ''}`}
+                onClick={() => setActiveTab('daily')}
+              >
+                <Sparkles size={15} color="#FFFFFF" />
+                <span>Daily Challenge</span>
+                <Sparkles size={12} color="#FFFFFF" />
+              </button>
+
+            </div>
+          </div>
+
+          {/* 3. Render Selected View */}
+          {activeTab === 'daily' && <DailyChallengeList />}
+          {activeTab === 'affirmation' && <AffirmationGame />}
+          {activeTab === 'mood' && <MoodMatchGame />}
+          {activeTab === 'bloom' && <MemoryBloomGame />}
+          {activeTab === 'bubble' && <BubbleCalmGame />}
+          {activeTab === 'wheel' && <CareWheelGame />}
+          {activeTab === 'myth' && <MythOrFactGame />}
+
+        </div>
 
       </div>
     </div>
@@ -159,140 +508,37 @@ export default function SakhiPlayPage() {
 }
 
 /* ==========================================================================
-   1. DAILY CHALLENGE GAME (Small Daily Wins - Matching User Screenshot)
+   STREAK PROGRESS BAR COMPONENT (Matching user screenshot)
    ========================================================================== */
-function DailyChallengeGame() {
-  const [completed, setCompleted] = useState({});
+function DailyStreakProgressBar() {
+  const [completedWins, setCompletedWins] = useState(0);
 
-  const challenges = [
-    {
-      id: 'hydration',
-      icon: '💧',
-      title: 'Hydration Glow Check 💧',
-      desc: 'Drink at least 4 glasses of room temperature or warm water today.',
-      bg: '#E0F2FE'
-    },
-    {
-      id: 'silence',
-      icon: '🌸',
-      title: '5 Minutes for Yourself 🌸',
-      desc: 'Sit in silence, breathe deeply, and disconnect from all chores for 5 undisturbed minutes.',
-      bg: '#FFEBF0'
-    },
-    {
-      id: 'compress',
-      icon: '🌿',
-      title: 'Warm Compress Ritual 🌿',
-      desc: 'Apply a warm water bag or heating pad for 10 minutes to soothe pelvic tension.',
-      bg: '#E8F5E9'
-    },
-    {
-      id: 'stretch',
-      icon: '🧘‍♀️',
-      title: 'Gentle Cat-Cow Stretch 🧘‍♀️',
-      desc: 'Do 2 minutes of gentle cat-cow spine stretches to relieve lower back stiffness.',
-      bg: '#FEF3C7'
-    },
-    {
-      id: 'tea',
-      icon: '🍵',
-      title: 'Soothing Chamomile / Ginger Sip 🍵',
-      desc: 'Enjoy a warm cup of herbal tea without sugar to calm digestion.',
-      bg: '#F3E8FF'
+  // Listen to custom completion events
+  useEffect(() => {
+    function handleWinUpdate(e) {
+      if (typeof e.detail === 'number') {
+        setCompletedWins(e.detail);
+      }
     }
-  ];
-
-  const toggleComplete = (id) => {
-    setCompleted((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
-
-  const completedCount = Object.values(completed).filter(Boolean).length;
+    window.addEventListener('sakhi-win-updated', handleWinUpdate);
+    return () => window.removeEventListener('sakhi-win-updated', handleWinUpdate);
+  }, []);
 
   return (
-    <div style={{ backgroundColor: '#FFFFFF', borderRadius: '24px', padding: '36px', border: '1.5px solid #FAD4DE', boxShadow: '0 10px 30px rgba(185, 52, 93, 0.06)' }}>
-      {/* Header */}
-      <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: '700', color: '#B9345D', letterSpacing: '0.06em', marginBottom: '8px' }}>
-          <Sparkles size={16} />
-          <span>DAILY SAKHI CHALLENGES</span>
-          <Sparkles size={16} />
-        </div>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.4rem', color: '#3E242B', fontWeight: '700', marginBottom: '8px' }}>
-          Small Daily Wins
-        </h2>
-        <p style={{ color: '#7D626C', fontSize: '1rem', maxWidth: '600px', margin: '0 auto' }}>
-          Tiny self-care commitments to show up for your mind and body today.
-        </p>
-      </div>
-
-      {/* Progress Bar */}
-      <div style={{ backgroundColor: '#FFF0F4', borderRadius: '50px', padding: '12px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '28px', border: '1px solid #FAD4DE' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem', fontWeight: '700', color: '#B9345D' }}>
+    <div className="streak-progress-bar">
+      <div className="streak-title-wrap">
+        <div className="streak-flame-circle">
           <Flame size={18} color="#B9345D" />
-          <span>Today's Streak Progress: {completedCount} / {challenges.length} Wins</span>
         </div>
-        <div style={{ width: '160px', height: '10px', backgroundColor: '#FFFFFF', borderRadius: '10px', overflow: 'hidden', border: '1px solid #FAD4DE' }}>
-          <div style={{ width: `${(completedCount / challenges.length) * 100}%`, height: '100%', backgroundColor: '#B9345D', transition: 'width 0.4s ease' }} />
-        </div>
+        <span>Today's Streak Progress: {completedWins} / 5 Wins</span>
       </div>
 
-      {/* List of Challenge Cards (Matching Screenshot) */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        {challenges.map((c) => {
-          const isDone = !!completed[c.id];
+      <div className="streak-flower-track">
+        {[1, 2, 3, 4, 5].map((idx) => {
+          const isDone = idx <= completedWins;
           return (
-            <div 
-              key={c.id}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: '20px 24px',
-                borderRadius: '20px',
-                border: isDone ? '1.5px solid #2E7D32' : '1.5px solid #FAD4DE',
-                backgroundColor: isDone ? '#F1F8E9' : '#FFFFFF',
-                boxShadow: '0 4px 14px rgba(185, 52, 93, 0.04)',
-                transition: 'all 0.25s ease',
-                flexWrap: 'wrap',
-                gap: '16px'
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flex: 1, minWidth: '260px' }}>
-                <div style={{ width: '48px', height: '48px', borderRadius: '16px', backgroundColor: c.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', flexShrink: 0 }}>
-                  {c.icon}
-                </div>
-                <div>
-                  <h3 style={{ fontSize: '1.05rem', fontWeight: '700', color: '#3E242B', marginBottom: '4px' }}>
-                    {c.title}
-                  </h3>
-                  <p style={{ fontSize: '0.875rem', color: '#7D626C', margin: 0, lineHeight: 1.4 }}>
-                    {c.desc}
-                  </p>
-                </div>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => toggleComplete(c.id)}
-                style={{
-                  backgroundColor: isDone ? '#2E7D32' : '#FFFFFF',
-                  color: isDone ? '#FFFFFF' : '#B9345D',
-                  border: isDone ? 'none' : '1.5px solid #B9345D',
-                  borderRadius: '50px',
-                  padding: '10px 22px',
-                  fontSize: '0.875rem',
-                  fontWeight: '700',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  boxShadow: isDone ? '0 4px 12px rgba(46, 125, 50, 0.25)' : 'none',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                <CheckCircle2 size={16} color={isDone ? '#FFFFFF' : '#B9345D'} />
-                <span>{isDone ? 'Completed ✓' : 'Tap to Complete'}</span>
-              </button>
+            <div key={idx} className={`flower-node ${isDone ? 'completed' : ''}`}>
+              <span>{isDone ? '🌺' : '🌸'}</span>
             </div>
           );
         })}
@@ -302,7 +548,137 @@ function DailyChallengeGame() {
 }
 
 /* ==========================================================================
-   2. AFFIRMATION GAME (Interactive Daily Affirmation Card Generator)
+   DAILY CHALLENGE LIST (Matching user screenshot)
+   ========================================================================== */
+function DailyChallengeList() {
+  const { addCoins } = useRewards();
+  const [completedMap, setCompletedMap] = useState({
+    hydration: false,
+    silence: false,
+    compress: false,
+    stretch: false,
+    tea: false
+  });
+
+  const challenges = [
+    {
+      id: 'hydration',
+      num: 1,
+      icon: '💧',
+      title: 'Hydration Glow Check 💧',
+      desc: 'Drink at least 4 glasses of room temperature or warm water today.',
+      iconBg: '#E0F2FE'
+    },
+    {
+      id: 'silence',
+      num: 2,
+      icon: '🌸',
+      title: '5 Minutes for Yourself 🌸',
+      desc: 'Sit in silence, breathe deeply, and disconnect from all chores for 5 undisturbed minutes.',
+      iconBg: '#FFEBF0'
+    },
+    {
+      id: 'compress',
+      num: 3,
+      icon: '🌿',
+      title: 'Warm Compress Ritual 🌿',
+      desc: 'Apply a warm water bag or heating pad for 10 minutes to soothe pelvic tension.',
+      iconBg: '#E8F5E9'
+    },
+    {
+      id: 'stretch',
+      num: 4,
+      icon: '🧘‍♀️',
+      title: 'Gentle Cat-Cow Stretch 🧘‍♀️',
+      desc: 'Do 2 minutes of gentle cat-cow spine stretches to relieve lower back stiffness.',
+      iconBg: '#FEF3C7'
+    },
+    {
+      id: 'tea',
+      num: 5,
+      icon: '🍵',
+      title: 'Soothing Chamomile / Ginger Sip 🍵',
+      desc: 'Enjoy a warm cup of herbal tea without sugar to calm digestion.',
+      iconBg: '#F3E8FF'
+    }
+  ];
+
+  const toggleComplete = (id) => {
+    setCompletedMap((prev) => {
+      const next = { ...prev, [id]: !prev[id] };
+      const winCount = Object.values(next).filter(Boolean).length;
+      
+      // Dispatch custom win update event for header bar
+      window.dispatchEvent(new CustomEvent('sakhi-win-updated', { detail: winCount }));
+      
+      if (next[id]) {
+        addCoins(20); // Award Sakhi Coins for self care win
+      }
+      return next;
+    });
+  };
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      {challenges.map((c) => {
+        const isDone = !!completedMap[c.id];
+        return (
+          <div 
+            key={c.id} 
+            className={`challenge-item-card ${isDone ? 'completed' : ''}`}
+          >
+            <div className="challenge-left-info">
+              {/* Number Circle Badge */}
+              <div className={`challenge-number-badge ${isDone ? 'done' : ''}`}>
+                {c.num}
+              </div>
+
+              {/* Icon Square Box */}
+              <div 
+                className="challenge-icon-box"
+                style={{ backgroundColor: c.iconBg }}
+              >
+                {c.icon}
+              </div>
+
+              {/* Title and Description */}
+              <div>
+                <div className="challenge-title-text">
+                  {c.title}
+                </div>
+                <p className="challenge-sub-text">
+                  {c.desc}
+                </p>
+              </div>
+            </div>
+
+            {/* Tap to Complete Action Button */}
+            <button
+              type="button"
+              onClick={() => toggleComplete(c.id)}
+              className={`challenge-action-btn ${isDone ? 'done-btn' : ''}`}
+            >
+              {isDone ? (
+                <>
+                  <CheckCircle2 size={16} />
+                  <span>Completed ✓ (+20 Coins)</span>
+                </>
+              ) : (
+                <>
+                  <Check size={16} />
+                  <span>Tap to Complete</span>
+                </>
+              )}
+            </button>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+/* ==========================================================================
+   AFFIRMATION GAME
    ========================================================================== */
 function AffirmationGame() {
   const affirmations = [
@@ -314,27 +690,24 @@ function AffirmationGame() {
   ];
 
   const [index, setIndex] = useState(0);
-  const [copied, setCopied] = useState(false);
 
   const nextAffirmation = () => {
     setIndex((prev) => (prev + 1) % affirmations.length);
-    setCopied(false);
   };
 
   const current = affirmations[index];
 
   return (
-    <div style={{ backgroundColor: '#FFFFFF', borderRadius: '24px', padding: '40px 24px', border: '1.5px solid #FAD4DE', textAlign: 'center', boxShadow: '0 10px 30px rgba(185, 52, 93, 0.06)' }}>
+    <div style={{ padding: '24px 16px', textAlign: 'center' }}>
       <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: '700', color: '#B9345D', marginBottom: '12px' }}>
         <Heart size={18} color="#B9345D" fill="#B9345D" />
         <span>DAILY SAKHI AFFIRMATIONS</span>
       </div>
 
-      <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', color: '#3E242B', fontWeight: '700', marginBottom: '24px' }}>
+      <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '2.2rem', color: '#3E242B', fontWeight: '700', marginBottom: '24px' }}>
         Nurture Your Mind Today
       </h2>
 
-      {/* Affirmation Card */}
       <div 
         style={{
           backgroundColor: '#FFF0F4',
@@ -346,45 +719,43 @@ function AffirmationGame() {
           position: 'relative'
         }}
       >
-        <span style={{ fontSize: '0.8rem', fontWeight: '700', color: '#B9345D', textTransform: 'uppercase', letterSpacing: '0.08em', backgroundColor: '#FFFFFF', padding: '4px 14px', borderRadius: '50px', border: '1px solid #FAD4DE' }}>
+        <span style={{ fontSize: '0.8rem', fontWeight: '800', color: '#B9345D', textTransform: 'uppercase', letterSpacing: '0.08em', backgroundColor: '#FFFFFF', padding: '6px 16px', borderRadius: '50px', border: '1px solid #FAD4DE' }}>
           {current.category}
         </span>
 
-        <p style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', color: '#3E242B', fontWeight: '600', lineHeight: 1.5, margin: '24px 0' }}>
+        <p style={{ fontFamily: 'Playfair Display, Georgia, serif', fontSize: '1.6rem', color: '#3E242B', fontWeight: '600', lineHeight: 1.5, margin: '24px 0' }}>
           "{current.text}"
         </p>
 
-        <span style={{ fontSize: '1.5rem' }}>🌸</span>
+        <span style={{ fontSize: '1.8rem' }}>🌸</span>
       </div>
 
-      <div style={{ display: 'flex', justifyCenter: 'center', gap: '12px', justifyContent: 'center' }}>
-        <button
-          onClick={nextAffirmation}
-          style={{
-            backgroundColor: '#B9345D',
-            color: '#FFFFFF',
-            border: 'none',
-            borderRadius: '50px',
-            padding: '12px 28px',
-            fontSize: '0.95rem',
-            fontWeight: '700',
-            cursor: 'pointer',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-            boxShadow: '0 4px 14px rgba(185, 52, 93, 0.3)'
-          }}
-        >
-          <RefreshCw size={16} />
-          <span>Draw Another Affirmation</span>
-        </button>
-      </div>
+      <button
+        onClick={nextAffirmation}
+        style={{
+          backgroundColor: '#B9345D',
+          color: '#FFFFFF',
+          border: 'none',
+          borderRadius: '50px',
+          padding: '12px 28px',
+          fontSize: '0.95rem',
+          fontWeight: '700',
+          cursor: 'pointer',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '8px',
+          boxShadow: '0 4px 14px rgba(185, 52, 93, 0.3)'
+        }}
+      >
+        <RefreshCw size={16} />
+        <span>Draw Another Affirmation</span>
+      </button>
     </div>
   );
 }
 
 /* ==========================================================================
-   3. MOOD MATCH GAME (Memory Pair Card Game)
+   MOOD MATCH GAME
    ========================================================================== */
 function MoodMatchGame() {
   const cardsData = [
@@ -435,19 +806,18 @@ function MoodMatchGame() {
   const isWon = matched.length === cardsData.length;
 
   return (
-    <div style={{ backgroundColor: '#FFFFFF', borderRadius: '24px', padding: '36px', border: '1.5px solid #FAD4DE', textAlign: 'center', boxShadow: '0 10px 30px rgba(185, 52, 93, 0.06)' }}>
+    <div style={{ padding: '24px 16px', textAlign: 'center' }}>
       <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: '700', color: '#B9345D', marginBottom: '8px' }}>
         <Brain size={18} color="#9333EA" />
         <span>MOOD & CARE MATCHING GAME</span>
       </div>
-      <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', color: '#3E242B', fontWeight: '700', marginBottom: '8px' }}>
+      <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '2.2rem', color: '#3E242B', fontWeight: '700', marginBottom: '8px' }}>
         Match the Self-Care Pairs
       </h2>
       <p style={{ color: '#7D626C', fontSize: '0.95rem', marginBottom: '24px' }}>
         Moves: <strong>{moves}</strong> • Matched: <strong>{matched.length} / {cardsData.length}</strong>
       </p>
 
-      {/* Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', maxWidth: '520px', margin: '0 auto 28px' }}>
         {cards.map((card, idx) => {
           const isFlipped = flipped.includes(idx) || matched.includes(card.id);
@@ -501,14 +871,14 @@ function MoodMatchGame() {
 }
 
 /* ==========================================================================
-   4. MEMORY BLOOM GAME (Flower Pattern Sequence Game)
+   MEMORY BLOOM GAME
    ========================================================================== */
 function MemoryBloomGame() {
   const flowers = [
-    { id: 0, name: 'Rose', icon: '🌹', color: '#FFD1DC' },
-    { id: 1, name: 'Tulip', icon: '🌷', color: '#FFE5EC' },
-    { id: 2, name: 'Blossom', icon: '🌸', color: '#F3E8FF' },
-    { id: 3, name: 'Sunflower', icon: '🌻', color: '#FEF3C7' }
+    { id: 0, name: 'Rose', icon: '🌹' },
+    { id: 1, name: 'Tulip', icon: '🌷' },
+    { id: 2, name: 'Blossom', icon: '🌸' },
+    { id: 3, name: 'Sunflower', icon: '🌻' }
   ];
 
   const [sequence, setSequence] = useState([]);
@@ -569,12 +939,12 @@ function MemoryBloomGame() {
   };
 
   return (
-    <div style={{ backgroundColor: '#FFFFFF', borderRadius: '24px', padding: '36px', border: '1.5px solid #FAD4DE', textAlign: 'center', boxShadow: '0 10px 30px rgba(185, 52, 93, 0.06)' }}>
+    <div style={{ padding: '24px 16px', textAlign: 'center' }}>
       <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: '700', color: '#B9345D', marginBottom: '8px' }}>
         <Flower2 size={18} color="#E05282" />
         <span>FLORAL MEMORY BLOOM</span>
       </div>
-      <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', color: '#3E242B', fontWeight: '700', marginBottom: '4px' }}>
+      <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '2.2rem', color: '#3E242B', fontWeight: '700', marginBottom: '4px' }}>
         Repeat the Blooming Pattern
       </h2>
       <p style={{ color: '#7D626C', fontSize: '0.95rem', marginBottom: '20px' }}>
@@ -634,7 +1004,7 @@ function MemoryBloomGame() {
 }
 
 /* ==========================================================================
-   5. BUBBLE CALM GAME (Stress Relief Bubble Popper)
+   BUBBLE CALM GAME
    ========================================================================== */
 function BubbleCalmGame() {
   const thoughts = [
@@ -677,24 +1047,22 @@ function BubbleCalmGame() {
   };
 
   return (
-    <div style={{ backgroundColor: '#FFFFFF', borderRadius: '24px', padding: '36px', border: '1.5px solid #FAD4DE', textAlign: 'center', boxShadow: '0 10px 30px rgba(185, 52, 93, 0.06)' }}>
+    <div style={{ padding: '24px 16px', textAlign: 'center' }}>
       <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: '700', color: '#B9345D', marginBottom: '8px' }}>
         <span style={{ fontSize: '1.1rem' }}>🫧</span>
         <span>BUBBLE CALM ANXIETY POPPER</span>
       </div>
-      <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', color: '#3E242B', fontWeight: '700', marginBottom: '4px' }}>
+      <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '2.2rem', color: '#3E242B', fontWeight: '700', marginBottom: '4px' }}>
         Pop Away Stress & Cramp Tension
       </h2>
       <p style={{ color: '#7D626C', fontSize: '0.95rem', marginBottom: '20px' }}>
         Bubbles Popped: <strong style={{ color: '#B9345D' }}>{popCount}</strong>
       </p>
 
-      {/* Thought banner */}
       <div style={{ backgroundColor: '#FFF0F4', padding: '14px 24px', borderRadius: '50px', color: '#B9345D', fontWeight: '700', fontSize: '1rem', display: 'inline-block', marginBottom: '28px', border: '1px solid #FAD4DE' }}>
         ✨ "{activeThought}"
       </div>
 
-      {/* Bubble Grid */}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', justifyContent: 'center', maxWidth: '640px', margin: '0 auto 28px' }}>
         {bubbles.map((b) => (
           <button
@@ -742,16 +1110,16 @@ function BubbleCalmGame() {
 }
 
 /* ==========================================================================
-   6. CARE WHEEL GAME (Spinning Wheel of Self-Care Rewards)
+   CARE WHEEL GAME
    ========================================================================== */
 function CareWheelGame() {
   const rewards = [
-    { title: "15 Min Power Nap 😴", color: "#FFE5EC" },
-    { title: "Chamomile Tea ☕", color: "#F3E8FF" },
-    { title: "Heating Pad Ritual ♨️", color: "#FFEBF0" },
-    { title: "Dark Cacao Treat 🍫", color: "#FEF3C7" },
-    { title: "Comfort Playlist 🎧", color: "#E0F2FE" },
-    { title: "Gentle Stretching 🧘", color: "#E8F5E9" }
+    { title: "15 Min Power Nap 😴" },
+    { title: "Chamomile Tea ☕" },
+    { title: "Heating Pad Ritual ♨️" },
+    { title: "Dark Cacao Treat 🍫" },
+    { title: "Comfort Playlist 🎧" },
+    { title: "Gentle Stretching 🧘" }
   ];
 
   const [spinning, setSpinning] = useState(false);
@@ -776,27 +1144,17 @@ function CareWheelGame() {
   };
 
   return (
-    <div style={{ backgroundColor: '#FFFFFF', borderRadius: '24px', padding: '36px', border: '1.5px solid #FAD4DE', textAlign: 'center', boxShadow: '0 10px 30px rgba(185, 52, 93, 0.06)' }}>
+    <div style={{ padding: '24px 16px', textAlign: 'center' }}>
       <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: '700', color: '#B9345D', marginBottom: '8px' }}>
         <span style={{ fontSize: '1.1rem' }}>🌷</span>
         <span>SELF-CARE COMFORT WHEEL</span>
       </div>
-      <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', color: '#3E242B', fontWeight: '700', marginBottom: '24px' }}>
+      <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '2.2rem', color: '#3E242B', fontWeight: '700', marginBottom: '24px' }}>
         Spin for Your Comfort Reward
       </h2>
 
-      {/* Wheel Visual */}
       <div style={{ position: 'relative', width: '280px', height: '280px', margin: '0 auto 28px' }}>
-        <div 
-          style={{ 
-            position: 'absolute', 
-            top: '-12px', 
-            left: '50%', 
-            transform: 'translateX(-50%)', 
-            zIndex: 10, 
-            fontSize: '1.6rem' 
-          }}
-        >
+        <div style={{ position: 'absolute', top: '-12px', left: '50%', transform: 'translateX(-50%)', zIndex: 10, fontSize: '1.6rem' }}>
           👇
         </div>
 
@@ -816,7 +1174,7 @@ function CareWheelGame() {
             backgroundColor: '#FFF0F4'
           }}
         >
-          <div style={{ fontSize: '1.8rem', fontWeight: '700', color: '#B9345D' }}>🌸</div>
+          <div style={{ fontSize: '2.5rem' }}>🌸</div>
         </div>
       </div>
 
@@ -848,7 +1206,7 @@ function CareWheelGame() {
 }
 
 /* ==========================================================================
-   7. MYTH OR FACT GAME (Menstrual Health Trivia)
+   MYTH OR FACT GAME
    ========================================================================== */
 function MythOrFactGame() {
   const quizData = [
@@ -888,21 +1246,20 @@ function MythOrFactGame() {
   };
 
   return (
-    <div style={{ backgroundColor: '#FFFFFF', borderRadius: '24px', padding: '36px', border: '1.5px solid #FAD4DE', textAlign: 'center', boxShadow: '0 10px 30px rgba(185, 52, 93, 0.06)' }}>
+    <div style={{ padding: '24px 16px', textAlign: 'center' }}>
       <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: '700', color: '#B9345D', marginBottom: '8px' }}>
-        <span style={{ fontSize: '1.1rem' }}>🎀</span>
+        <span style={{ fontSize: '1.1rem' }}>🥊</span>
         <span>MYTH OR FACT TRIVIA</span>
       </div>
-      <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', color: '#3E242B', fontWeight: '700', marginBottom: '8px' }}>
+      <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '2.2rem', color: '#3E242B', fontWeight: '700', marginBottom: '8px' }}>
         Menstrual Health Knowledge Check
       </h2>
       <p style={{ color: '#7D626C', fontSize: '0.95rem', marginBottom: '24px' }}>
         Score: <strong style={{ color: '#B9345D' }}>{score}</strong>
       </p>
 
-      {/* Card */}
       <div style={{ backgroundColor: '#FFF0F4', borderRadius: '20px', padding: '28px', maxWidth: '600px', margin: '0 auto 28px', border: '1.5px solid #FAD4DE' }}>
-        <p style={{ fontSize: '1.25rem', fontWeight: '700', color: '#3E242B', lineHeight: 1.5, marginBottom: '24px' }}>
+        <p style={{ fontSize: '1.2rem', fontWeight: '700', color: '#3E242B', lineHeight: 1.5, marginBottom: '24px' }}>
           {current.question}
         </p>
 

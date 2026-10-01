@@ -57,6 +57,7 @@ export default function Navbar() {
   const navLinks = [
     { to: '/', label: t('nav.home', 'Home'), icon: Home },
     { to: '/cycle', label: t('nav.cycle', 'My Cycle'), icon: Calendar },
+    { to: '/play', label: t('nav.play', 'Play & Games ✨'), icon: Gamepad2 },
     { to: '/lifestyle', label: t('nav.lifestyle', 'Eat & Move'), icon: Utensils }
   ];
 
