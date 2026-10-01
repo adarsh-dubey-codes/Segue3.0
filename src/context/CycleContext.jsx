@@ -317,28 +317,37 @@ export const CycleProvider = ({ children }) => {
   const currentPhase = getCyclePhase();
 
   // Garden Gamification Progress calculation
-  const totalLogs = dailyLogs.length;
-  const streakCount = totalLogs; // Simple streak counter
-  let plantStage = 'Seedling';
-  let plantIcon = '🌱';
-  if (totalLogs >= 10) {
-    plantStage = 'Garden Bloom';
-    plantIcon = '🌸';
-  } else if (totalLogs >= 5) {
-    plantStage = 'Blooming Flower';
-    plantIcon = '🌷';
-  } else if (totalLogs >= 2) {
-    plantStage = 'Sprout';
-    plantIcon = '🌿';
-  }
+  // 7 Living Plant Stages (Matching prompt requirements: Seed -> Sprout -> Seedling -> Growing Plant -> Leaves -> Bud -> Bloom)
+  const [extraCarePoints, setExtraCarePoints] = useState(0);
+  const totalLogs = dailyLogs.length + extraCarePoints;
+  const streakCount = Math.max(1, dailyLogs.length);
+
+  const getPlantStageInfo = (logsCount) => {
+    if (logsCount >= 6) return { stageIndex: 7, stageName: 'Beautiful Blooming Flower', icon: '🌸', code: 'blooming_flower' };
+    if (logsCount >= 5) return { stageIndex: 6, stageName: 'Budding Flower', icon: '🌷', code: 'budding_flower' };
+    if (logsCount >= 4) return { stageIndex: 5, stageName: 'Plant with Leaves', icon: '🪴', code: 'plant_leaves' };
+    if (logsCount >= 3) return { stageIndex: 4, stageName: 'Growing Plant', icon: '🪴', code: 'growing_plant' };
+    if (logsCount >= 2) return { stageIndex: 3, stageName: 'Seedling', icon: '🌿', code: 'seedling' };
+    if (logsCount >= 1) return { stageIndex: 2, stageName: 'Small Sprout', icon: '🌱', code: 'sprout' };
+    return { stageIndex: 1, stageName: 'Seed', icon: '🌰', code: 'seed' };
+  };
+
+  const plantStageObj = getPlantStageInfo(totalLogs);
+  const plantStage = plantStageObj.stageName;
+  const plantIcon = plantStageObj.icon;
+
+  const waterGarden = () => {
+    setExtraCarePoints((prev) => prev + 1);
+    window.dispatchEvent(new CustomEvent('sakhi-garden-nurtured', { detail: { newStage: getPlantStageInfo(totalLogs + 1) } }));
+  };
 
   // Calculate average sleep & water
-  const avgSleep = totalLogs > 0 
-    ? (dailyLogs.reduce((acc, curr) => acc + (Number(curr.sleep) || 7), 0) / totalLogs).toFixed(1)
+  const avgSleep = dailyLogs.length > 0 
+    ? (dailyLogs.reduce((acc, curr) => acc + (Number(curr.sleep) || 7), 0) / dailyLogs.length).toFixed(1)
     : '8.0';
 
-  const avgWater = totalLogs > 0
-    ? (dailyLogs.reduce((acc, curr) => acc + (Number(curr.water) || 6), 0) / totalLogs).toFixed(1)
+  const avgWater = dailyLogs.length > 0
+    ? (dailyLogs.reduce((acc, curr) => acc + (Number(curr.water) || 6), 0) / dailyLogs.length).toFixed(1)
     : '7.0';
 
   return (
@@ -360,6 +369,8 @@ export const CycleProvider = ({ children }) => {
         currentPhase,
         plantStage,
         plantIcon,
+        plantStageObj,
+        waterGarden,
         streakCount,
         totalLogs,
         avgSleep,

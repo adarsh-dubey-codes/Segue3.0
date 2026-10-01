@@ -12,6 +12,7 @@ import AmbientBackground from '../../components/decorations/AmbientBackground';
 import FloatingDecoration from '../../components/decorations/FloatingDecoration';
 import FloatingText from '../../components/decorations/FloatingText';
 import GentleReveal from '../../components/decorations/GentleReveal';
+import PetalsRain from '../../components/decorations/PetalsRain';
 import { 
   Sparkles, MessageCircle, PlayCircle, Home, Palette, Image as ImageIcon, 
   Target, Compass, Calendar, Smile, Utensils, Droplet, Heart
@@ -30,6 +31,7 @@ export default function HomePage() {
   return (
     <div className="home-wrapper" style={{ maxWidth: '100%', padding: '24px clamp(16px, 2.5vw, 40px) 80px', position: 'relative' }}>
       <AmbientBackground intensity="delightful" />
+      <PetalsRain count={9} />
       <style>{`
         .home-main-grid {
           display: grid;
@@ -229,7 +231,12 @@ export default function HomePage() {
           height: auto;
           border-radius: 20px;
           object-fit: cover;
-          box-shadow: 0 10px 30px rgba(236, 115, 143, 0.12);
+          box-shadow: 0 12px 35px rgba(236, 115, 143, 0.16);
+          animation: floatSphere 6s ease-in-out infinite;
+          transition: transform 0.3s ease;
+        }
+        .hero-woman-img:hover {
+          transform: scale(1.03) translateY(-4px);
         }
 
         .hero-affirmation-card {

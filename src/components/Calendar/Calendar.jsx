@@ -172,12 +172,20 @@ export default function Calendar({ selectedDate, onSelectDate, onOpenLog, onOpen
       ariaLabelStr += `. ${eventCount} context event${eventCount > 1 ? 's' : ''} logged: ${dayEvents.map(e => e.title).join(', ')}`;
     }
 
+    let animationStyle = 'none';
+    if (todayDay && !selected) {
+      animationStyle = 'calendarDayPulse 3.5s ease-in-out infinite';
+    } else if (isFlow && !selected) {
+      animationStyle = 'breatheScale 4.5s ease-in-out infinite';
+    }
+
     calendarCells.push(
       <button
         key={`day-${day}`}
         type="button"
         onClick={() => handleDayClick(day)}
         aria-label={ariaLabelStr}
+        className="btn-micro-hover"
         style={{
           aspectRatio: '1',
           border: borderStyle,
@@ -192,9 +200,10 @@ export default function Calendar({ selectedDate, onSelectDate, onOpenLog, onOpen
           color: textColor,
           backgroundColor: bgColor,
           cursor: 'pointer',
-          transition: 'all 0.15s ease',
+          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
           outline: 'none',
-          boxShadow: selected ? 'var(--shadow-sm)' : 'none'
+          boxShadow: selected ? '0 4px 14px rgba(236, 115, 143, 0.35)' : 'none',
+          animation: animationStyle
         }}
       >
         <span>{day}</span>

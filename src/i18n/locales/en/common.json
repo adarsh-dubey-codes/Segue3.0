@@ -664,5 +664,23 @@
     "doingOkay": "you are doing okay",
     "bodyListening": "your body is listening",
     "honorRhythm": "honor your rhythm"
+  },
+  "garden": {
+    "gentleGrowth": "🌱 GENTLE GROWTH",
+    "title": "Your Cycle Garden",
+    "sub": "Nurture your body, mind & dreams ♡",
+    "currentStage": "Current Stage",
+    "waterPlant": "Water & Nurture Garden ✨",
+    "growthCelebrationText": "Look how you've grown ♡",
+    "bloomCelebrationText": "Your care is blooming.",
+    "stages": {
+      "seed": "Seed",
+      "sprout": "Small Sprout",
+      "seedling": "Seedling",
+      "growingPlant": "Growing Plant",
+      "plantLeaves": "Plant with Leaves",
+      "buddingFlower": "Budding Flower",
+      "bloomingFlower": "Beautiful Blooming Flower"
+    }
   }
 }

@@ -17,6 +17,7 @@ import AmbientBackground from '../../components/decorations/AmbientBackground';
 import FloatingDecoration from '../../components/decorations/FloatingDecoration';
 import FloatingText from '../../components/decorations/FloatingText';
 import GentleReveal from '../../components/decorations/GentleReveal';
+import PetalsRain from '../../components/decorations/PetalsRain';
 import { Settings, Plus, Sparkles, Activity } from 'lucide-react';
 
 export default function CyclePage() {
@@ -37,6 +38,7 @@ export default function CyclePage() {
   return (
     <div style={{ maxWidth: '100%', padding: '36px clamp(16px, 2.5vw, 40px) 80px', position: 'relative' }}>
       <AmbientBackground intensity="soft" />
+      <PetalsRain count={7} />
 
       {/* HEADER BAR */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px', flexWrap: 'wrap', gap: '20px', position: 'relative' }}>
