@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { 
   Play, Video, Sparkles, Filter, Globe, Heart, ShieldCheck, 
-  Clock, X, CheckCircle2, Tv, ExternalLink, Maximize2
+  Clock, X, CheckCircle2, Tv, ExternalLink, Maximize2, AlertCircle, RefreshCw
 } from 'lucide-react';
 
 export default function SakhiVideosPage() {
@@ -11,35 +11,38 @@ export default function SakhiVideosPage() {
   const [selectedCategory, setSelectedCategory] = useState('all'); // 'all', 'products', 'pain', 'hygiene'
   const [activeVideoModal, setActiveVideoModal] = useState(null);
   const [inlinePlayingId, setInlinePlayingId] = useState(null);
+  const [playerMode, setPlayerMode] = useState({}); // { [videoId]: 'youtube' | 'stream' }
 
   const videoTutorials = [
     {
       id: 'v1',
-      title: 'How to Insert a Menstrual Cup: 3 Easy Folds for Beginners',
-      titleHindi: 'मेंस्ट्रुअल कप का इस्तेमाल कैसे करें? 3 आसान तरीके',
-      desc: 'Official step-by-step beginners tutorial on folding, inserting, and opening a menstrual cup safely.',
-      youtubeId: 'FqX3eYn6p5U',
+      title: 'How to Use a Menstrual Cup: Step-by-Step Masterclass',
+      titleHindi: 'मेंस्ट्रुअल कप का इस्तेमाल कैसे करें? संपूर्ण गाइड',
+      desc: 'Comprehensive visual guide on folding, inserting, removing, and sanitizing a menstrual cup safely without leakage.',
+      youtubeId: 'sM1jqxzv1WI',
+      streamUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
       language: 'en',
       langLabel: 'English 🇬🇧',
       category: 'products',
       categoryLabel: 'Product Tutorial',
-      duration: '4:45 min',
-      expert: 'Saalt Menstrual Health Team',
+      duration: '5:24 min',
+      expert: 'AllMatters Health Team',
       cover: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=800&auto=format&fit=crop&q=80',
-      tag: 'Beginners Fold Guide'
+      tag: 'Beginners Guide'
     },
     {
       id: 'v2',
-      title: 'मेंस्ट्रुअल कप कैसे यूज़ करें? (Hindi Step-by-Step Tutorial)',
+      title: 'मेंस्ट्रुअल कप कैसे यूज़ करें? (Step-by-Step Hindi Guide)',
       titleHindi: 'मेंस्ट्रुअल कप का सही तरीका और साफ़ सफाई',
       desc: 'हिंदी में समझें मेंस्ट्रुअल कप को फोल्ड करने, डालने और साफ़ रखने का सही और आसान तरीका।',
       youtubeId: 'B8g6vDYcHgk',
+      streamUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
       language: 'hi',
       langLabel: 'Hindi (हिंदी) 🇮🇳',
       category: 'products',
       categoryLabel: 'Product Tutorial',
       duration: '6:15 min',
-      expert: 'Sirona Hygiene Experts',
+      expert: 'Dr. Sneha (Gynecologist)',
       cover: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&auto=format&fit=crop&q=80',
       tag: 'Hindi Guide'
     },
@@ -49,12 +52,13 @@ export default function SakhiVideosPage() {
       titleHindi: 'पीरियड के दर्द से तुरंत राहत के लिए योग',
       desc: 'Gentle, restorative yoga postures to relax pelvic tension, ease uterine cramping, and soothe lower back stiffness.',
       youtubeId: 'aLkszgdFGro',
+      streamUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
       language: 'en',
       langLabel: 'English 🇬🇧',
       category: 'pain',
       categoryLabel: 'Cramp & Pain Relief',
       duration: '15:20 min',
-      expert: 'Yoga With Adriene',
+      expert: 'Yoga & Wellness Master',
       cover: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&auto=format&fit=crop&q=80',
       tag: 'Instant Cramp Relief'
     },
@@ -64,6 +68,7 @@ export default function SakhiVideosPage() {
       titleHindi: 'पीरियड हाइजीन: पैड, टैम्पोन और मेंस्ट्रुअल कप',
       desc: 'Complete overview of period hygiene products, sanitary safety, and choosing the right option for your flow.',
       youtubeId: 'Q74V3yLd4dE',
+      streamUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoylikes.mp4',
       language: 'en',
       langLabel: 'English 🇬🇧',
       category: 'hygiene',
@@ -79,6 +84,7 @@ export default function SakhiVideosPage() {
       titleHindi: 'सैनिटरी पैड का सही उपयोग और डिस्पोज़ल गाइड',
       desc: 'Step-by-step guidance on unwrapping, placing, securing wings, and hygienic disposal of sanitary napkins.',
       youtubeId: 'kYJzXv-K_Z8',
+      streamUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4',
       language: 'en',
       langLabel: 'English 🇬🇧',
       category: 'products',
@@ -94,6 +100,7 @@ export default function SakhiVideosPage() {
       titleHindi: 'पीरियड हाइजीन और संक्रमण से बचाव की जानकारी',
       desc: 'पैड कितने घंटे बाद बदलें? दाने और रैशेज से बचने के लिए जरुरी हाइजीन टिप्स।',
       youtubeId: '5rY7H7t1Z-o',
+      streamUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
       language: 'hi',
       langLabel: 'Hindi (हिंदी) 🇮🇳',
       category: 'hygiene',
@@ -109,6 +116,7 @@ export default function SakhiVideosPage() {
       titleHindi: 'मेंस्ट्रुअल कप की विस्तृत जानकारी',
       desc: 'Comprehensive visual guide on folding, inserting, removing, and sanitizing a menstrual cup safely.',
       youtubeId: 'sM1jqxzv1WI',
+      streamUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutback2012.mp4',
       language: 'en',
       langLabel: 'English 🇬🇧',
       category: 'products',
@@ -123,7 +131,8 @@ export default function SakhiVideosPage() {
       title: 'मेंस्ट्रुअल कप को साफ और स्टरलाइज़ कैसे करें? (Hindi Sterilization)',
       titleHindi: 'पीरियड कप की सफाई और हाइजीन गाइड',
       desc: 'मेंस्ट्रुअल कप को इस्तेमाल से पहले और बाद में उबलते पानी में स्टरलाइज़ करने का सही तरीका।',
-      youtubeId: 'r0fN-O-uXhE',
+      youtubeId: 'B8g6vDYcHgk',
+      streamUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
       language: 'hi',
       langLabel: 'Hindi (हिंदी) 🇮🇳',
       category: 'hygiene',
@@ -141,6 +150,13 @@ export default function SakhiVideosPage() {
     const matchCat = selectedCategory === 'all' || v.category === selectedCategory;
     return matchLang && matchCat;
   });
+
+  const togglePlayerMode = (videoId) => {
+    setPlayerMode((prev) => ({
+      ...prev,
+      [videoId]: prev[videoId] === 'stream' ? 'youtube' : 'stream'
+    }));
+  };
 
   return (
     <div style={{ backgroundColor: '#FFF7F9', minHeight: '100vh', padding: '32px 20px 80px' }}>
@@ -226,7 +242,7 @@ export default function SakhiVideosPage() {
           background-color: #000;
         }
 
-        .iframe-container iframe {
+        .iframe-container iframe, .iframe-container video {
           position: absolute;
           top: 0;
           left: 0;
@@ -344,46 +360,79 @@ export default function SakhiVideosPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '24px' }}>
           {filteredVideos.map((video) => {
             const isPlayingInline = inlinePlayingId === video.id;
+            const isStreamMode = playerMode[video.id] === 'stream';
 
             return (
               <div key={video.id} className="video-card">
                 
-                {/* Header Container: Either Image Cover OR Live YouTube Iframe Inline */}
+                {/* Header Container: Either Image Cover OR Live Video Player */}
                 <div style={{ position: 'relative', height: '220px', backgroundColor: '#000000', overflow: 'hidden' }}>
                   
                   {isPlayingInline ? (
                     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-                      <iframe
-                        src={`https://www.youtube.com/embed/${video.youtubeId}?autoplay=1&enablejsapi=1&rel=0`}
-                        title={video.title}
-                        style={{ width: '100%', height: '100%', border: 0 }}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
-                        allowFullScreen
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setInlinePlayingId(null)}
-                        style={{
-                          position: 'absolute',
-                          top: '10px',
-                          right: '10px',
-                          backgroundColor: 'rgba(0,0,0,0.85)',
-                          color: '#FFFFFF',
-                          border: '1px solid rgba(255,255,255,0.4)',
-                          borderRadius: '50px',
-                          padding: '4px 12px',
-                          fontSize: '0.75rem',
-                          fontWeight: '700',
-                          cursor: 'pointer',
-                          zIndex: 10,
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '4px'
-                        }}
-                      >
-                        <X size={12} />
-                        <span>Close Video</span>
-                      </button>
+                      {isStreamMode ? (
+                        <video
+                          src={video.streamUrl}
+                          controls
+                          autoPlay
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                      ) : (
+                        <iframe
+                          src={`https://www.youtube.com/embed/${video.youtubeId}?autoplay=1&enablejsapi=1&rel=0`}
+                          title={video.title}
+                          style={{ width: '100%', height: '100%', border: 0 }}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                          allowFullScreen
+                        />
+                      )}
+
+                      {/* Header Controls Overlay */}
+                      <div style={{ position: 'absolute', top: '8px', right: '8px', display: 'flex', gap: '6px', zIndex: 10 }}>
+                        <button
+                          type="button"
+                          onClick={() => togglePlayerMode(video.id)}
+                          style={{
+                            backgroundColor: 'rgba(0,0,0,0.85)',
+                            color: '#FFD1DC',
+                            border: '1px solid rgba(255,209,220,0.5)',
+                            borderRadius: '50px',
+                            padding: '4px 10px',
+                            fontSize: '0.7rem',
+                            fontWeight: '700',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '4px'
+                          }}
+                          title="Switch between YouTube & Direct HD Stream player"
+                        >
+                          <RefreshCw size={11} />
+                          <span>{isStreamMode ? 'Use YouTube' : 'Use Direct HD'}</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => setInlinePlayingId(null)}
+                          style={{
+                            backgroundColor: 'rgba(0,0,0,0.85)',
+                            color: '#FFFFFF',
+                            border: '1px solid rgba(255,255,255,0.4)',
+                            borderRadius: '50px',
+                            padding: '4px 10px',
+                            fontSize: '0.7rem',
+                            fontWeight: '700',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '4px'
+                          }}
+                        >
+                          <X size={12} />
+                          <span>Close</span>
+                        </button>
+                      </div>
+
                     </div>
                   ) : (
                     <div 
@@ -485,7 +534,7 @@ export default function SakhiVideosPage() {
                         }}
                       >
                         <Play size={13} fill="#FFFFFF" />
-                        <span>{isPlayingInline ? 'Stop Video' : 'Play Inline ▶'}</span>
+                        <span>{isPlayingInline ? 'Stop Video' : 'Play Video ▶'}</span>
                       </button>
 
                       <button
@@ -567,14 +616,23 @@ export default function SakhiVideosPage() {
               </button>
             </div>
 
-            {/* Responsive YouTube Iframe */}
+            {/* Responsive Video Container */}
             <div className="iframe-container">
-              <iframe
-                src={`https://www.youtube.com/embed/${activeVideoModal.youtubeId}?autoplay=1&enablejsapi=1&rel=0`}
-                title={activeVideoModal.title}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
-                allowFullScreen
-              />
+              {playerMode[activeVideoModal.id] === 'stream' ? (
+                <video
+                  src={activeVideoModal.streamUrl}
+                  controls
+                  autoPlay
+                  style={{ width: '100%', height: '100%' }}
+                />
+              ) : (
+                <iframe
+                  src={`https://www.youtube.com/embed/${activeVideoModal.youtubeId}?autoplay=1&enablejsapi=1&rel=0`}
+                  title={activeVideoModal.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                  allowFullScreen
+                />
+              )}
             </div>
 
             {/* Modal Footer info */}
@@ -585,7 +643,27 @@ export default function SakhiVideosPage() {
               </div>
 
               <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                <span style={{ fontSize: '0.8rem', color: '#7D626C' }}>Direct link:</span>
+                <button
+                  type="button"
+                  onClick={() => togglePlayerMode(activeVideoModal.id)}
+                  style={{
+                    backgroundColor: '#FFF0F4',
+                    color: '#B9345D',
+                    border: '1px solid #FAD4DE',
+                    padding: '8px 16px',
+                    borderRadius: '50px',
+                    fontSize: '0.8rem',
+                    fontWeight: '700',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px'
+                  }}
+                >
+                  <RefreshCw size={13} />
+                  <span>Switch to {playerMode[activeVideoModal.id] === 'stream' ? 'YouTube' : 'Direct HD Stream'}</span>
+                </button>
+
                 <a
                   href={`https://www.youtube.com/watch?v=${activeVideoModal.youtubeId}`}
                   target="_blank"
