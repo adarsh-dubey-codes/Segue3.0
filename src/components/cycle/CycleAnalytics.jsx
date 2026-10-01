@@ -1,9 +1,11 @@
 import React from 'react';
 import { useCycle } from '../../context/CycleContext';
+import { useLanguage } from '../../context/LanguageContext';
 import { Activity, BarChart2, AlertCircle } from 'lucide-react';
 
 export default function CycleAnalytics() {
   const { dailyLogs, cycleSetup } = useCycle();
+  const { t } = useLanguage();
 
   // Aggregate symptoms
   const symptomCounts = {};
@@ -32,10 +34,10 @@ export default function CycleAnalytics() {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
           <div>
             <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', color: 'var(--rose-dark)' }}>
-              90-Day Cycle Overview
+              {t('analytics.cycleOverview', { defaultValue: '90-Day Cycle Overview' })}
             </h3>
             <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-              Darker tiles represent flow & logged symptom intensity
+              {t('analytics.cycleOverviewSub', { defaultValue: 'Darker tiles represent flow & logged symptom intensity' })}
             </span>
           </div>
           <Activity size={18} color="var(--rose)" />
@@ -72,11 +74,11 @@ export default function CycleAnalytics() {
         <div style={{ display: 'flex', gap: '16px', fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '8px' }}>
           <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
             <span style={{ width: '8px', height: '8px', borderRadius: '2px', backgroundColor: 'var(--rose)' }} />
-            Period / Flow intensity
+            {t('events.types.periodStarted', { defaultValue: 'Period / Flow intensity' })}
           </span>
           <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
             <span style={{ width: '8px', height: '8px', borderRadius: '2px', backgroundColor: 'var(--surface-soft)' }} />
-            Regular days
+            {t('common.days', { defaultValue: 'Regular days' })}
           </span>
         </div>
       </div>
@@ -101,7 +103,7 @@ export default function CycleAnalytics() {
         >
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
             <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', color: 'var(--rose-dark)' }}>
-              Energy Trend (30 Days)
+              {t('analytics.energyTrend', { defaultValue: 'Energy Trend (30 Days)' })}
             </h4>
             <BarChart2 size={16} color="var(--rose)" />
           </div>
@@ -140,20 +142,22 @@ export default function CycleAnalytics() {
           }}
         >
           <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', color: 'var(--rose-dark)', marginBottom: '14px' }}>
-            Logged Symptom Patterns
+            {t('analytics.commonSymptoms', { defaultValue: 'Logged Symptom Patterns' })}
           </h4>
 
           {sortedSymptoms.length === 0 ? (
             <div style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', fontStyle: 'italic', padding: '12px 0' }}>
-              No symptoms logged yet. Log daily care to see symptom frequency patterns.
+              {t('events.noEventsThisCycle', { defaultValue: 'No symptoms logged yet. Log daily care to see symptom frequency patterns.' })}
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {sortedSymptoms.slice(0, 4).map(([sym, count]) => (
                 <div key={sym} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.85rem' }}>
-                  <span style={{ color: 'var(--text-primary)', fontWeight: '500' }}>{sym}</span>
+                  <span style={{ color: 'var(--text-primary)', fontWeight: '500' }}>
+                    {t(`events.types.${sym}`, { defaultValue: sym })}
+                  </span>
                   <span style={{ backgroundColor: 'var(--pink-primary)', color: 'var(--rose-dark)', padding: '2px 8px', borderRadius: 'var(--radius-full)', fontWeight: '700', fontSize: '0.75rem' }}>
-                    {count} {count === 1 ? 'log' : 'logs'}
+                    {t('events.countEventsLogged', { count, defaultValue: `${count} logs` })}
                   </span>
                 </div>
               ))}

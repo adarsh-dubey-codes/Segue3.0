@@ -52,23 +52,25 @@ export default function CycleGarden() {
   };
 
   const phaseDescriptionMap = {
-    menstrual: 'Your body is shedding the uterine lining. Rest, hydrate and be kind to yourself.',
-    period: 'Your body is shedding the uterine lining. Rest, hydrate and be kind to yourself.',
-    follicular: 'Estrogen is rising! Great energy for learning, starting fresh ideas and moving gently.',
-    ovulation: 'Peak fertility & strength window. Feel empowered, confident, and vibrant.',
-    luteal: 'Progesterone is rising. Slow down, prioritize deep sleep, and nurture yourself.'
+    menstrual: t('garden.phaseTips.menstrual', { defaultValue: 'Your body is shedding the uterine lining. Rest, hydrate and be kind to yourself.' }),
+    period: t('garden.phaseTips.menstrual', { defaultValue: 'Your body is shedding the uterine lining. Rest, hydrate and be kind to yourself.' }),
+    follicular: t('garden.phaseTips.follicular', { defaultValue: 'Estrogen is rising! Great energy for learning, starting fresh ideas and moving gently.' }),
+    ovulation: t('garden.phaseTips.ovulatory', { defaultValue: 'Peak fertility & strength window. Feel empowered, confident, and vibrant.' }),
+    luteal: t('garden.phaseTips.luteal', { defaultValue: 'Progesterone is rising. Slow down, prioritize deep sleep, and nurture yourself.' })
   };
 
   const phaseTitleMap = {
-    menstrual: 'Menstrual Phase',
-    period: 'Menstrual Phase',
-    follicular: 'Follicular Phase',
-    ovulation: 'Ovulation Phase',
-    luteal: 'Luteal Phase'
+    menstrual: t('events.types.periodStarted', { defaultValue: 'Menstrual Phase' }),
+    period: t('events.types.periodStarted', { defaultValue: 'Menstrual Phase' }),
+    follicular: t('garden.phase', { defaultValue: 'Follicular Phase' }),
+    ovulation: t('garden.phase', { defaultValue: 'Ovulation Phase' }),
+    luteal: t('garden.phase', { defaultValue: 'Luteal Phase' })
   };
 
-  const currentPhaseTitle = phaseTitleMap[currentPhase?.toLowerCase()] || 'Menstrual Phase';
+  const currentPhaseTitle = phaseTitleMap[currentPhase?.toLowerCase()] || t('events.types.periodStarted', { defaultValue: 'Menstrual Phase' });
   const currentPhaseDesc = phaseDescriptionMap[currentPhase?.toLowerCase()] || phaseDescriptionMap.menstrual;
+
+  const stageLocalizedName = t(`garden.stages.${stageCode}`, { defaultValue: plantStageObj?.stageName || 'Seed' });
 
   return (
     <div 
@@ -97,13 +99,13 @@ export default function CycleGarden() {
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '14px' }}>
           <div>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', fontWeight: '800', textTransform: 'uppercase', color: '#27AE60', letterSpacing: '0.06em', marginBottom: '2px' }}>
-              🌱 {t('garden.gentleGrowth', { defaultValue: 'GENTLE GROWTH' })}
+              🌱 {t('common.activePhase', { defaultValue: 'GENTLE GROWTH' })}
             </div>
             <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.55rem', color: '#38232A', margin: 0, fontWeight: '700' }}>
               {t('garden.title', { defaultValue: 'Your Cycle Garden' })}
             </h3>
             <p style={{ color: '#8E6E79', fontSize: '0.825rem', margin: '2px 0 0 0' }}>
-              {t('garden.sub', { defaultValue: 'Nurture your body, mind & dreams ♡' })}
+              {t('garden.subtitle', { defaultValue: 'Nurture your body, mind & dreams ♡' })}
             </p>
           </div>
 
@@ -125,10 +127,10 @@ export default function CycleGarden() {
               gap: '6px',
               boxShadow: '0 2px 8px rgba(46, 125, 50, 0.12)'
             }}
-            title="Water and care for your plant to help it bloom"
+            title={t('garden.nurtureGarden', { defaultValue: 'Water and care for your plant to help it bloom' })}
           >
             <Sparkles size={14} color="#2E7D32" />
-            <span>Nurture 💧</span>
+            <span>{t('garden.nurtureGarden', { defaultValue: 'Nurture 💧' })}</span>
           </button>
         </div>
 
@@ -167,7 +169,7 @@ export default function CycleGarden() {
                 whiteSpace: 'nowrap'
               }}
             >
-              {celebrationStep === 1 ? 'Look how you\'ve grown ♡' : 'Your care is blooming 🌸'}
+              {celebrationStep === 1 ? t('garden.milestoneReached', { defaultValue: 'Look how you\'ve grown ♡' }) : t('garden.bloomingSoon', { defaultValue: 'Your care is blooming 🌸' })}
             </div>
           )}
 
@@ -273,7 +275,7 @@ export default function CycleGarden() {
         <div style={{ backgroundColor: '#FFF0F4', borderRadius: '16px', padding: '10px 14px', marginBottom: '16px', border: '1px solid #FAD4DE' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
             <span style={{ fontSize: '0.8rem', fontWeight: '800', color: '#B9345D' }}>
-              Stage {stageIdx} of 7: {plantStageObj?.stageName}
+              {t('garden.stage', { defaultValue: 'Stage' })} {stageIdx} / 7: {stageLocalizedName}
             </span>
             <span style={{ fontSize: '0.85rem' }}>{plantStageObj?.icon}</span>
           </div>
@@ -329,7 +331,7 @@ export default function CycleGarden() {
 
           <div style={{ flex: 1 }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <span style={{ fontSize: '0.75rem', color: '#8E6E79', fontWeight: '600' }}>Active Cycle Phase</span>
+              <span style={{ fontSize: '0.75rem', color: '#8E6E79', fontWeight: '600' }}>{t('garden.phase', { defaultValue: 'Active Cycle Phase' })}</span>
               <ChevronRight size={16} color="#8E6E79" />
             </div>
             <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', color: '#38232A', margin: '2px 0', fontWeight: '700' }}>
@@ -348,28 +350,28 @@ export default function CycleGarden() {
         {/* Streak */}
         <div className="btn-micro-hover" style={{ backgroundColor: '#FFF5F7', padding: '10px 6px', borderRadius: '14px', border: '1px solid #FFE5EC', textAlign: 'center' }}>
           <Flame size={15} color="#EC738F" style={{ marginBottom: '2px', animation: 'sparklePulse 3s ease-in-out infinite' }} />
-          <span style={{ display: 'block', fontSize: '0.675rem', color: '#8E6E79' }}>Streak</span>
+          <span style={{ display: 'block', fontSize: '0.675rem', color: '#8E6E79' }}>{t('garden.streak', { defaultValue: 'Streak' })}</span>
           <strong style={{ fontSize: '1rem', color: '#38232A', fontWeight: '800' }}>{streakCount}d</strong>
         </div>
 
         {/* Logs */}
         <div className="btn-micro-hover" style={{ backgroundColor: '#FFF5F7', padding: '10px 6px', borderRadius: '14px', border: '1px solid #FFE5EC', textAlign: 'center' }}>
           <FileText size={15} color="#EC738F" style={{ marginBottom: '2px' }} />
-          <span style={{ display: 'block', fontSize: '0.675rem', color: '#8E6E79' }}>Logs</span>
+          <span style={{ display: 'block', fontSize: '0.675rem', color: '#8E6E79' }}>{t('events.loggedCount', { defaultValue: 'Logs' })}</span>
           <strong style={{ fontSize: '1rem', color: '#38232A', fontWeight: '800' }}>{totalLogs}</strong>
         </div>
 
         {/* Sleep */}
         <div className="btn-micro-hover" style={{ backgroundColor: '#FFF5F7', padding: '10px 6px', borderRadius: '14px', border: '1px solid #FFE5EC', textAlign: 'center' }}>
           <Moon size={15} color="#6C5CE7" style={{ marginBottom: '2px', animation: 'swayMotion 4s ease-in-out infinite' }} />
-          <span style={{ display: 'block', fontSize: '0.675rem', color: '#8E6E79' }}>Sleep</span>
+          <span style={{ display: 'block', fontSize: '0.675rem', color: '#8E6E79' }}>{t('events.types.poorSleep', { defaultValue: 'Sleep' })}</span>
           <strong style={{ fontSize: '1rem', color: '#38232A', fontWeight: '800' }}>{avgSleep}h</strong>
         </div>
 
         {/* Water */}
         <div className="btn-micro-hover" style={{ backgroundColor: '#FFF5F7', padding: '10px 6px', borderRadius: '14px', border: '1px solid #FFE5EC', textAlign: 'center' }}>
           <Droplets size={15} color="#0984E3" style={{ marginBottom: '2px', animation: 'floatSphere 5s ease-in-out infinite' }} />
-          <span style={{ display: 'block', fontSize: '0.675rem', color: '#8E6E79' }}>Water</span>
+          <span style={{ display: 'block', fontSize: '0.675rem', color: '#8E6E79' }}>{t('common.water', { defaultValue: 'Water' })}</span>
           <strong style={{ fontSize: '1rem', color: '#38232A', fontWeight: '800' }}>{avgWater}c</strong>
         </div>
       </div>

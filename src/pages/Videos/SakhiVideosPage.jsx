@@ -273,19 +273,19 @@ export default function SakhiVideosPage() {
           <div>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 16px', borderRadius: '50px', backgroundColor: '#FFEBF0', color: '#B9345D', fontSize: '0.85rem', fontWeight: '700', marginBottom: '12px' }}>
               <Tv size={16} />
-              <span>SAKHI DOCTOR VIDEO TUTORIALS</span>
+              <span>{t('videosPage.title', { defaultValue: 'SAKHI DOCTOR VIDEO TUTORIALS' })}</span>
             </div>
             <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.5rem', color: '#3E242B', fontWeight: '700', marginBottom: '8px' }}>
-              Product Tutorials & Pain Relief Videos
+              {t('videosPage.title', { defaultValue: 'Product Tutorials & Pain Relief Videos' })}
             </h1>
             <p style={{ color: '#7D626C', fontSize: '1.05rem', maxWidth: '680px', lineHeight: 1.6, margin: 0 }}>
-              Doctor-backed video guides on menstrual cup usage, pad hygiene, pain relief yoga, and acupressure rituals — available in both **Hindi (हिंदी)** and **English**.
+              {t('videosPage.subtitle', { defaultValue: 'Doctor-backed video guides on menstrual cup usage, pad hygiene, pain relief yoga, and acupressure rituals.' })}
             </p>
           </div>
 
           <div style={{ display: 'flex', gap: '12px' }}>
             <div style={{ backgroundColor: '#FFF0F4', padding: '16px 24px', borderRadius: '20px', textAlign: 'center', border: '1px solid #FAD4DE' }}>
-              <div style={{ fontSize: '0.8rem', color: '#7D626C', fontWeight: '600' }}>Bilingual Guidance</div>
+              <div style={{ fontSize: '0.8rem', color: '#7D626C', fontWeight: '600' }}>{t('common.chooseLanguage', { defaultValue: 'Bilingual Guidance' })}</div>
               <div style={{ fontSize: '1.4rem', fontWeight: '700', color: '#B9345D' }}>Hindi & English 🇮🇳🇬🇧</div>
             </div>
           </div>
@@ -298,13 +298,13 @@ export default function SakhiVideosPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.9rem', fontWeight: '700', color: '#3E242B', minWidth: '130px' }}>
               <Globe size={18} color="#B9345D" />
-              <span>Language:</span>
+              <span>{t('common.selectLanguage', { defaultValue: 'Language:' })}:</span>
             </div>
             <button 
               className={`filter-pill-btn ${selectedLang === 'all' ? 'active' : ''}`}
               onClick={() => setSelectedLang('all')}
             >
-              All Languages
+              {t('common.all', { defaultValue: 'All Languages' })}
             </button>
             <button 
               className={`filter-pill-btn ${selectedLang === 'hi' ? 'active' : ''}`}
@@ -326,31 +326,31 @@ export default function SakhiVideosPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.9rem', fontWeight: '700', color: '#3E242B', minWidth: '130px' }}>
               <Filter size={18} color="#B9345D" />
-              <span>Topic:</span>
+              <span>{t('events.categoryLabel', { defaultValue: 'Topic:' })}:</span>
             </div>
             <button 
               className={`filter-pill-btn ${selectedCategory === 'all' ? 'active' : ''}`}
               onClick={() => setSelectedCategory('all')}
             >
-              All Topics
+              {t('videosPage.all', { defaultValue: 'All Topics' })}
             </button>
             <button 
               className={`filter-pill-btn ${selectedCategory === 'products' ? 'active' : ''}`}
               onClick={() => setSelectedCategory('products')}
             >
-              Product Tutorials 🛍️
+              {t('videosPage.basics', { defaultValue: 'Product Tutorials 🛍️' })}
             </button>
             <button 
               className={`filter-pill-btn ${selectedCategory === 'pain' ? 'active' : ''}`}
               onClick={() => setSelectedCategory('pain')}
             >
-              Cramp & Pain Relief 🧘‍♀️
+              {t('videosPage.wellness', { defaultValue: 'Cramp & Pain Relief 🧘‍♀️' })}
             </button>
             <button 
               className={`filter-pill-btn ${selectedCategory === 'hygiene' ? 'active' : ''}`}
               onClick={() => setSelectedCategory('hygiene')}
             >
-              Hygiene & Safety 🌸
+              {t('videosPage.hygiene', { defaultValue: 'Hygiene & Safety 🌸' })}
             </button>
           </div>
 
@@ -536,7 +536,7 @@ export default function SakhiVideosPage() {
                         }}
                       >
                         <Play size={13} fill="#FFFFFF" />
-                        <span>{isPlayingInline ? 'Stop Video' : 'Play Video ▶'}</span>
+                        <span>{isPlayingInline ? t('common.close', { defaultValue: 'Stop Video' }) : t('videosPage.watch', { defaultValue: 'Play Video ▶' })}</span>
                       </button>
 
                       <button
@@ -556,10 +556,10 @@ export default function SakhiVideosPage() {
                           justifyContent: 'center',
                           gap: '4px'
                         }}
-                        title="Open in Fullscreen Theater Modal"
+                        title={t('common.open', { defaultValue: 'Open in Fullscreen Theater Modal' })}
                       >
                         <Maximize2 size={13} />
-                        <span>Theater</span>
+                        <span>{t('common.view', { defaultValue: 'Theater' })}</span>
                       </button>
 
                       <a

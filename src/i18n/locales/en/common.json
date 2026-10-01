@@ -681,6 +681,211 @@
       "plantLeaves": "Plant with Leaves",
       "buddingFlower": "Budding Flower",
       "bloomingFlower": "Beautiful Blooming Flower"
+    },
+    "nurtureBtn": "Nurture 💧",
+    "activePhaseLabel": "Active Cycle Phase",
+    "streak": "Streak",
+    "logs": "Logs",
+    "sleep": "Sleep",
+    "water": "Water",
+    "stageProgress": "Stage {{stage}} of 7: {{name}}"
+  },
+  "analytics": {
+    "title": "Cycle Analytics & Insights ✨",
+    "sub": "Understand your patterns, plan ahead and feel more in control.",
+    "calendarView": "Calendar View",
+    "insightsView": "Insights View",
+    "overviewTitle": "90-Day Cycle Overview",
+    "overviewSub": "Darker tiles represent flow & logged symptom intensity",
+    "day1Badge": "Day 1 ◆",
+    "periodFlow": "Period / Flow intensity",
+    "regularDays": "Regular days",
+    "energyTrendTitle": "Energy Trend (30 Days)",
+    "energyTrendSub": "Your energy levels are stable. Try to get 7-8 hours of sleep.",
+    "symptomPatternsTitle": "Logged Symptom Patterns",
+    "symptomPatternsSub": "You've logged {{count}} symptoms this cycle.",
+    "superpowerQuote": "Your cycle is not a limitation, it's a superpower ♡",
+    "noSymptomsYet": "No symptoms logged yet. Log daily care to see symptom frequency patterns.",
+    "log": "log",
+    "logs": "logs"
+  },
+  "play": {
+    "headerBadge": "DAILY SAKHI CHALLENGES 🌸",
+    "mainTitle": "Small Daily Wins",
+    "mainSub": "Tiny self-care commitments to show up for your mind and body today.",
+    "cursiveNote1": "Small habits... Big changes .♡",
+    "cursiveNote2": "A healthier you, every day .♡",
+    "streakProgress": "Today's Streak Progress: {{count}} / {{total}} Wins",
+    "tabs": {
+      "affirmation": "Affirmation",
+      "mood": "Mood Match",
+      "bloom": "Memory Bloom",
+      "bubble": "Bubble Calm",
+      "wheel": "Care Wheel",
+      "myth": "Myth or Fact",
+      "daily": "Daily Challenge"
+    },
+    "challenges": {
+      "hydrationTitle": "Hydration Glow Check 💧",
+      "hydrationDesc": "Drink at least 4 glasses of room temperature or warm water today.",
+      "silenceTitle": "5 Minutes for Yourself 🌸",
+      "silenceDesc": "Sit in silence, breathe deeply, and disconnect from all chores for 5 undisturbed minutes.",
+      "compressTitle": "Warm Compress Ritual 🌿",
+      "compressDesc": "Apply a warm water bag or heating pad for 10 minutes to soothe pelvic tension.",
+      "stretchTitle": "Gentle Cat-Cow Stretch 🧘‍♀️",
+      "stretchDesc": "Do 2 minutes of gentle cat-cow spine stretches to relieve lower back stiffness.",
+      "teaTitle": "Soothing Chamomile / Ginger Sip 🍵",
+      "teaDesc": "Enjoy a warm cup of herbal tea without sugar to calm digestion.",
+      "tapToComplete": "Tap to Complete",
+      "completedWithCoins": "Completed ✓ (+20 Coins)"
+    },
+    "affirmations": {
+      "tag": "DAILY SAKHI AFFIRMATIONS",
+      "title": "Nurture Your Mind Today",
+      "drawAnother": "Draw Another Affirmation"
+    },
+    "moodMatch": {
+      "tag": "MOOD & CARE MATCHING GAME",
+      "title": "Match the Self-Care Pairs",
+      "moves": "Moves: {{moves}}",
+      "matched": "Matched: {{matched}} / {{total}}",
+      "wonMessage": "🎉 Wonderful job! You completed Mood Match in {{moves}} moves!",
+      "resetBtn": "Reset & Play Again",
+      "cards": {
+        "tea": "Warm Herbal Tea",
+        "yoga": "Gentle Yoga",
+        "rest": "Deep Rest",
+        "cocoa": "Dark Cocoa",
+        "heatingPad": "Heating Pad",
+        "hydration": "Hydration"
+      }
+    },
+    "memoryBloom": {
+      "tag": "FLORAL MEMORY BLOOM",
+      "title": "Repeat the Blooming Pattern",
+      "streakScore": "Streak Score: {{score}}",
+      "startPrompt": "Tap Start to begin Memory Bloom!",
+      "watchBloom": "Watch the flowers bloom...",
+      "yourTurn": "Your turn! Repeat the blooming pattern.",
+      "gameOver": "Game Over! Final Score: {{score}}. Tap Start to try again!",
+      "greatPattern": "Great pattern recognition! Next round incoming...",
+      "startBtn": "Start Memory Bloom",
+      "flowers": {
+        "rose": "Rose",
+        "tulip": "Tulip",
+        "blossom": "Blossom",
+        "sunflower": "Sunflower"
+      }
+    },
+    "bubbleCalm": {
+      "tag": "BUBBLE CALM ANXIETY POPPER",
+      "title": "Pop Away Stress & Cramp Tension",
+      "poppedCount": "Bubbles Popped: {{count}}",
+      "initialThought": "Tap any bubble to pop away anxiety and release tension.",
+      "replenishBtn": "Replenish Bubbles",
+      "thoughts": [
+        "Unclench your jaw",
+        "Deep breath in...",
+        "Soft belly",
+        "You are safe",
+        "Release shoulder tension",
+        "Warmth & comfort",
+        "Be gentle with yourself",
+        "Relax your forehead",
+        "Drop your shoulders",
+        "Slow, calm exhale"
+      ]
+    },
+    "careWheel": {
+      "tag": "SELF-CARE COMFORT WHEEL",
+      "title": "Spin for Your Comfort Reward",
+      "rewardWon": "🎁 You Won: {{reward}}!",
+      "spinning": "Spinning...",
+      "spinBtn": "Spin the Care Wheel 🌷",
+      "rewards": [
+        "15 Min Power Nap 😴",
+        "Chamomile Tea ☕",
+        "Heating Pad Ritual ♨️",
+        "Dark Cacao Treat 🍫",
+        "Comfort Playlist 🎧",
+        "Gentle Stretching 🧘"
+      ]
+    },
+    "mythOrFact": {
+      "tag": "MYTH OR FACT TRIVIA",
+      "title": "Menstrual Health Knowledge Check",
+      "score": "Score: {{score}}",
+      "mythBtn": "Myth 🚫",
+      "factBtn": "Fact ✅",
+      "correct": "🎉 Correct!",
+      "learningMoment": "💡 Learning Moment:",
+      "nextQuestion": "Next Question →",
+      "questions": [
+        {
+          "question": "Myth or Fact: You should avoid exercising during your period.",
+          "answer": "Myth",
+          "explanation": "Light exercises like walking or yoga release endorphins that naturally alleviate menstrual cramps and boost mood!"
+        },
+        {
+          "question": "Myth or Fact: Warm water or heating pads reduce pelvic muscle spasms.",
+          "answer": "Fact",
+          "explanation": "Heat increases blood flow to the uterine muscles, relaxing contractions and easing pain effectively."
+        },
+        {
+          "question": "Myth or Fact: Eating dark chocolate can help satisfy cravings and provide magnesium.",
+          "answer": "Fact",
+          "explanation": "Pure dark cacao is rich in magnesium and antioxidants, helping relax muscles and enhance serotonin levels."
+        }
+      ]
     }
+  },
+  "videosPage": {
+    "headerTag": "SAKHI DOCTOR VIDEO TUTORIALS",
+    "title": "Product Tutorials & Pain Relief Videos",
+    "sub": "Doctor-backed video guides on menstrual cup usage, pad hygiene, pain relief yoga, and acupressure rituals — available in both Hindi (हिंदी) and English.",
+    "bilingualBadgeTitle": "Bilingual Guidance",
+    "bilingualBadgeValue": "Hindi & English 🇮🇳🇬🇧",
+    "languageLabel": "Language:",
+    "allLanguages": "All Languages",
+    "hindiLang": "Hindi (हिंदी) 🇮🇳",
+    "englishLang": "English 🇬🇧",
+    "topicLabel": "Topic:",
+    "allTopics": "All Topics",
+    "productTutorials": "Product Tutorials 🛍️",
+    "crampRelief": "Cramp & Pain Relief 🧘‍♀️",
+    "hygieneSafety": "Hygiene & Safety 🌸",
+    "useDirectHD": "Use Direct HD",
+    "useYouTube": "Use YouTube",
+    "close": "Close",
+    "playVideo": "Play Video ▶",
+    "stopVideo": "Stop Video",
+    "theater": "Theater",
+    "youtubeExternal": "YouTube ↗",
+    "verifiedExpert": "Verified Expert: {{name}}",
+    "switchToDirect": "Switch to Direct HD Stream",
+    "switchToYouTube": "Switch to YouTube",
+    "openOnYouTubeApp": "Open on YouTube App ↗",
+    "noVideosMatch": "No video tutorials match your filter criteria."
+  },
+  "doctorPage": {
+    "searchPlaceholder": "Search by doctor name, specialty, clinic, or symptom (e.g. PCOS, cramps)...",
+    "filtersLabel": "FILTERS:",
+    "filters": {
+      "all": "All Doctors",
+      "nearby": "📍 Nearby (≤3km)",
+      "top_rated": "⭐ Top Rated (4.9+)",
+      "female": "👩‍⚕️ Female Doctors",
+      "online": "💻 Online Consult",
+      "in_clinic": "🏥 In-Clinic"
+    },
+    "distance": "Distance:",
+    "fee": "Fee:",
+    "consultationType": "Online & Clinic",
+    "nextSlotPrefix": "Next:",
+    "callBtn": "Call",
+    "directionsBtn": "Directions",
+    "bookBtn": "Book",
+    "noDoctorsFound": "No gynecologists match your filter or search query.",
+    "resetFilters": "Reset Filters"
   }
 }

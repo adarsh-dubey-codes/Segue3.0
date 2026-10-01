@@ -14,12 +14,12 @@ export default function DoctorsPage() {
   const [selectedDoctor, setSelectedDoctor] = useState(null);
 
   const filtersList = [
-    { id: 'all', label: 'All Doctors', icon: null },
-    { id: 'nearby', label: '📍 Nearby (≤3km)', icon: null },
-    { id: 'top_rated', label: '⭐ Top Rated (4.9+)', icon: null },
-    { id: 'female', label: '👩‍⚕️ Female Doctors', icon: null },
-    { id: 'online', label: '💻 Online Consult', icon: null },
-    { id: 'in_clinic', label: '🏥 In-Clinic', icon: null },
+    { id: 'all', label: t('doctorPage.all', { defaultValue: 'All Doctors' }), icon: null },
+    { id: 'nearby', label: t('doctorPage.nearby', { defaultValue: '📍 Nearby (≤3km)' }), icon: null },
+    { id: 'top_rated', label: t('doctorPage.topRated', { defaultValue: '⭐ Top Rated (4.9+)' }), icon: null },
+    { id: 'female', label: t('doctorPage.female', { defaultValue: '👩‍⚕️ Female Doctors' }), icon: null },
+    { id: 'online', label: t('doctorPage.online', { defaultValue: '💻 Online Consult' }), icon: null },
+    { id: 'in_clinic', label: t('doctorPage.inClinic', { defaultValue: '🏥 In-Clinic' }), icon: null },
   ];
 
   const filteredDoctors = doctorsDirectoryData.filter((doc) => {
@@ -67,7 +67,7 @@ export default function DoctorsPage() {
           <Search size={20} color="#9CA3AF" style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)' }} />
           <input
             type="text"
-            placeholder="Search by doctor name, specialty, clinic, or symptom (e.g. PCOS, cramps)..."
+            placeholder={t('doctorPage.searchPlaceholder', { defaultValue: 'Search by doctor name, specialty, clinic, or symptom (e.g. PCOS, cramps)...' })}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             style={{
@@ -314,7 +314,7 @@ export default function DoctorsPage() {
                   fontWeight: '700'
                 }}
               >
-                <Phone size={15} /> Call
+                <Phone size={15} /> {t('common.view', { defaultValue: 'Call' })}
               </a>
 
               <a
@@ -336,7 +336,7 @@ export default function DoctorsPage() {
                   fontWeight: '700'
                 }}
               >
-                <Navigation size={15} /> Directions
+                <Navigation size={15} /> {t('common.open', { defaultValue: 'Directions' })}
               </a>
 
               <button
@@ -359,7 +359,7 @@ export default function DoctorsPage() {
                   transition: 'transform 0.15s ease'
                 }}
               >
-                <Calendar size={15} /> Book
+                <Calendar size={15} /> {t('doctorPage.bookAppointment', { defaultValue: 'Book' })}
               </button>
             </div>
           </div>
@@ -369,7 +369,7 @@ export default function DoctorsPage() {
       {filteredDoctors.length === 0 && (
         <div style={{ textAlign: 'center', padding: '60px 20px', backgroundColor: '#FFFFFF', borderRadius: '24px', border: '1.5px solid #FDE8ED' }}>
           <p style={{ color: '#6B7280', fontSize: '1.1rem', marginBottom: '16px' }}>
-            No gynecologists match your filter or search query.
+            {t('common.clear', { defaultValue: 'No gynecologists match your filter or search query.' })}
           </p>
           <button
             type="button"
@@ -384,7 +384,7 @@ export default function DoctorsPage() {
               cursor: 'pointer'
             }}
           >
-            Reset Filters
+            {t('common.clear', { defaultValue: 'Reset Filters' })}
           </button>
         </div>
       )}

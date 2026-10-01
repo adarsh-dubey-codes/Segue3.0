@@ -19,10 +19,10 @@ export default function CycleAnalyticsView() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
         <div>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', color: '#38232A', margin: 0, fontWeight: '600' }}>
-            Cycle Analytics & Insights ✨
+            {t('analytics.title', { defaultValue: 'Cycle Analytics & Insights ✨' })}
           </h2>
           <p style={{ color: '#8E6E79', fontSize: '0.95rem', margin: '4px 0 0 0' }}>
-            Understand your patterns, plan ahead and feel more in control.
+            {t('analytics.subtitle', { defaultValue: 'Understand your patterns, plan ahead and feel more in control.' })}
           </p>
         </div>
 
@@ -43,7 +43,7 @@ export default function CycleAnalyticsView() {
               transition: 'all 0.2s ease'
             }}
           >
-            Calendar View
+            {t('pattern.historyTitle', { defaultValue: 'Calendar View' })}
           </button>
           <button
             type="button"
@@ -60,7 +60,7 @@ export default function CycleAnalyticsView() {
               transition: 'all 0.2s ease'
             }}
           >
-            Insights View
+            {t('events.cycleContextTitle', { defaultValue: 'Insights View' })}
           </button>
         </div>
       </div>
@@ -89,17 +89,17 @@ export default function CycleAnalyticsView() {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
               <div>
                 <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.35rem', color: '#38232A', margin: 0, fontWeight: '600' }}>
-                  90-Day Cycle Overview
+                  {t('analytics.cycleOverview', { defaultValue: '90-Day Cycle Overview' })}
                 </h3>
                 <span style={{ fontSize: '0.8rem', color: '#8E6E79' }}>
-                  Darker tiles represent flow & logged symptom intensity
+                  {t('analytics.cycleOverviewSub', { defaultValue: 'Darker tiles represent flow & logged symptom intensity' })}
                 </span>
               </div>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <Activity size={18} color="#EC738F" />
                 <span style={{ backgroundColor: '#EC738F', color: '#FFFFFF', padding: '4px 12px', borderRadius: 'var(--radius-full)', fontSize: '0.75rem', fontWeight: '700' }}>
-                  Day 1 ◆
+                  {t('common.day', { defaultValue: 'Day' })} 1 ◆
                 </span>
               </div>
             </div>
@@ -137,11 +137,11 @@ export default function CycleAnalyticsView() {
             <div style={{ display: 'flex', gap: '20px', fontSize: '0.775rem', color: '#8E6E79', paddingTop: '12px', borderTop: '1px solid #FFE5EC' }}>
               <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <span style={{ width: '10px', height: '10px', borderRadius: '3px', backgroundColor: '#EC738F' }} />
-                Period / Flow intensity
+                {t('events.types.periodStarted', { defaultValue: 'Period / Flow intensity' })}
               </span>
               <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <span style={{ width: '10px', height: '10px', borderRadius: '3px', backgroundColor: '#E8D5DC', opacity: 0.3 }} />
-                Regular days
+                {t('common.days', { defaultValue: 'Regular days' })}
               </span>
             </div>
           </div>
@@ -166,10 +166,10 @@ export default function CycleAnalyticsView() {
               </div>
               <div style={{ flex: 1 }}>
                 <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', color: '#38232A', margin: '0 0 2px 0', fontWeight: '600' }}>
-                  Energy Trend (30 Days)
+                  {t('analytics.energyTrend', { defaultValue: 'Energy Trend (30 Days)' })}
                 </h4>
                 <p style={{ color: '#8E6E79', fontSize: '0.775rem', margin: 0, lineHeight: '1.4' }}>
-                  Your energy levels are stable. Try to get 7-8 hours of sleep.
+                  {t('analytics.energySub', { defaultValue: 'Your energy levels are stable. Try to get 7-8 hours of sleep.' })}
                 </p>
               </div>
               <div style={{ width: '60px', height: '30px' }}>
@@ -199,10 +199,10 @@ export default function CycleAnalyticsView() {
                 </div>
                 <div>
                   <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', color: '#38232A', margin: '0 0 2px 0', fontWeight: '600' }}>
-                    Logged Symptom Patterns
+                    {t('analytics.commonSymptoms', { defaultValue: 'Logged Symptom Patterns' })}
                   </h4>
                   <p style={{ color: '#8E6E79', fontSize: '0.775rem', margin: 0 }}>
-                    You've logged {dailyLogs.length} symptoms this cycle.
+                    {t('analytics.loggedDays', { count: dailyLogs.length, defaultValue: `You've logged ${dailyLogs.length} symptoms this cycle.` })}
                   </p>
                 </div>
               </div>
@@ -230,7 +230,7 @@ export default function CycleAnalyticsView() {
         >
           <div>
             <p style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: '#38232A', lineHeight: '1.4', margin: '16px 0 8px 0', fontStyle: 'italic', fontWeight: '600' }}>
-              Your cycle is not a limitation, it's a superpower ♡
+              {t('floatingPhrases.youveGotThis', { defaultValue: 'Your cycle is not a limitation, it\'s a superpower ♡' })}
             </p>
           </div>
 

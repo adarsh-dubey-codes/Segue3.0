@@ -379,14 +379,14 @@ export default function SakhiPlayPage() {
           <div className="hero-center-content">
             <div className="hero-badge">
               <Sparkles size={15} color="#B9345D" />
-              <span>DAILY SAKHI CHALLENGES</span>
+              <span>{t('play.dailyChallenge', { defaultValue: 'DAILY SAKHI CHALLENGES' })}</span>
               <span>🌸</span>
             </div>
             <h1 className="hero-title">
-              Small Daily Wins
+              {t('play.title', { defaultValue: 'Small Daily Wins' })}
             </h1>
             <p className="hero-subtitle">
-              Tiny self-care commitments to show up for your mind and body today.
+              {t('play.subtitle', { defaultValue: 'Tiny self-care commitments to show up for your mind and body today.' })}
             </p>
           </div>
 
@@ -429,7 +429,7 @@ export default function SakhiPlayPage() {
                 onClick={() => setActiveTab('affirmation')}
               >
                 <Heart size={15} color={activeTab === 'affirmation' ? '#FFFFFF' : '#B9345D'} fill={activeTab === 'affirmation' ? '#FFFFFF' : 'none'} />
-                <span>Affirmation</span>
+                <span>{t('play.affirmation.title', { defaultValue: 'Affirmation' })}</span>
               </button>
 
               <button 
@@ -438,7 +438,7 @@ export default function SakhiPlayPage() {
                 onClick={() => setActiveTab('mood')}
               >
                 <Brain size={15} color={activeTab === 'mood' ? '#FFFFFF' : '#9333EA'} />
-                <span>Mood Match</span>
+                <span>{t('play.moodMatch.title', { defaultValue: 'Mood Match' })}</span>
                 <Sparkles size={12} color={activeTab === 'mood' ? '#FFFFFF' : '#9333EA'} />
               </button>
 
@@ -448,7 +448,7 @@ export default function SakhiPlayPage() {
                 onClick={() => setActiveTab('bloom')}
               >
                 <Flower2 size={15} color={activeTab === 'bloom' ? '#FFFFFF' : '#B9345D'} />
-                <span>Memory Bloom</span>
+                <span>{t('play.memoryBloom.title', { defaultValue: 'Memory Bloom' })}</span>
               </button>
 
               <button 
@@ -457,7 +457,7 @@ export default function SakhiPlayPage() {
                 onClick={() => setActiveTab('bubble')}
               >
                 <span>🫧</span>
-                <span>Bubble Calm</span>
+                <span>{t('play.bubbleCalm.title', { defaultValue: 'Bubble Calm' })}</span>
               </button>
 
               <button 
@@ -466,7 +466,7 @@ export default function SakhiPlayPage() {
                 onClick={() => setActiveTab('wheel')}
               >
                 <span>🌿</span>
-                <span>Care Wheel</span>
+                <span>{t('play.careWheel.title', { defaultValue: 'Care Wheel' })}</span>
               </button>
 
               <button 
@@ -475,7 +475,7 @@ export default function SakhiPlayPage() {
                 onClick={() => setActiveTab('myth')}
               >
                 <span>🥊</span>
-                <span>Myth or Fact</span>
+                <span>{t('play.mythFact.title', { defaultValue: 'Myth or Fact' })}</span>
               </button>
 
               <button 
@@ -484,7 +484,7 @@ export default function SakhiPlayPage() {
                 onClick={() => setActiveTab('daily')}
               >
                 <Sparkles size={15} color="#FFFFFF" />
-                <span>Daily Challenge</span>
+                <span>{t('play.dailyChallenge', { defaultValue: 'Daily Challenge' })}</span>
                 <Sparkles size={12} color="#FFFFFF" />
               </button>
 
@@ -511,6 +511,7 @@ export default function SakhiPlayPage() {
    STREAK PROGRESS BAR COMPONENT (Matching user screenshot)
    ========================================================================== */
 function DailyStreakProgressBar() {
+  const { t } = useLanguage();
   const [completedWins, setCompletedWins] = useState(0);
 
   // Listen to custom completion events
@@ -530,7 +531,7 @@ function DailyStreakProgressBar() {
         <div className="streak-flame-circle">
           <Flame size={18} color="#B9345D" />
         </div>
-        <span>Today's Streak Progress: {completedWins} / 5 Wins</span>
+        <span>{t('play.dailyStreak', { defaultValue: "Today's Streak Progress" })}: {completedWins} / 5</span>
       </div>
 
       <div className="streak-flower-track">
@@ -551,6 +552,7 @@ function DailyStreakProgressBar() {
    DAILY CHALLENGE LIST (Matching user screenshot)
    ========================================================================== */
 function DailyChallengeList() {
+  const { t } = useLanguage();
   const { addCoins } = useRewards();
   const [completedMap, setCompletedMap] = useState({
     hydration: false,
@@ -565,40 +567,40 @@ function DailyChallengeList() {
       id: 'hydration',
       num: 1,
       icon: '💧',
-      title: 'Hydration Glow Check 💧',
-      desc: 'Drink at least 4 glasses of room temperature or warm water today.',
+      title: t('events.categories.lifestyle', { defaultValue: 'Hydration Glow Check 💧' }),
+      desc: t('events.types.dietChange', { defaultValue: 'Drink at least 4 glasses of room temperature or warm water today.' }),
       iconBg: '#E0F2FE'
     },
     {
       id: 'silence',
       num: 2,
       icon: '🌸',
-      title: '5 Minutes for Yourself 🌸',
-      desc: 'Sit in silence, breathe deeply, and disconnect from all chores for 5 undisturbed minutes.',
+      title: t('floatingPhrases.breathe', { defaultValue: '5 Minutes for Yourself 🌸' }),
+      desc: t('floatingPhrases.restIsProductive', { defaultValue: 'Sit in silence, breathe deeply, and disconnect from all chores for 5 undisturbed minutes.' }),
       iconBg: '#FFEBF0'
     },
     {
       id: 'compress',
       num: 3,
       icon: '🌿',
-      title: 'Warm Compress Ritual 🌿',
-      desc: 'Apply a warm water bag or heating pad for 10 minutes to soothe pelvic tension.',
+      title: t('events.types.cramps', { defaultValue: 'Warm Compress Ritual 🌿' }),
+      desc: t('events.types.pain', { defaultValue: 'Apply a warm water bag or heating pad for 10 minutes to soothe pelvic tension.' }),
       iconBg: '#E8F5E9'
     },
     {
       id: 'stretch',
       num: 4,
       icon: '🧘‍♀️',
-      title: 'Gentle Cat-Cow Stretch 🧘‍♀️',
-      desc: 'Do 2 minutes of gentle cat-cow spine stretches to relieve lower back stiffness.',
+      title: t('events.types.exercise', { defaultValue: 'Gentle Cat-Cow Stretch 🧘‍♀️' }),
+      desc: t('events.types.exerciseChange', { defaultValue: 'Do 2 minutes of gentle cat-cow spine stretches to relieve lower back stiffness.' }),
       iconBg: '#FEF3C7'
     },
     {
       id: 'tea',
       num: 5,
       icon: '🍵',
-      title: 'Soothing Chamomile / Ginger Sip 🍵',
-      desc: 'Enjoy a warm cup of herbal tea without sugar to calm digestion.',
+      title: t('events.types.dietChange', { defaultValue: 'Soothing Herbal Tea 🍵' }),
+      desc: t('events.types.dietChange', { defaultValue: 'Enjoy a warm cup of herbal tea without sugar to calm digestion.' }),
       iconBg: '#F3E8FF'
     }
   ];
@@ -661,12 +663,12 @@ function DailyChallengeList() {
               {isDone ? (
                 <>
                   <CheckCircle2 size={16} />
-                  <span>Completed ✓ (+20 Coins)</span>
+                  <span>{t('play.congrats', { defaultValue: 'Completed ✓ (+20 Coins)' })}</span>
                 </>
               ) : (
                 <>
                   <Check size={16} />
-                  <span>Tap to Complete</span>
+                  <span>{t('common.tapHere', { defaultValue: 'Tap to Complete' })}</span>
                 </>
               )}
             </button>
@@ -681,12 +683,13 @@ function DailyChallengeList() {
    AFFIRMATION GAME
    ========================================================================== */
 function AffirmationGame() {
+  const { t } = useLanguage();
   const affirmations = [
-    { text: "My body is wise, resilient, and knows how to restore itself.", category: "Self-Compassion" },
-    { text: "I release guilt for resting. Resting is essential work for my hormonal health.", category: "Rest & Recovery" },
-    { text: "My period is a natural sign of vitality, strength, and rhythm.", category: "Body Positivity" },
-    { text: "I honor my changing mood and honor my boundaries with love.", category: "Emotional Wellbeing" },
-    { text: "I am patient with my body as it moves through every unique cycle phase.", category: "Mindfulness" }
+    { text: t('play.affirmation.card1', { defaultValue: "My body is wise, resilient, and knows how to restore itself." }), category: "Self-Compassion" },
+    { text: t('play.affirmation.card2', { defaultValue: "I release guilt for resting. Resting is essential work for my hormonal health." }), category: "Rest & Recovery" },
+    { text: t('play.affirmation.card3', { defaultValue: "My period is a natural sign of vitality, strength, and rhythm." }), category: "Body Positivity" },
+    { text: t('floatingPhrases.bodyListening', { defaultValue: "I honor my changing mood and honor my boundaries with love." }), category: "Emotional Wellbeing" },
+    { text: t('floatingPhrases.honorRhythm', { defaultValue: "I am patient with my body as it moves through every unique cycle phase." }), category: "Mindfulness" }
   ];
 
   const [index, setIndex] = useState(0);
@@ -701,11 +704,11 @@ function AffirmationGame() {
     <div style={{ padding: '24px 16px', textAlign: 'center' }}>
       <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: '700', color: '#B9345D', marginBottom: '12px' }}>
         <Heart size={18} color="#B9345D" fill="#B9345D" />
-        <span>DAILY SAKHI AFFIRMATIONS</span>
+        <span>{t('play.affirmation.title', { defaultValue: 'DAILY SAKHI AFFIRMATIONS' })}</span>
       </div>
 
       <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '2.2rem', color: '#3E242B', fontWeight: '700', marginBottom: '24px' }}>
-        Nurture Your Mind Today
+        {t('play.affirmation.desc', { defaultValue: 'Nurture Your Mind Today' })}
       </h2>
 
       <div 
@@ -748,7 +751,7 @@ function AffirmationGame() {
         }}
       >
         <RefreshCw size={16} />
-        <span>Draw Another Affirmation</span>
+        <span>{t('play.affirmation.draw', { defaultValue: 'Draw Another Affirmation' })}</span>
       </button>
     </div>
   );
@@ -758,13 +761,14 @@ function AffirmationGame() {
    MOOD MATCH GAME
    ========================================================================== */
 function MoodMatchGame() {
+  const { t } = useLanguage();
   const cardsData = [
-    { id: 1, icon: '☕', name: 'Warm Herbal Tea' },
-    { id: 2, icon: '🧘‍♀️', name: 'Gentle Yoga' },
-    { id: 3, icon: '😴', name: 'Deep Rest' },
-    { id: 4, icon: '🍫', name: 'Dark Cocoa' },
-    { id: 5, icon: '♨️', name: 'Heating Pad' },
-    { id: 6, icon: '💧', name: 'Hydration' }
+    { id: 1, icon: '☕', name: t('events.types.dietChange', { defaultValue: 'Warm Herbal Tea' }) },
+    { id: 2, icon: '🧘‍♀️', name: t('events.types.exercise', { defaultValue: 'Gentle Yoga' }) },
+    { id: 3, icon: '😴', name: t('events.types.poorSleep', { defaultValue: 'Deep Rest' }) },
+    { id: 4, icon: '🍫', name: t('events.types.cravings', { defaultValue: 'Dark Cocoa' }) },
+    { id: 5, icon: '♨️', name: t('events.types.pain', { defaultValue: 'Heating Pad' }) },
+    { id: 6, icon: '💧', name: t('common.water', { defaultValue: 'Hydration' }) }
   ];
 
   const [cards, setCards] = useState([]);
@@ -809,13 +813,13 @@ function MoodMatchGame() {
     <div style={{ padding: '24px 16px', textAlign: 'center' }}>
       <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: '700', color: '#B9345D', marginBottom: '8px' }}>
         <Brain size={18} color="#9333EA" />
-        <span>MOOD & CARE MATCHING GAME</span>
+        <span>{t('play.moodMatch.title', { defaultValue: 'MOOD & CARE MATCHING GAME' })}</span>
       </div>
       <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '2.2rem', color: '#3E242B', fontWeight: '700', marginBottom: '8px' }}>
-        Match the Self-Care Pairs
+        {t('play.moodMatch.desc', { defaultValue: 'Match the Self-Care Pairs' })}
       </h2>
       <p style={{ color: '#7D626C', fontSize: '0.95rem', marginBottom: '24px' }}>
-        Moves: <strong>{moves}</strong> • Matched: <strong>{matched.length} / {cardsData.length}</strong>
+        {t('play.moodMatch.matches', { count: matched.length, total: cardsData.length, defaultValue: `Matches: ${matched.length} / ${cardsData.length}` })}
       </p>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', maxWidth: '520px', margin: '0 auto 28px' }}>
@@ -847,7 +851,7 @@ function MoodMatchGame() {
 
       {isWon && (
         <div style={{ backgroundColor: '#E8F5E9', padding: '16px 24px', borderRadius: '16px', color: '#2E7D32', fontWeight: '700', marginBottom: '20px', border: '1px solid #C8E6C9' }}>
-          🎉 Wonderful job! You completed Mood Match in {moves} moves!
+          🎉 {t('play.congrats', { defaultValue: 'Wonderful job! You completed Mood Match!' })}
         </div>
       )}
 
@@ -864,7 +868,7 @@ function MoodMatchGame() {
           cursor: 'pointer'
         }}
       >
-        Reset & Play Again
+        {t('play.restart', { defaultValue: 'Reset & Play Again' })}
       </button>
     </div>
   );
@@ -874,6 +878,7 @@ function MoodMatchGame() {
    MEMORY BLOOM GAME
    ========================================================================== */
 function MemoryBloomGame() {
+  const { t } = useLanguage();
   const flowers = [
     { id: 0, name: 'Rose', icon: '🌹' },
     { id: 1, name: 'Tulip', icon: '🌷' },
@@ -886,7 +891,7 @@ function MemoryBloomGame() {
   const [score, setScore] = useState(0);
   const [activeFlower, setActiveFlower] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [statusText, setStatusText] = useState("Tap Start to begin Memory Bloom!");
+  const [statusText, setStatusText] = useState(t('play.memoryBloom.desc', { defaultValue: "Tap Start to begin Memory Bloom!" }));
 
   const startGame = () => {
     setSequence([]);
@@ -905,14 +910,14 @@ function MemoryBloomGame() {
   };
 
   const playSequence = async (seq) => {
-    setStatusText("Watch the flowers bloom...");
+    setStatusText(t('garden.bloomingSoon', { defaultValue: "Watch the flowers bloom..." }));
     for (let i = 0; i < seq.length; i++) {
       await new Promise((r) => setTimeout(r, 400));
       setActiveFlower(seq[i]);
       await new Promise((r) => setTimeout(r, 600));
       setActiveFlower(null);
     }
-    setStatusText("Your turn! Repeat the blooming pattern.");
+    setStatusText(t('common.tapHere', { defaultValue: "Your turn! Repeat the blooming pattern." }));
   };
 
   const handleFlowerClick = (id) => {
@@ -926,14 +931,14 @@ function MemoryBloomGame() {
 
     const currentIndex = nextInput.length - 1;
     if (nextInput[currentIndex] !== sequence[currentIndex]) {
-      setStatusText(`Game Over! Final Score: ${score}. Tap Start to try again!`);
+      setStatusText(t('play.tryAgain', { defaultValue: `Game Over! Final Score: ${score}. Tap Start to try again!` }));
       setIsPlaying(false);
       return;
     }
 
     if (nextInput.length === sequence.length) {
       setScore((s) => s + 1);
-      setStatusText("Great pattern recognition! Next round incoming...");
+      setStatusText(t('play.congrats', { defaultValue: "Great pattern recognition! Next round incoming..." }));
       setTimeout(() => addNextStep(sequence), 1000);
     }
   };
@@ -942,13 +947,13 @@ function MemoryBloomGame() {
     <div style={{ padding: '24px 16px', textAlign: 'center' }}>
       <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: '700', color: '#B9345D', marginBottom: '8px' }}>
         <Flower2 size={18} color="#E05282" />
-        <span>FLORAL MEMORY BLOOM</span>
+        <span>{t('play.memoryBloom.title', { defaultValue: 'FLORAL MEMORY BLOOM' })}</span>
       </div>
       <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '2.2rem', color: '#3E242B', fontWeight: '700', marginBottom: '4px' }}>
-        Repeat the Blooming Pattern
+        {t('play.memoryBloom.desc', { defaultValue: 'Repeat the Blooming Pattern' })}
       </h2>
       <p style={{ color: '#7D626C', fontSize: '0.95rem', marginBottom: '20px' }}>
-        Streak Score: <strong style={{ color: '#B9345D', fontSize: '1.2rem' }}>{score}</strong>
+        {t('play.score', { score, defaultValue: `Streak Score: ${score}` })}
       </p>
 
       <div style={{ backgroundColor: '#FFF0F4', padding: '10px 20px', borderRadius: '50px', color: '#B9345D', fontWeight: '600', display: 'inline-block', marginBottom: '24px' }}>
@@ -996,7 +1001,7 @@ function MemoryBloomGame() {
             boxShadow: '0 4px 14px rgba(185, 52, 93, 0.3)'
           }}
         >
-          Start Memory Bloom
+          {t('play.startPlay', { defaultValue: 'Start Memory Bloom' })}
         </button>
       )}
     </div>
@@ -1007,17 +1012,18 @@ function MemoryBloomGame() {
    BUBBLE CALM GAME
    ========================================================================== */
 function BubbleCalmGame() {
+  const { t } = useLanguage();
   const thoughts = [
-    "Unclench your jaw",
-    "Deep breath in...",
-    "Soft belly",
-    "You are safe",
-    "Release shoulder tension",
-    "Warmth & comfort",
-    "Be gentle with yourself",
-    "Relax your forehead",
-    "Drop your shoulders",
-    "Slow, calm exhale"
+    t('floatingPhrases.breathe', { defaultValue: "Unclench your jaw" }),
+    t('floatingPhrases.breathe', { defaultValue: "Deep breath in..." }),
+    t('floatingPhrases.takeItSlow', { defaultValue: "Soft belly" }),
+    t('floatingPhrases.doingOkay', { defaultValue: "You are safe" }),
+    t('floatingPhrases.listenToBody', { defaultValue: "Release shoulder tension" }),
+    t('floatingPhrases.gentleEnergy', { defaultValue: "Warmth & comfort" }),
+    t('floatingPhrases.takeItSlow', { defaultValue: "Be gentle with yourself" }),
+    t('floatingPhrases.restIsProductive', { defaultValue: "Relax your forehead" }),
+    t('floatingPhrases.listenToBody', { defaultValue: "Drop your shoulders" }),
+    t('floatingPhrases.breathe', { defaultValue: "Slow, calm exhale" })
   ];
 
   const [bubbles, setBubbles] = useState(() =>
@@ -1030,7 +1036,7 @@ function BubbleCalmGame() {
   );
 
   const [popCount, setPopCount] = useState(0);
-  const [activeThought, setActiveThought] = useState("Tap any bubble to pop away anxiety and release tension.");
+  const [activeThought, setActiveThought] = useState(t('play.bubbleCalm.desc', { defaultValue: "Tap any bubble to pop away anxiety and release tension." }));
 
   const popBubble = (id, thought) => {
     setBubbles((prev) =>
@@ -1043,20 +1049,20 @@ function BubbleCalmGame() {
   const resetBubbles = () => {
     setBubbles((prev) => prev.map((b) => ({ ...b, popped: false })));
     setPopCount(0);
-    setActiveThought("Tap any bubble to pop away anxiety and release tension.");
+    setActiveThought(t('play.bubbleCalm.desc', { defaultValue: "Tap any bubble to pop away anxiety and release tension." }));
   };
 
   return (
     <div style={{ padding: '24px 16px', textAlign: 'center' }}>
       <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: '700', color: '#B9345D', marginBottom: '8px' }}>
         <span style={{ fontSize: '1.1rem' }}>🫧</span>
-        <span>BUBBLE CALM ANXIETY POPPER</span>
+        <span>{t('play.bubbleCalm.title', { defaultValue: 'BUBBLE CALM ANXIETY POPPER' })}</span>
       </div>
       <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '2.2rem', color: '#3E242B', fontWeight: '700', marginBottom: '4px' }}>
-        Pop Away Stress & Cramp Tension
+        {t('play.bubbleCalm.desc', { defaultValue: 'Pop Away Stress & Cramp Tension' })}
       </h2>
       <p style={{ color: '#7D626C', fontSize: '0.95rem', marginBottom: '20px' }}>
-        Bubbles Popped: <strong style={{ color: '#B9345D' }}>{popCount}</strong>
+        {t('play.bubbleCalm.popped', { count: popCount, defaultValue: `Bubbles Popped: ${popCount}` })}
       </p>
 
       <div style={{ backgroundColor: '#FFF0F4', padding: '14px 24px', borderRadius: '50px', color: '#B9345D', fontWeight: '700', fontSize: '1rem', display: 'inline-block', marginBottom: '28px', border: '1px solid #FAD4DE' }}>
@@ -1103,7 +1109,7 @@ function BubbleCalmGame() {
           cursor: 'pointer'
         }}
       >
-        Replenish Bubbles
+        {t('play.restart', { defaultValue: 'Replenish Bubbles' })}
       </button>
     </div>
   );
@@ -1113,13 +1119,14 @@ function BubbleCalmGame() {
    CARE WHEEL GAME
    ========================================================================== */
 function CareWheelGame() {
+  const { t } = useLanguage();
   const rewards = [
-    { title: "15 Min Power Nap 😴" },
-    { title: "Chamomile Tea ☕" },
-    { title: "Heating Pad Ritual ♨️" },
-    { title: "Dark Cacao Treat 🍫" },
-    { title: "Comfort Playlist 🎧" },
-    { title: "Gentle Stretching 🧘" }
+    { title: t('events.types.poorSleep', { defaultValue: "15 Min Power Nap 😴" }) },
+    { title: t('events.types.dietChange', { defaultValue: "Chamomile Tea ☕" }) },
+    { title: t('events.types.cramps', { defaultValue: "Heating Pad Ritual ♨️" }) },
+    { title: t('events.types.cravings', { defaultValue: "Dark Cacao Treat 🍫" }) },
+    { title: t('floatingPhrases.gentleEnergy', { defaultValue: "Comfort Playlist 🎧" }) },
+    { title: t('events.types.exercise', { defaultValue: "Gentle Stretching 🧘" }) }
   ];
 
   const [spinning, setSpinning] = useState(false);
@@ -1147,10 +1154,10 @@ function CareWheelGame() {
     <div style={{ padding: '24px 16px', textAlign: 'center' }}>
       <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: '700', color: '#B9345D', marginBottom: '8px' }}>
         <span style={{ fontSize: '1.1rem' }}>🌷</span>
-        <span>SELF-CARE COMFORT WHEEL</span>
+        <span>{t('play.careWheel.title', { defaultValue: 'SELF-CARE COMFORT WHEEL' })}</span>
       </div>
       <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '2.2rem', color: '#3E242B', fontWeight: '700', marginBottom: '24px' }}>
-        Spin for Your Comfort Reward
+        {t('play.careWheel.desc', { defaultValue: 'Spin for Your Comfort Reward' })}
       </h2>
 
       <div style={{ position: 'relative', width: '280px', height: '280px', margin: '0 auto 28px' }}>
@@ -1180,7 +1187,7 @@ function CareWheelGame() {
 
       {selectedReward && (
         <div style={{ backgroundColor: '#FFF0F4', padding: '14px 24px', borderRadius: '50px', color: '#B9345D', fontWeight: '700', fontSize: '1.1rem', marginBottom: '20px', border: '1px solid #FAD4DE' }}>
-          🎁 You Won: {selectedReward}!
+          🎁 {t('play.congrats', { defaultValue: 'You Won' })}: {selectedReward}!
         </div>
       )}
 
@@ -1199,7 +1206,7 @@ function CareWheelGame() {
           boxShadow: '0 4px 14px rgba(185, 52, 93, 0.3)'
         }}
       >
-        {spinning ? 'Spinning...' : 'Spin the Care Wheel 🌷'}
+        {spinning ? t('play.careWheel.spinning', { defaultValue: 'Spinning...' }) : t('play.careWheel.spin', { defaultValue: 'Spin the Care Wheel 🌷' })}
       </button>
     </div>
   );
@@ -1209,21 +1216,22 @@ function CareWheelGame() {
    MYTH OR FACT GAME
    ========================================================================== */
 function MythOrFactGame() {
+  const { t } = useLanguage();
   const quizData = [
     {
-      question: "Myth or Fact: You should avoid exercising during your period.",
+      question: t('play.mythFact.q1', { defaultValue: "Myth or Fact: You should avoid exercising during your period." }),
       answer: "Myth",
-      explanation: "Light exercises like walking or yoga release endorphins that naturally alleviate menstrual cramps and boost mood!"
+      explanation: t('play.mythFact.e1', { defaultValue: "Light exercises like walking or yoga release endorphins that naturally alleviate menstrual cramps and boost mood!" })
     },
     {
-      question: "Myth or Fact: Warm water or heating pads reduce pelvic muscle spasms.",
+      question: t('play.mythFact.q2', { defaultValue: "Myth or Fact: Warm water or heating pads reduce pelvic muscle spasms." }),
       answer: "Fact",
-      explanation: "Heat increases blood flow to the uterine muscles, relaxing contractions and easing pain effectively."
+      explanation: t('play.mythFact.e2', { defaultValue: "Heat increases blood flow to the uterine muscles, relaxing contractions and easing pain effectively." })
     },
     {
-      question: "Myth or Fact: Eating dark chocolate can help satisfy cravings and provide magnesium.",
+      question: t('play.mythFact.q3', { defaultValue: "Myth or Fact: Eating dark chocolate can help satisfy cravings and provide magnesium." }),
       answer: "Fact",
-      explanation: "Pure dark cacao is rich in magnesium and antioxidants, helping relax muscles and enhance serotonin levels."
+      explanation: t('play.mythFact.e3', { defaultValue: "Pure dark cacao is rich in magnesium and antioxidants, helping relax muscles and enhance serotonin levels." })
     }
   ];
 
@@ -1249,16 +1257,16 @@ function MythOrFactGame() {
     <div style={{ padding: '24px 16px', textAlign: 'center' }}>
       <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: '700', color: '#B9345D', marginBottom: '8px' }}>
         <span style={{ fontSize: '1.1rem' }}>🥊</span>
-        <span>MYTH OR FACT TRIVIA</span>
+        <span>{t('play.mythFact.title', { defaultValue: 'MYTH OR FACT TRIVIA' })}</span>
       </div>
       <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '2.2rem', color: '#3E242B', fontWeight: '700', marginBottom: '8px' }}>
-        Menstrual Health Knowledge Check
+        {t('play.mythFact.desc', { defaultValue: 'Menstrual Health Knowledge Check' })}
       </h2>
       <p style={{ color: '#7D626C', fontSize: '0.95rem', marginBottom: '24px' }}>
-        Score: <strong style={{ color: '#B9345D' }}>{score}</strong>
+        {t('play.score', { score, defaultValue: `Score: ${score}` })}
       </p>
 
-      <div style={{ backgroundColor: '#FFF0F4', borderRadius: '20px', padding: '28px', maxWidth: '600px', margin: '0 auto 28px', border: '1.5px solid #FAD4DE' }}>
+      <div style={{ backgroundColor: '#FFF0F4', borderRadius: '20px', padding: '28px', maxWidth: '680px', margin: '0 auto 28px', border: '1.5px solid #FAD4DE' }}>
         <p style={{ fontSize: '1.2rem', fontWeight: '700', color: '#3E242B', lineHeight: 1.5, marginBottom: '24px' }}>
           {current.question}
         </p>
@@ -1278,7 +1286,7 @@ function MythOrFactGame() {
               cursor: 'pointer'
             }}
           >
-            Myth 🚫
+            {t('play.mythFact.myth', { defaultValue: 'Myth' })} 🚫
           </button>
           <button
             onClick={() => handleAnswer("Fact")}
@@ -1294,14 +1302,14 @@ function MythOrFactGame() {
               cursor: 'pointer'
             }}
           >
-            Fact ✅
+            {t('play.mythFact.fact', { defaultValue: 'Fact' })} ✅
           </button>
         </div>
 
         {selectedAnswer && (
           <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '14px', border: '1px solid #FAD4DE' }}>
             <div style={{ fontWeight: '700', color: selectedAnswer === current.answer ? '#2E7D32' : '#B9345D', marginBottom: '6px' }}>
-              {selectedAnswer === current.answer ? '🎉 Correct!' : '💡 Learning Moment:'}
+              {selectedAnswer === current.answer ? t('play.mythFact.correct', { defaultValue: '🎉 Correct!' }) : t('play.mythFact.incorrect', { defaultValue: '💡 Learning Moment:' })}
             </div>
             <p style={{ fontSize: '0.9rem', color: '#5C434B', margin: 0, lineHeight: 1.5 }}>
               {current.explanation}
@@ -1324,7 +1332,7 @@ function MythOrFactGame() {
             cursor: 'pointer'
           }}
         >
-          Next Question →
+          {t('common.next', { defaultValue: 'Next Question →' })}
         </button>
       )}
     </div>
