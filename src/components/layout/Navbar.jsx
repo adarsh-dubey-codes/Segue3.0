@@ -53,15 +53,12 @@ export default function Navbar() {
     setIsNotificationsOpen(false);
   }, [location.pathname]);
 
-  // Main top nav links (Restored Eat, Move, AI Sakhi, Buddy & Play)
+  // Main top nav links (Exact match to target mockup)
   const navLinks = [
     { to: '/', label: t('nav.home', 'Home'), icon: Home },
     { to: '/cycle', label: t('nav.cycle', 'My Cycle'), icon: Calendar },
-    { to: '/lifestyle', label: 'Eat', icon: Utensils },
-    { to: '/vibes', label: 'Move', icon: Sun },
-    { to: '/ai', label: 'AI Sakhi', icon: MessageCircle },
-    { to: '/buddy', label: 'Buddy', icon: Users },
-    { to: '/play', label: t('nav.play', 'Play & Games'), icon: Gamepad2 }
+    { to: '/ai', label: t('nav.chat', 'Talk to Sakhi'), icon: MessageCircle },
+    { to: '/lifestyle', label: t('nav.lifestyle', 'Eat & Move'), icon: Utensils }
   ];
 
   // Explore Dropdown Sanctuaries
